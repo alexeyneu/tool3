@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58F1DCC6-A7A1-4DF6-8131-EF2A4ABAFAF4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tool3", "tool3\tool3.vcxproj", "{7F36AAF4-D996-4FB8-A429-22DDD0F0633E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F36AAF4-D996-4FB8-A429-22DDD0F0633E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7F36AAF4-D996-4FB8-A429-22DDD0F0633E}.Debug|Win32.Build.0 = Debug|Win32
+		{7F36AAF4-D996-4FB8-A429-22DDD0F0633E}.Release|Win32.ActiveCfg = Release|Win32
+		{7F36AAF4-D996-4FB8-A429-22DDD0F0633E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F36AAF4-D996-4FB8-A429-22DDD0F0633E} = {58F1DCC6-A7A1-4DF6-8131-EF2A4ABAFAF4}
+	EndGlobalSection
+EndGlobal

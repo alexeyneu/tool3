@@ -112,14 +112,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 int cr,f,b,terminator,p[3];
 PROCESS_INFORMATION pi;
-VOID c(VOID *)
+VOID c(VOID *) 
 {			
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
 			q->EnableWindow();
 			char k[100];
-			strcpy(k,"t");
+			strcpy(k,"t");				// https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;

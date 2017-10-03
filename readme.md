@@ -5,8 +5,8 @@ how to:
 2. thats all
 
 Sys Req: 
-Visual C++ 2010 redist 
-Windows 7   
+Visual C++ 2010 redist ;
+Windows 7 ;   
 
-You'll need own monero wallet before run this tool. 
+You'll need own monero wallet before run this tool. Binary is in   /Release
 ![Screen1](/screens/Untitled.jpg)

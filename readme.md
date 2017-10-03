@@ -5,8 +5,8 @@ how to:
 2. thats all
 
 Sys Req: 
-Visual C++ 2010 redist ;
-Windows 7 ;   
+Visual C++ 2010 redist (x86);
+Windows 7    
 
 Binary is in   /Release
 ![Screen1](/screens/Untitled.jpg)

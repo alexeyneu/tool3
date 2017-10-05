@@ -57,7 +57,8 @@ public:
 	{
 	}
 	CString f;
-	void init() {f = m_szFileName; }
+	int last;
+	void init() {f = m_szFileName; last=wcslen(m_szFileName);}
 };
 r *t;
 HWND hc,hz;
@@ -224,6 +225,7 @@ void CMainFrame::tr()
             si.hStdInput = stdinRd; 
 			static wchar_t remmi[218];	
 			wchar_t w[140],ferrum[198];
+			ZeroMemory(ferrum,sizeof(ferrum));
 			std::wifstream f;
 			
 			if(!t) 
@@ -231,7 +233,7 @@ void CMainFrame::tr()
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
 				f.open(w,std::ios_base::in|std::ios_base::binary);
 				t=new r();
-				f >> ferrum;
+				f.read(ferrum,197);
 				t->f= ferrum;
 			}
 			if(!trigger) 
@@ -276,7 +278,7 @@ void CMainFrame::uw()
 	if(c==IDOK)
 	{
 		f.open(w,std::ios_base::out|std::ios_base::binary);
-		f<<(LPCWSTR)t->f;
+		f.write((LPCWSTR)t->f,t->last);
 		f.close();
 		f.flush();
 		bh->EnableWindow();	

@@ -66,12 +66,24 @@ CButton *bh;
 CButton *q;
 CButton *finA;
 ITaskbarList3 *bhr;
+HANDLE cl;
+
+DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
+{
+    std::wstringstream *fr = (std::wstringstream *)dw;
+    fr->write((wchar_t *)pb, cb);
+    *pcb = cb;
+    return 0;
+}
+
+
+
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	
 	
 	dc= new CProgressCtrl();
-	
+	cl=CreateEvent(NULL,1,0,NULL);
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
@@ -97,8 +109,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	q->SetBitmap(wq[1]);
 	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+300,20+300,59+300,40+300),this,2233);
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
-	hc=CreateWindowEx(0, MSFTEDIT_CLASS, NULL,
-		ES_MULTILINE|ES_AUTOVSCROLL|ES_READONLY|ES_NOOLEDRAGDROP|ES_SUNKEN | WS_VISIBLE | WS_CHILD | WS_VSCROLL|WS_TABSTOP, 
+	hc=CreateWindowEx(0, MSFTEDIT_CLASS, L"--block-sync-size 240 --db-sync-mode fastest:async:450",
+		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN | WS_VISIBLE | WS_CHILD | WS_VSCROLL|WS_TABSTOP, 
         0, 350, 450, 200, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -109,17 +121,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
-
+int bren=5;
 int cr,f,b,terminator,p[3];
 PROCESS_INFORMATION pi;
-VOID c(VOID *) 
+VOID c(VOID *)
 {			
+			
+
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
 			q->EnableWindow();
 			char k[100];
-			strcpy(k,"t");				// https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
+			strcpy(k,"t");
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
@@ -157,7 +171,7 @@ VOID c(VOID *)
 					
 				}
 					                   
-				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=500;}
+				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=570;}
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
 					
@@ -165,9 +179,10 @@ VOID c(VOID *)
 					bhr->SetProgressState(hz,TBPF_PAUSED);
 					q->EnableWindow(0);
 					WaitForSingleObject(pi.hProcess,INFINITE);
-					 b=0;
+					b=0;
 					bh->EnableWindow();
 					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
+					bren=5;
 					break; 
 				}
                 Sleep(tm);
@@ -175,9 +190,26 @@ VOID c(VOID *)
 }
 
 CWinThread *rew;
+int trigger;
+int terminator2;
+
 void CMainFrame::tr()
 {   
+	std::wstringstream fr;
 	
+
+	EDITSTREAM es;
+	if(!trigger)
+	{	
+		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
+		ZeroMemory(&es,sizeof(es));
+		es.dwCookie = (DWORD_PTR) &fr;
+		es.pfnCallback = E; 
+		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);
+		
+}
+
+
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
 			CreatePipe(&stdinRd, &stdinWr, &sa, 10000); 
             CreatePipe(&stdoutRd,&stdoutWr, &sa, 10000);
@@ -190,26 +222,32 @@ void CMainFrame::tr()
             si.hStdOutput = stdoutWr;
             si.hStdError = stdoutWr;         
             si.hStdInput = stdinRd; 
-				
+			static wchar_t remmi[218];	
 			wchar_t w[140],ferrum[198];
 			std::wifstream f;
-
+			
 			if(!t) 
 			{
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
-				f.open(w,std::ios_base::in);
+				f.open(w,std::ios_base::in|std::ios_base::binary);
 				t=new r();
 				f >> ferrum;
 				t->f= ferrum;
 			}
-			int h=CreateProcess(t->f + L"\\monerod.exe", L" --block-sync-size 240 --db-sync-mode fastest:async:450", NULL, NULL, TRUE, CREATE_NEW_PROCESS_GROUP, NULL, t->f, &si, &pi);        
+			if(!trigger) 
+			{
+				remmi[0]=L' ';
+				fr.read(&remmi[1],217); 
+				trigger++;
+			}
+			int h=CreateProcess(t->f + L"\\monerod.exe",remmi, NULL, NULL, TRUE, CREATE_NEW_PROCESS_GROUP, NULL, t->f, &si, &pi);        
 			if(!h) 
 			{
 
 				MessageBox(L"Bad start,check location");
 				return;
 			}
-
+			bren=0;
 			rew= AfxBeginThread((AFX_THREADPROC)c,NULL);
 }
 
@@ -227,7 +265,6 @@ void CMainFrame::w()
 
 void CMainFrame::uw()
 {
-	
 	t=new r();
 	int c= t->DoModal();
 	t->init();
@@ -238,7 +275,7 @@ void CMainFrame::uw()
 
 	if(c==IDOK)
 	{
-		f.open(w,std::ios_base::out);
+		f.open(w,std::ios_base::out|std::ios_base::binary);
 		f<<(LPCWSTR)t->f;
 		f.close();
 		f.flush();
@@ -257,21 +294,30 @@ void CMainFrame::OnDestroy()
 	delete dc;
 	delete finA;
 //	delete rew;
-	bhr->Release();
-	bhr=NULL;
-	CoUninitialize();
+
+
 
 	// TODO: Add your message handler code here
 }
 
 
 
+VOID hammer(VOID *)
+{	
+	CoInitializeEx(NULL,COINIT_MULTITHREADED); //used only by extra thread for now
+	CoCreateInstance(CLSID_TaskbarList,NULL,CLSCTX_INPROC_SERVER,IID_ITaskbarList3,(LPVOID*)&bhr); //no inter-process here.pointer grabs smth finally  
+	bhr->HrInit();
+	WaitForSingleObject(cl,INFINITE);
+	bhr->Release();
+	bhr=NULL;
+	CoUninitialize();
+}
 
 afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret finished up here.  
 {
-	CoInitializeEx(NULL,COINIT_MULTITHREADED); //used only by extra thread for now
-	CoCreateInstance(CLSID_TaskbarList,NULL,CLSCTX_INPROC_SERVER,IID_ITaskbarList3,(LPVOID*)&bhr); //no inter-process here.pointer grabs smth finally  
-	bhr->HrInit(); 
+	 AfxBeginThread((AFX_THREADPROC)hammer,NULL);
+	
+	
 	return 0;
 }
 
@@ -279,12 +325,19 @@ afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress 
 void CMainFrame::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
+	if(terminator2)
+	{
+		DWORD c=WaitForSingleObject(pi.hProcess,10);
+		if(c!= WAIT_TIMEOUT) {SetEvent(cl); CWnd::OnClose();}
+	}
+	terminator2++;
 
-	//if(!rew) bhr->SetProgressValue(hz,70,100);
-	if((!b)&&(!q->IsWindowEnabled()))	CWnd::OnClose();
+	if((!b)&&(bren))	{SetEvent(cl); CWnd::OnClose();}
 	else
 	{
 		terminator =1;
 		if(!b) this->w();
 	}
+
+
 }

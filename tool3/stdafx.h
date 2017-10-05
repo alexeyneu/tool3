@@ -5,7 +5,7 @@
 
 #pragma once
 
-
+#include <sstream>
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 #endif

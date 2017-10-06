@@ -233,7 +233,6 @@ void CMainFrame::tr()
 				t=new r();
 				f.read(ferrum,197);
 				t->f= ferrum;
-				f.close();
 			}
 			if(!trigger) 
 			{
@@ -278,7 +277,6 @@ void CMainFrame::uw()
 	{
 		f.open(w,std::ios_base::out|std::ios_base::binary);
 		f.write((LPCWSTR)t->f,t->last);
-		f.close();
 		f.flush();
 		bh->EnableWindow();	
 	}

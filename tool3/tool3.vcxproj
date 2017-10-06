@@ -110,6 +110,7 @@
   <ItemGroup>
     <None Include="..\..\..\..\9.bmp" />
     <None Include="..\..\..\..\hyg.bmp" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="ReadMe.txt" />
     <None Include="res\tool3.ico" />
     <None Include="res\tool3.rc2" />

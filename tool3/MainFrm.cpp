@@ -102,7 +102,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 				fors.open(w,std::ios_base::in);
 				DWORD c = 0L;
 			if(!fors.is_open())  c=WS_DISABLED;
-	
+			fors.close();
 
 	bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);
 	bh->SetBitmap(wq[0]);
@@ -110,7 +110,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	q->SetBitmap(wq[1]);
 	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+300,20+300,59+300,40+300),this,2233);
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
-	hc=CreateWindowEx(0, MSFTEDIT_CLASS, L"--block-sync-size 240 --db-sync-mode fastest:async:450",
+	hc=CreateWindowEx(0, MSFTEDIT_CLASS, L"--block-sync-size 10 --db-sync-mode fastest:async:750",
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN | WS_VISIBLE | WS_CHILD | WS_VSCROLL|WS_TABSTOP, 
         0, 350, 450, 200, 
 		this->m_hWnd, NULL, h, NULL);
@@ -138,8 +138,8 @@ VOID c(VOID *)
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
-			char output_cmd[10001];
-			int h,c,ferrum=0,w=0,monte=0,tm=500;
+			char output_cmd[50001];
+			int h,c,ferrum=0,w=0,tm=500;
 			CString t,bear;
             while(1)
             {
@@ -147,15 +147,13 @@ VOID c(VOID *)
 
 			    if(totalbytesavailable)
                 {   
-					w=min(w,1000);
-                    ReadFile(stdoutRd, output_cmd, min(10000,totalbytesavailable), &dwRead, NULL);
-                    h = min(10000,totalbytesavailable);
+                    ReadFile(stdoutRd, output_cmd, min(50000,totalbytesavailable), &dwRead, NULL);
+                    h = min(50000,totalbytesavailable);
                     output_cmd[h]='\0';
 					
 					t=output_cmd;
+					if(w++ > 57) {bear=bear.Right(400);w=0;}
 					bear=bear + t;
-					if(w++ > 34) bear=bear.Right(monte);
-					else monte = monte + h;
 					SetWindowText(hc,bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 
@@ -202,7 +200,7 @@ void CMainFrame::tr()
 	EDITSTREAM es;
 	if(!trigger)
 	{	
-		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
+//		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
 		ZeroMemory(&es,sizeof(es));
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E; 
@@ -212,8 +210,8 @@ void CMainFrame::tr()
 
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
-			CreatePipe(&stdinRd, &stdinWr, &sa, 10000); 
-            CreatePipe(&stdoutRd,&stdoutWr, &sa, 10000);
+			CreatePipe(&stdinRd, &stdinWr, &sa, 50000); 
+            CreatePipe(&stdoutRd,&stdoutWr, &sa, 50000);
           
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));
@@ -235,6 +233,7 @@ void CMainFrame::tr()
 				t=new r();
 				f.read(ferrum,197);
 				t->f= ferrum;
+				f.close();
 			}
 			if(!trigger) 
 			{

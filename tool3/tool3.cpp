@@ -68,7 +68,7 @@ BOOL Ctool3App::InitInstance()
 	EnableTaskbarInteraction(FALSE);
 
 	// AfxInitRichEdit2() is required to use RichEdit control	
-	 AfxInitRichEdit2();
+	// AfxInitRichEdit2();
 	  LoadLibrary(L"MSFTEDIT.DLL");
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size

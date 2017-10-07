@@ -48,40 +48,22 @@ HINSTANCE h;
 BOOL Ctool3App::InitInstance()
 {
 	h=this->m_hInstance;
-	// InitCommonControlsEx() is required on Windows XP if an application
-	// manifest specifies use of ComCtl32.dll version 6 or later to enable
-	// visual styles.  Otherwise, any window creation will fail.
-	INITCOMMONCONTROLSEX InitCtrls;
-	InitCtrls.dwSize = sizeof(InitCtrls);
-	// Set this to include all the common control classes you want to use
-	// in your application.
-	InitCtrls.dwICC = ICC_WIN95_CLASSES;
-	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
 	
 	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
-	 WM_ret = RegisterWindowMessage(L"TaskbarButtonCreated");
 
+	WM_ret = RegisterWindowMessage(L"TaskbarButtonCreated");
 	EnableTaskbarInteraction(FALSE);
 
-	// AfxInitRichEdit2() is required to use RichEdit control	
-	// AfxInitRichEdit2();
-	  LoadLibrary(L"MSFTEDIT.DLL");
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	// of your final executable, you should remove from the following
-	// the specific initialization routines you do not need
-	// Change the registry key under which our settings are stored
-	// TODO: You should modify this string to be something appropriate
-	// such as the name of your company or organization
+	 LoadLibrary(L"MSFTEDIT.DLL"); //richedit
+	
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 ;
-	// To create the main window, this code creates a new frame window
-	// object and then sets it as the application's main window object
+
 	pFrame= new CMainFrame;
 	if (!pFrame)
 		return FALSE;
@@ -100,11 +82,9 @@ BOOL Ctool3App::InitInstance()
 
 	RegisterClassEx(&w);
 	
-	// create and load the frame with its resources
-	pFrame->CreateEx( WS_EX_APPWINDOW,L"t",L"edw",WS_OVERLAPPEDWINDOW,CRect(20,0,477,575),NULL,0);
+	pFrame->CreateEx( WS_EX_APPWINDOW,L"t",L"tool3",WS_OVERLAPPEDWINDOW,CRect(20,0,477,575),NULL,0);
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
-	pFrame->UpdateWindow();
 	// call DragAcceptFiles only if there's a suffix
 	//  In an SDI app, this should occur after ProcessShellCommand
 	return TRUE;

@@ -110,8 +110,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	q->SetBitmap(wq[1]);
 	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+300,20+300,59+300,40+300),this,2233);
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
-	hc=CreateWindowEx(0, MSFTEDIT_CLASS, L"--block-sync-size 10 --db-sync-mode fastest:async:750",
-		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN | WS_VISIBLE | WS_CHILD | WS_VSCROLL|WS_TABSTOP, 
+	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 10 --db-sync-mode fastest:async:750",
+		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN| WS_VISIBLE | WS_CHILD |WS_TABSTOP, 
         0, 350, 450, 200, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -123,12 +123,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
 int bren=5;
-int cr,f,b,terminator,p[3];
+int cr,f,b,terminator;
 PROCESS_INFORMATION pi;
 VOID c(VOID *)
 {			
-			
 
+			int p[3];
+			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
@@ -139,8 +140,13 @@ VOID c(VOID *)
             DWORD dwRead;
 			DWORD totalbytesavailable;
 			char output_cmd[50001];
-			int h,c,ferrum=0,w=0,tm=500;
+			int h,c,ferrum=0,tm=500;
+			BYTE w=0;
 			CString t,bear;
+			SETTEXTEX fw;
+			fw.flags=4;
+			fw.codepage=1200;
+			BYTE ptrigger=1;
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -152,20 +158,27 @@ VOID c(VOID *)
                     output_cmd[h]='\0';
 					
 					t=output_cmd;
-					if(w++ > 57) {bear=bear.Right(400);w=0;}
 					bear=bear + t;
-					SetWindowText(hc,bear);
+					if(w++ > 34) {bear=bear.Right(400);w=0;}
+					
+					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					//SetWindowText(hc,bear);
+					
 
 					c=t.Find(L"Synced");
 					if(c != -1)  
 						{
-							tm=1100;
+							tm=2000;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							swscanf((LPCWSTR)t,L"%d/%d",&p[1],&p[2]);
-							dc->SetPos(100*p[1]/p[2]);
-							bhr->SetProgressValue(hz,p[1],p[2]);
+							if((w&ptrigger)==1)
+							{
+								dc->SetPos(100*p[1]/p[2]);
+								bhr->SetProgressValue(hz,p[1],p[2]);
+								ptrigger=13; //means time after time
+							}
 						}
 					
 				}
@@ -200,7 +213,7 @@ void CMainFrame::tr()
 	EDITSTREAM es;
 	if(!trigger)
 	{	
-//		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
+		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
 		ZeroMemory(&es,sizeof(es));
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E; 

@@ -58,7 +58,7 @@ BOOL Ctool3App::InitInstance()
 	WM_ret = RegisterWindowMessage(L"TaskbarButtonCreated");
 	EnableTaskbarInteraction(FALSE);
 
-	 LoadLibrary(L"MSFTEDIT.DLL"); //richedit
+	 LoadLibrary(L"MSFTEDIT.DLL");                           
 	
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 

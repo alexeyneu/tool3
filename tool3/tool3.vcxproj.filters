@@ -16,21 +16,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="..\..\..\..\hyg.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\..\9.bmp">
+    <None Include="res\tool3.rc2">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\tool3.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\tool3.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tool3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -43,18 +39,15 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tool3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tool3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainFrm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tool3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

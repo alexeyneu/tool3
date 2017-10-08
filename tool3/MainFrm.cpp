@@ -125,6 +125,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 int bren=5;
 int cr,f,b,terminator;
 PROCESS_INFORMATION pi;
+
+
+
+
 VOID c(VOID *)
 {			
 
@@ -147,6 +151,8 @@ VOID c(VOID *)
 			fw.flags=4;
 			fw.codepage=1200;
 			BYTE ptrigger=1;
+			int monte=0;
+			wchar_t reserve;
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -155,15 +161,18 @@ VOID c(VOID *)
                 {   
                     ReadFile(stdoutRd, output_cmd, min(50000,totalbytesavailable), &dwRead, NULL);
                     h = min(50000,totalbytesavailable);
-                    output_cmd[h]='\0';
-					
+                    output_cmd[h]='\0';		
+					if(monte) bear.SetAt(monte-2,reserve);
+					monte=monte+h;
 					t=output_cmd;
 					bear=bear + t;
-					if(w++ > 34) {bear=bear.Right(400);w=0;}
-					
-					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
-					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
-					//SetWindowText(hc,bear);
+					if(w++ > 27) {bear=bear.Right(1400);w=0;monte=1400;}
+//					SetWindowText(hc,bear);
+					reserve=bear[monte-2];
+					bear.SetAt(monte-2,L'\0');
+					SetWindowText(hc,bear);
+//					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
+					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
 					c=t.Find(L"Synced");
@@ -177,7 +186,7 @@ VOID c(VOID *)
 							{
 								dc->SetPos(100*p[1]/p[2]);
 								bhr->SetProgressValue(hz,p[1],p[2]);
-								ptrigger=13; //means time after time
+								ptrigger=13; //time after time
 							}
 						}
 					

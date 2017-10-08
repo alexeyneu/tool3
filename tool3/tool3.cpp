@@ -82,7 +82,7 @@ BOOL Ctool3App::InitInstance()
 
 	RegisterClassEx(&w);
 	
-	pFrame->CreateEx( WS_EX_APPWINDOW,L"t",L"tool3",WS_OVERLAPPEDWINDOW,CRect(20,0,477,575),NULL,0);
+	pFrame->CreateEx( WS_EX_APPWINDOW,L"t",L"tool3",WS_OVERLAPPEDWINDOW,CRect(20,0,477,588),NULL,0);
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
 	// call DragAcceptFiles only if there's a suffix

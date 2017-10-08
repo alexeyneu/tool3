@@ -170,8 +170,8 @@ VOID c(VOID *)
 //					SetWindowText(hc,bear);
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,L'\0');
-					SetWindowText(hc,bear);
-//					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
+//					SetWindowText(hc,bear);
+					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
 					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 

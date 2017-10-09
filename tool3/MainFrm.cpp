@@ -21,6 +21,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CWnd)
 	ON_BN_CLICKED(2133,tr)
 	ON_BN_CLICKED(233,w)
 	ON_BN_CLICKED(2233,uw)
+	ON_BN_CLICKED(22,ef)
 	ON_WM_DESTROY()
 	ON_REGISTERED_MESSAGE(WM_ret, &CMainFrame::OnRet)   //that's a piece of class wizard production after "Add cutom message" with "registered message".
 	// WM_ret stays undefined that moment so .
@@ -66,13 +67,15 @@ CProgressCtrl *dc;
 CButton *bh;
 CButton *q;
 CButton *finA;
+CButton *cmdos;
+
 ITaskbarList3 *bhr;
 HANDLE cl;
 
 DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
 {
     std::wstringstream *fr = (std::wstringstream *)dw;
-    fr->write((wchar_t *)pb, cb);
+    fr->write((wchar_t *)pb, int(cb/2)); 
     *pcb = cb;
     return 0;
 }
@@ -93,6 +96,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	q=new CButton();
 	finA=new CButton();
+	cmdos=new CButton();
 	CBitmap wq[2];
 	wq[0].LoadBitmapW(IDB_BITMAP1);
 	wq[1].LoadBitmapW(IDB_BITMAP4);
@@ -109,10 +113,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 	q->SetBitmap(wq[1]);
 	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+300,20+300,59+300,40+300),this,2233);
+	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+370,20+300,79+370,40+300),this,22);
+
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
-	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 10 --db-sync-mode fastest:async:750",
-		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
-        0, 350, 450, 200, 
+	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 7 --db-sync-mode fastest:async:750",
+		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN|ES_DISABLENOSCROLL| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
+        1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
     OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_NATURAL_QUALITY,
@@ -178,7 +184,7 @@ VOID c(VOID *)
 					c=t.Find(L"Synced");
 					if(c != -1)  
 						{
-							tm=2000;
+							tm=2340;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							swscanf((LPCWSTR)t,L"%d/%d",&p[1],&p[2]);
@@ -204,6 +210,7 @@ VOID c(VOID *)
 					bh->EnableWindow();
 					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
 					bren=5;
+					cmdos->EnableWindow();
 					break; 
 				}
                 Sleep(tm);
@@ -217,19 +224,19 @@ int terminator2;
 void CMainFrame::tr()
 {   
 	std::wstringstream fr;
-	
-
+	fr << L' ';
 	EDITSTREAM es;
 	if(!trigger)
 	{	
-		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
+//		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
 		ZeroMemory(&es,sizeof(es));
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E; 
 		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);
+//		::RedrawWindow(hc,NULL,NULL,RDW_ERASENOW|RDW_UPDATENOW);
 		
-}
-
+	}
+	else cmdos->EnableWindow(0);
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
 			CreatePipe(&stdinRd, &stdinWr, &sa, 50000); 
@@ -242,8 +249,7 @@ void CMainFrame::tr()
             si.wShowWindow = SW_HIDE;
             si.hStdOutput = stdoutWr;
             si.hStdError = stdoutWr;         
-            si.hStdInput = stdinRd; 
-			static wchar_t remmi[218];	
+            si.hStdInput = stdinRd; 	
 			wchar_t w[140],ferrum[198];
 			ZeroMemory(ferrum,sizeof(ferrum));
 			std::wifstream f;
@@ -258,8 +264,8 @@ void CMainFrame::tr()
 			}
 			if(!trigger) 
 			{
-				remmi[0]=L' ';
-				fr.read(&remmi[1],217); 
+				ZeroMemory(remmi,218*2);
+				fr.read(remmi,217); 
 				trigger++;
 			}
 			int h=CreateProcess(t->f + L"\\monerod.exe",remmi, NULL, NULL, TRUE, CREATE_NEW_PROCESS_GROUP, NULL, t->f, &si, &pi);        
@@ -334,7 +340,7 @@ VOID hammer(VOID *)
 	CoUninitialize();
 }
 
-afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret finished up here.  
+afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret cmdosed up here.  
 {
 	 AfxBeginThread((AFX_THREADPROC)hammer,NULL);
 	
@@ -361,4 +367,13 @@ void CMainFrame::OnClose()
 	}
 
 
+}
+
+void CMainFrame::ef()
+{
+	SETTEXTEX fw;
+	fw.flags=4;
+	fw.codepage=1200;
+	::PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
+	trigger=0;
 }

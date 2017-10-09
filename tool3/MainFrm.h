@@ -15,7 +15,8 @@ protected:
 
 // Attributes
 public:
-
+private:
+		wchar_t remmi[218];	
 // Operations
 public:
 
@@ -41,6 +42,8 @@ public:
 	afx_msg void tr();
 	afx_msg void w();
 	afx_msg void uw();
+	afx_msg void ef();
+
 	afx_msg void OnDestroy();
 protected:
 	afx_msg LRESULT OnRet(WPARAM wParam, LPARAM lParam);

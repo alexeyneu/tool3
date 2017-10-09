@@ -236,7 +236,7 @@ void CMainFrame::tr()
 //		::RedrawWindow(hc,NULL,NULL,RDW_ERASENOW|RDW_UPDATENOW);
 		
 	}
-	else cmdos->EnableWindow(0);
+	
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
 			CreatePipe(&stdinRd, &stdinWr, &sa, 50000); 
@@ -268,6 +268,9 @@ void CMainFrame::tr()
 				fr.read(remmi,217); 
 				trigger++;
 			}
+				 cmdos->EnableWindow();
+
+
 			int h=CreateProcess(t->f + L"\\monerod.exe",remmi, NULL, NULL, TRUE, CREATE_NEW_PROCESS_GROUP, NULL, t->f, &si, &pi);        
 			if(!h) 
 			{
@@ -375,5 +378,5 @@ void CMainFrame::ef()
 	fw.flags=4;
 	fw.codepage=1200;
 	::PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
-	trigger=0;
+	trigger=5-bren;
 }

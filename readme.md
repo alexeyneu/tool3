@@ -20,8 +20,11 @@ tool3.sln in explorer
  
 'Build/Build Solution' 
 
-also can be done with Visual Studio Command Prompt(command prompt after "vcvarsall.bat x86" run,can be found in VS tools) by 
+also can be done with Visual Studio Command Prompt(command prompt after "vcvarsall.bat x86" run,can be found in VS tools) by
+ 
 cd .\tool3
+
 msbuild tool3.vcxproj
+
 
  

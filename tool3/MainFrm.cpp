@@ -116,7 +116,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+370,20+300,79+370,40+300),this,22);
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
-	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 7 --db-sync-mode fastest:async:750",
+	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 498 --db-sync-mode fastest:sync:8750",
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN|ES_DISABLENOSCROLL| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
@@ -145,7 +145,7 @@ VOID c(VOID *)
 			bh->EnableWindow(0);
 			q->EnableWindow();
 			char k[100];
-			strcpy(k,"t");
+			strcpy(k,"t"); 
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
@@ -172,7 +172,7 @@ VOID c(VOID *)
 					monte=monte+h;
 					t=output_cmd;
 					bear=bear + t;
-					if(w++ > 27) {bear=bear.Right(1400);w=0;monte=1400;}
+					if(w++ > 44) {bear=bear.Right(monte=4400);w=0;}
 //					SetWindowText(hc,bear);
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,L'\0');
@@ -188,12 +188,8 @@ VOID c(VOID *)
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							swscanf((LPCWSTR)t,L"%d/%d",&p[1],&p[2]);
-							if((w&ptrigger)==1)
-							{
-								dc->SetPos(100*p[1]/p[2]);
-								bhr->SetProgressValue(hz,p[1],p[2]);
-								ptrigger=13; //time after time
-							}
+							dc->SetPos(100*p[1]/p[2]);
+							bhr->SetProgressValue(hz,p[1],p[2]);
 						}
 					
 				}
@@ -264,8 +260,8 @@ void CMainFrame::tr()
 			}
 			if(!trigger) 
 			{
-				ZeroMemory(remmi,218*2);
-				fr.read(remmi,217); 
+				ZeroMemory(remmi,318*2);
+				fr.read(remmi,247); 
 				trigger++;
 			}
 				 cmdos->EnableWindow();

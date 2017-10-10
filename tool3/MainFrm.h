@@ -16,7 +16,7 @@ protected:
 // Attributes
 public:
 private:
-		wchar_t remmi[218];	
+		wchar_t remmi[618];	
 // Operations
 public:
 

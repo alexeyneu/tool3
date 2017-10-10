@@ -13,7 +13,7 @@ Also monerod cmd-line options can be changed in edit window.
 ![Screen1](/screens/Untitled.jpg)
 
 
-##To build this :
+build:
 ms visual studio 2010
 
 tool3.sln in explorer 

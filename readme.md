@@ -1,6 +1,6 @@
 monero sync gui. Runs pipelined monerod
  
-[![version](https://img.shields.io/badge/%20%20tool3%20%20%20-v2.05%20%20Afterburning'-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.05)
+[![version](https://img.shields.io/badge/%20%20tool3%20%20%20-v2.07%20%20Afterburning'%20SP-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.07)
 how to: 
 1. locate monerod.exe folder  
 2. thats all

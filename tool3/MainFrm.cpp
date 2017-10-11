@@ -112,8 +112,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	bh->SetBitmap(wq[0]);
 	q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 	q->SetBitmap(wq[1]);
-	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+300,20+300,59+300,40+300),this,2233);
-	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+370,20+300,79+370,40+300),this,22);
+	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+280,20+292,59+280,48+292),this,2233);
+	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+350,20+292,97+350,48+292),this,22);
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 498 --db-sync-mode fastest:sync:8750",

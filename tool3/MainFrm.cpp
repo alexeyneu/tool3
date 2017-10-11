@@ -165,8 +165,8 @@ VOID c(VOID *)
 
 			    if(totalbytesavailable)
                 {   
-                    ReadFile(stdoutRd, output_cmd, min(50000,totalbytesavailable), &dwRead, NULL);
-                    h = min(50000,totalbytesavailable);
+                    ReadFile(stdoutRd, output_cmd, min(150000,totalbytesavailable), &dwRead, NULL);
+                    h = min(150000,totalbytesavailable);
                     output_cmd[h]='\0';		
 					if(monte) bear.SetAt(monte-2,reserve);
 					monte=monte+h;
@@ -206,7 +206,6 @@ VOID c(VOID *)
 					bh->EnableWindow();
 					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
 					bren=5;
-					cmdos->EnableWindow();
 					break; 
 				}
                 Sleep(tm);
@@ -235,8 +234,8 @@ void CMainFrame::tr()
 	
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
-			CreatePipe(&stdinRd, &stdinWr, &sa, 50000); 
-            CreatePipe(&stdoutRd,&stdoutWr, &sa, 50000);
+			CreatePipe(&stdinRd, &stdinWr, &sa, 150000); 
+            CreatePipe(&stdoutRd,&stdoutWr, &sa, 150000);
           
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));

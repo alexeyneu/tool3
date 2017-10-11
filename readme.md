@@ -1,7 +1,9 @@
-monero sync gui. Runs pipelined monerod
+## tool3 monero sync gui. 
+Runs pipelined monerod
  
 [![version](https://img.shields.io/badge/%20%20tool3%20%20%20-v2.077%20%20Afterburning'%20SP2-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.077)
-how to: 
+
+## how to: 
 1. locate monerod.exe folder  
 2. thats all
 
@@ -13,7 +15,7 @@ Also monerod cmd-line options can be changed in edit window.
 ![Screen1](/screens/Untitled%202.jpg)
 
 
-build:
+## build:
 ms visual studio 2010
 
 tool3.sln in explorer 

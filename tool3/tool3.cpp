@@ -45,6 +45,7 @@ DWORD WM_ret;
 // Ctool3App initialization
 CMainFrame* pFrame;
 HINSTANCE h;
+HANDLE b;
 BOOL Ctool3App::InitInstance()
 {
 	h=this->m_hInstance;
@@ -58,7 +59,7 @@ BOOL Ctool3App::InitInstance()
 	WM_ret = RegisterWindowMessage(L"TaskbarButtonCreated");
 	EnableTaskbarInteraction(FALSE);
 
-	 LoadLibrary(L"MSFTEDIT.DLL"); //richedit
+	 b=LoadLibrary(L"MSFTEDIT.DLL"); //richedit
 	
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
@@ -92,7 +93,7 @@ BOOL Ctool3App::InitInstance()
 
 int Ctool3App::ExitInstance()
 {
-
+	FreeLibrary((HMODULE)b);
 	delete pFrame;
 	return CWinApp::ExitInstance();
 }

@@ -54,11 +54,13 @@ CMainFrame::~CMainFrame()
 class r:public CFolderPickerDialog
 {
 public:
-	r() : CFolderPickerDialog()
-	{
-	}
 	CString f;
 	int last;
+
+	r() : CFolderPickerDialog()
+	{
+
+	}
 	void init() {f = m_szFileName; last=wcslen(m_szFileName);}
 };
 r *t;
@@ -149,7 +151,7 @@ VOID c(VOID *)
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
-			char output_cmd[50001];
+			char output_cmd[250001];
 			int h,c,ferrum=0,tm=500;
 			BYTE w=0;
 			CString t,bear;
@@ -163,10 +165,10 @@ VOID c(VOID *)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
 
-			    if(totalbytesavailable)
-                {   
-                    ReadFile(stdoutRd, output_cmd, min(150000,totalbytesavailable), &dwRead, NULL);
-                    h = min(150000,totalbytesavailable);
+			if(totalbytesavailable)
+            {   
+                    ReadFile(stdoutRd, output_cmd, min(250000,totalbytesavailable), &dwRead, NULL);
+                    h = min(250000,totalbytesavailable);
                     output_cmd[h]='\0';		
 					if(monte) bear.SetAt(monte-2,reserve);
 					monte=monte+h;
@@ -190,7 +192,7 @@ VOID c(VOID *)
 							bhr->SetProgressValue(hz,p[1],p[2]);
 						}
 					
-				}
+				
 					                   
 				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=570;} 
 // you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
@@ -208,8 +210,9 @@ VOID c(VOID *)
 					bren=5;
 					break; 
 				}
+			}
                 Sleep(tm);
-            }
+        }
 }
 
 CWinThread *rew;
@@ -231,8 +234,8 @@ void CMainFrame::tr()
 	
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
-			CreatePipe(&stdinRd, &stdinWr, &sa, 150000); 
-            CreatePipe(&stdoutRd,&stdoutWr, &sa, 150000);
+			CreatePipe(&stdinRd, &stdinWr, &sa, 250000); 
+            CreatePipe(&stdoutRd,&stdoutWr, &sa,250000);
           
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));

@@ -1,9 +1,9 @@
 ## tool3 monero sync gui. 
 Runs pipelined monerod
  
-[![version](https://img.shields.io/badge/%20%20tool3%20%20%20-v2.078%20%20Afterburning'%20SP3-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.078)
+[![version](https://img.shields.io/badge/%20%20tool3%20%20%20-v2.079%20%20Afterburning'%20SP4-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.079)
 
-v2.078 code fault-proof status :
+v2.079 code fault-proof status :
  [![ ](https://scan.coverity.com/projects/13991/badge.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
 ## how to: 

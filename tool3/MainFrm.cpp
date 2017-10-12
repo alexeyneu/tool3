@@ -145,7 +145,7 @@ VOID c(VOID *)
 			bh->EnableWindow(0);
 			q->EnableWindow();
 			char k[100];
-			strcpy(k,"t"); 
+			strcpy(k,"t");
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
@@ -173,10 +173,8 @@ VOID c(VOID *)
 					t=output_cmd;
 					bear=bear + t;
 					if(w++ > 44) {bear=bear.Right(monte=4400);w=0;}
-//					SetWindowText(hc,bear);
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,L'\0');
-//					SetWindowText(hc,bear);
 					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
 					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
@@ -194,7 +192,9 @@ VOID c(VOID *)
 					
 				}
 					                   
-				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=570;}
+				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=570;} 
+// you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
+				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
 					
@@ -223,13 +223,10 @@ void CMainFrame::tr()
 	EDITSTREAM es;
 	if(!trigger)
 	{	
-//		::PostMessage(hc,EM_SETOPTIONS,ECOOP_OR,(LPARAM)ECO_READONLY);
 		ZeroMemory(&es,sizeof(es));
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E; 
-		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);
-//		::RedrawWindow(hc,NULL,NULL,RDW_ERASENOW|RDW_UPDATENOW);
-		
+		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);		
 	}
 	
 
@@ -319,10 +316,7 @@ void CMainFrame::OnDestroy()
 	delete dc;
 	delete finA;
 	delete cmdos;
-
 //	delete rew;
-
-
 
 	// TODO: Add your message handler code here
 }
@@ -333,7 +327,7 @@ VOID hammer(VOID *)
 {	
 	CoInitializeEx(NULL,COINIT_MULTITHREADED); //used only by extra thread for now
 	CoCreateInstance(CLSID_TaskbarList,NULL,CLSCTX_INPROC_SERVER,IID_ITaskbarList3,(LPVOID*)&bhr); //no inter-process here.pointer grabs smth finally  
-	bhr->HrInit();
+	bhr->HrInit();								//not sure
 	WaitForSingleObject(cl,INFINITE);
 	bhr->Release();
 	bhr=NULL;
@@ -373,7 +367,7 @@ void CMainFrame::ef()
 {
 	SETTEXTEX fw;
 	fw.flags=4;
-	fw.codepage=1200;
+	fw.codepage=1200;			
 	::PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
 	trigger=5-bren;
 }

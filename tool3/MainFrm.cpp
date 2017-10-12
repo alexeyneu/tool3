@@ -318,6 +318,8 @@ void CMainFrame::OnDestroy()
 	delete q;
 	delete dc;
 	delete finA;
+	delete cmdos;
+
 //	delete rew;
 
 

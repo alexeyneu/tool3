@@ -151,24 +151,23 @@ VOID c(VOID *)
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
-			char output_cmd[250001];
-			int h,c,ferrum=0,tm=500;
+			char output_cmd[400001];
+			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
-			CString t,bear;
+			CStringA t,bear;
 			SETTEXTEX fw;
-			fw.flags=4;
-			fw.codepage=1200;
-			BYTE ptrigger=1;
+			fw.flags=0;
+			fw.codepage=CP_THREAD_ACP;
 			int monte=0;
-			wchar_t reserve;
+			char reserve;
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
 
 			if(totalbytesavailable)
             {   
-                    ReadFile(stdoutRd, output_cmd, min(250000,totalbytesavailable), &dwRead, NULL);
-                    h = min(250000,totalbytesavailable);
+                    ReadFile(stdoutRd, output_cmd, min(400000,totalbytesavailable), &dwRead, NULL);
+                    h = min(400000,totalbytesavailable);
                     output_cmd[h]='\0';		
 					if(monte) bear.SetAt(monte-2,reserve);
 					monte=monte+h;
@@ -176,18 +175,18 @@ VOID c(VOID *)
 					bear=bear + t;
 					if(w++ > 44) {bear=bear.Right(monte=4400);w=0;}
 					reserve=bear[monte-2];
-					bear.SetAt(monte-2,L'\0');
-					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCWSTR)bear);
-					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					bear.SetAt(monte-2,'\0');
+					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
+					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
-					c=t.Find(L"Synced");
+					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=2340;
+							tm=2900;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
-							swscanf((LPCWSTR)t,L"%d/%d",&p[1],&p[2]);
+							sscanf(t,"%d/%d",&p[1],&p[2]);
 							dc->SetPos(100*p[1]/p[2]);
 							bhr->SetProgressValue(hz,p[1],p[2]);
 						}
@@ -234,8 +233,8 @@ void CMainFrame::tr()
 	
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
-			CreatePipe(&stdinRd, &stdinWr, &sa, 250000); 
-            CreatePipe(&stdoutRd,&stdoutWr, &sa,250000);
+			CreatePipe(&stdinRd, &stdinWr, &sa, 1000); 
+            CreatePipe(&stdoutRd,&stdoutWr, &sa,400000);
           
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));

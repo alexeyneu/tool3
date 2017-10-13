@@ -3,7 +3,7 @@ Runs pipelined monerod
  
 [![version](https://img.shields.io/badge/tool3-v3.0-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.079)
 
-v3.0 code fault-proof status :
+v3.0 code fault-proof level :
  [![ ](https://scan.coverity.com/projects/13991/badge.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
 ## how to: 

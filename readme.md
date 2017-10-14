@@ -10,7 +10,7 @@ v3.0 code fault-proof level :
 1. locate monerod.exe folder  
 2. thats all
 
-Sys Req: 
+ - Sys Req: 
 Visual C++ 2010 redist (x86);
 Windows 7    
 
@@ -19,17 +19,16 @@ Also monerod cmd-line options can be changed in edit window.
 
 
 ## build:
-ms visual studio 2010
+ - ms visual studio 2010
 
-tool3.sln in explorer 
- 
+tool3.sln in explorer ,
 'Build/Build Solution' 
 
-also can be done with Visual Studio Command Prompt(it's a regular  command prompt with pre-run of "vcvarsall.bat x86" ,can be found in VS tools) by
+ - msbuild
+ also can be done with Visual Studio Command Prompt(it's a regular  command prompt with pre-run of "vcvarsall.bat x86" ,can be found in VS tools) by
 ``` 
 cd .\tool3
 msbuild tool3.vcxproj /property:Configuration=Release  
 ```
-
-
+ - nmake
 nmake will work too. there is no MAKEFILE for now so doesnt make much sense although options can be transferred by cmd-line.

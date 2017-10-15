@@ -6,6 +6,7 @@
 #pragma once
 
 #include <sstream>
+#include <iterator>
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 #endif

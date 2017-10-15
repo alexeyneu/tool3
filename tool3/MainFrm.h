@@ -5,6 +5,7 @@
 #pragma once
 extern DWORD WM_ret;
 
+
 class CMainFrame : public CWnd
 {
 	

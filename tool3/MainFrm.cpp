@@ -134,12 +134,23 @@ int bren=5;
 int cr,f,b,terminator;
 PROCESS_INFORMATION pi;
 
+struct triggerblock
+{
+	long long b;
+	long long t;
+	tm c;
+	tm p;
+	int block[3];
+	int ptrigger;
+	float q;
+	CStringA X7;
+};
 
 
 
 VOID c(VOID *)
 {			
-
+	triggerblock z;
 			int p[3];
 			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);
@@ -155,11 +166,13 @@ VOID c(VOID *)
 			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
 			CStringA t,bear;
+			bear.Empty();
 			SETTEXTEX fw;
 			fw.flags=0;
 			fw.codepage=CP_THREAD_ACP;
 			int monte=0;
 			char reserve;
+
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -168,10 +181,17 @@ VOID c(VOID *)
             {   
                     ReadFile(stdoutRd, output_cmd, min(400000,totalbytesavailable), &dwRead, NULL);
                     h = min(400000,totalbytesavailable);
-                    output_cmd[h]='\0';		
-					if(monte) bear.SetAt(monte-2,reserve);
-					monte=monte+h;
+                    output_cmd[h]='\0';
 					t=output_cmd;
+					if(monte) bear.SetAt(monte-2,reserve);
+					else
+					{
+						sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+						z.c.tm_year-=1900;
+						z.t=_mktime64(&z.c);
+
+					}
+					monte=monte+h;
 					bear=bear + t;
 					if(w++ > 44) {bear=bear.Right(monte=4400);w=0;}
 					reserve=bear[monte-2];
@@ -183,22 +203,36 @@ VOID c(VOID *)
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=2900;
+							tm=2100;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							sscanf(t,"%d/%d",&p[1],&p[2]);
 							dc->SetPos(100*p[1]/p[2]);
 							bhr->SetProgressValue(hz,p[1],p[2]);
-						}
+							if(!(z.ptrigger)) { z.block[1]=p[1]; z.ptrigger=-8; }
+
+				}
 					
 				
 					                   
-				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=570;} 
+				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=700;} 
 // you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
 					
+
+					sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
+						z.p.tm_year-=1900;
+						z.b=_mktime64(&z.p);
+						z.block[2]=p[1];
+						z.q=(60*(z.block[2] - z.block[1]))/(z.b - z.t);
+						z.X7.Format("%.2f block/m",z.q);
+//						AllocConsole();
+//						freopen("conout$","r+",stdout);
+//						std::cout <<  z.t<<z.b;
+
+
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
 					q->EnableWindow(0);
@@ -206,6 +240,24 @@ VOID c(VOID *)
 					b=0;
 					bh->EnableWindow();
 					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
+					else 
+					{   
+						bear.SetAt(monte-2,reserve);
+						bear.Replace("\n","\\line\n");
+						bear="\
+{\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;} " 
++ 
+bear
++ "\
+\\trowd \\trrh740 \
+\\clvertalc\\qc\\clbrdrt\\brdrw100\\brdrcf2\\cellx3400\n\
+\\cellx6389\n\
+\\intbl speed :" + z.X7 + "\\cell\n\
+\\intbl \\cell\n\
+\\row\n}\n";
+						SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
+						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					}
 					bren=5;
 					break; 
 				}

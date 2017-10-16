@@ -119,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 498 --db-sync-mode fastest:sync:8750",
-		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP|ES_SUNKEN|ES_DISABLENOSCROLL| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
+		ES_MULTILINE|ES_AUTOVSCROLL|ES_SUNKEN| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -193,17 +193,17 @@ VOID c(VOID *)
 					}
 					monte=monte+h;
 					bear=bear + t;
-					if(w++ > 44) {bear=bear.Right(monte=4400);w=0;}
+					if(w++ > 16) {bear=bear.Right(monte=2804);w=0;}
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
-					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
-					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
+					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=2100;
+							tm=2740;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							sscanf(t,"%d/%d",&p[1],&p[2]);
@@ -226,8 +226,8 @@ VOID c(VOID *)
 						z.p.tm_year-=1900;
 						z.b=_mktime64(&z.p);
 						z.block[2]=p[1];
-						z.q=(60*(z.block[2] - z.block[1]))/(z.b - z.t);
-						z.X7.Format("%.2f block/m",z.q);
+						z.q=(DOUBLE)60*((z.block[2] - z.block[1]))/(z.b - z.t);
+						z.X7.Format(" %.2f block/m",z.q);
 //						AllocConsole();
 //						freopen("conout$","r+",stdout);
 //						std::cout <<  z.t<<z.b;
@@ -252,9 +252,9 @@ bear
 \\trowd \\trrh740 \
 \\clvertalc\\qc\\clbrdrt\\brdrw100\\brdrcf2\\cellx3400\n\
 \\cellx6389\n\
-\\intbl speed :" + z.X7 + "\\cell\n\
+\\intbl speed" + z.X7 + "\\cell\n\
 \\intbl \\cell\n\
-\\row\n}\n";
+\\row\n}";
 						SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					}

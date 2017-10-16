@@ -48,10 +48,10 @@ HINSTANCE h;
 HANDLE b;
 BOOL Ctool3App::InitInstance()
 {
-	h=this->m_hInstance;
 
 	CWinApp::InitInstance();
-	
+	h=this->m_hInstance;
+
 	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
@@ -61,7 +61,7 @@ BOOL Ctool3App::InitInstance()
 
 	 b=LoadLibrary(L"MSFTEDIT.DLL"); //richedit
 	
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	//SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 ;
 

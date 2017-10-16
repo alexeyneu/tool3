@@ -1,9 +1,9 @@
 ## tool3 monero sync gui. 
 Runs pipelined monerod
  
-[![version](https://img.shields.io/badge/tool3-v3.0-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v2.079)
+[![version](https://img.shields.io/badge/tool3-v3.4-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/v3.4)
 
-v3.0 code fault-proof level :
+v3.4 code check:
  [![ ](https://scan.coverity.com/projects/13991/badge.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
 ## how to: 
@@ -31,5 +31,3 @@ tool3.sln in explorer ,
 cd .\tool3
 msbuild tool3.vcxproj /property:Configuration=Release  
 ```
- - nmake
-nmake will work too. there is no MAKEFILE for now so doesnt make much sense although options can be transferred by cmd-line.

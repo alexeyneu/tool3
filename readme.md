@@ -3,7 +3,7 @@ Runs pipelined monerod
  
 [![version](https://img.shields.io/github/tag/alexeyneu/tool3.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)
 
-code check:
+
  [![ ](https://scan.coverity.com/projects/13991/badge.svg)](https://img.shields.io/coverity/scan/13991.svg)
 
 ## how to: 

@@ -204,7 +204,7 @@ VOID c(VOID *)
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=2740;
+							tm=1890;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							sscanf(t,"%d/%d",&p[1],&p[2]);
@@ -230,7 +230,7 @@ VOID c(VOID *)
 						z.q=(DOUBLE)60*((z.block[2] - z.block[1]))/(z.b - z.t);
 						z.X7.Format(" %.2f block/m",z.q);
 						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
-						if(z.q) z.X8.Format("  %.1f days to go at this speed",z.outofthis);
+						if(z.q) z.X8.Format("days to go at this speed: %.1f",z.outofthis);
 //						AllocConsole();
 //						freopen("conout$","r+",stdout);
 //						std::cout <<  z.t<<z.b;
@@ -251,12 +251,11 @@ VOID c(VOID *)
 {\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;\\red232\\green34\\blue5;} " 
 + 
 bear
++ z.X8
 + "\
 \\trowd \\trrh740 \
 \\clvertalc\\qc\\clbrdrt\\brdrw100\\brdrcf2\\cellx3400\n\
-\\clvertalc\\cellx6389\n\
 \\intbl speed" + z.X7 + "\\cell\n\
-\\intbl" + z.X8 + "\\cell\n\
 \\row\n}";
 						SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);

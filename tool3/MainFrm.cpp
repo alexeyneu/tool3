@@ -143,7 +143,8 @@ struct triggerblock
 	int block[3];
 	int ptrigger;
 	float q;
-	CStringA X7;
+	CStringA X7,X8;
+	float outofthis;
 };
 
 
@@ -193,11 +194,11 @@ VOID c(VOID *)
 					}
 					monte=monte+h;
 					bear=bear + t;
-					if(w++ > 16) {bear=bear.Right(monte=2804);w=0;}
+					if(w++ > 13) {bear=bear.Right(monte=min(monte,3504));w=0;}
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
-					PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
-					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
+					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
 					c=t.Find("Synced");
@@ -228,6 +229,8 @@ VOID c(VOID *)
 						z.block[2]=p[1];
 						z.q=(DOUBLE)60*((z.block[2] - z.block[1]))/(z.b - z.t);
 						z.X7.Format(" %.2f block/m",z.q);
+						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
+						z.X8.Format("  %.1f days to go at this speed",z.outofthis);
 //						AllocConsole();
 //						freopen("conout$","r+",stdout);
 //						std::cout <<  z.t<<z.b;
@@ -245,15 +248,15 @@ VOID c(VOID *)
 						bear.SetAt(monte-2,reserve);
 						bear.Replace("\n","\\line\n");
 						bear="\
-{\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;} " 
+{\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;\\red232\\green34\\blue5;} " 
 + 
 bear
 + "\
 \\trowd \\trrh740 \
 \\clvertalc\\qc\\clbrdrt\\brdrw100\\brdrcf2\\cellx3400\n\
-\\cellx6389\n\
+\\clvertalc\\cellx6389\n\
 \\intbl speed" + z.X7 + "\\cell\n\
-\\intbl \\cell\n\
+\\intbl" + z.X8 + "\\cell\n\
 \\row\n}";
 						SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);

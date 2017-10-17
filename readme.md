@@ -4,7 +4,7 @@ Runs pipelined monerod
 [![version](https://img.shields.io/github/tag/alexeyneu/tool3.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)
 
 
- [![ ](https://scan.coverity.com/projects/13991/badge.svg)](https://img.shields.io/coverity/scan/13991.svg)
+ [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
 ## how to: 
 1. locate monerod.exe folder  

@@ -230,7 +230,7 @@ VOID c(VOID *)
 						z.q=(DOUBLE)60*((z.block[2] - z.block[1]))/(z.b - z.t);
 						z.X7.Format(" %.2f block/m",z.q);
 						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
-						z.X8.Format("  %.1f days to go at this speed",z.outofthis);
+						if(z.q) z.X8.Format("  %.1f days to go at this speed",z.outofthis);
 //						AllocConsole();
 //						freopen("conout$","r+",stdout);
 //						std::cout <<  z.t<<z.b;

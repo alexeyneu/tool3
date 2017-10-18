@@ -119,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 498 --db-sync-mode fastest:sync:8750",
-		ES_MULTILINE|ES_AUTOVSCROLL|ES_SUNKEN| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
+		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -261,7 +261,9 @@ bear
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					}
 					bren=5;
-					break; 
+					break;				 //'Both break and continue have no effect on an if-statement.Both break and continue have no effect on an if-statement. A common misconception is
+										 //that break can be used to jump out of an if compound statement.' An Introduction to the C Programming Language and Software Design.   Tim Bailey 2005
+
 				}
 			}
                 Sleep(tm);

@@ -204,7 +204,7 @@ VOID c(VOID *)
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=1890;
+							tm=2940;
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							sscanf(t,"%d/%d",&p[1],&p[2]);
@@ -230,7 +230,7 @@ VOID c(VOID *)
 						z.q=(DOUBLE)60*((z.block[2] - z.block[1]))/(z.b - z.t);
 						z.X7.Format(" %.2f block/m",z.q);
 						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
-						if(z.q) z.X8.Format("\\qr\\cf2 days to go %.1f   \\cf1\\par\n",z.outofthis);
+						if(z.q) z.X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 //						AllocConsole();
 //						freopen("conout$","r+",stdout);
 //						std::cout <<  z.t<<z.b;

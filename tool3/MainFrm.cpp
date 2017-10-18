@@ -151,7 +151,7 @@ struct triggerblock
 
 VOID c(VOID *)
 {			
-	triggerblock z;
+	triggerblock z={};
 			int p[3];
 			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);

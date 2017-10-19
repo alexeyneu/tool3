@@ -15,7 +15,7 @@ Visual C++ 2010 redist (x86);
 Windows 7    
 
 Also monerod cmd-line options can be changed in edit window.
-![Screen1](/screens/Untitled%202.jpg)
+![Screen1](/screens/Untitled%201.jpg)
 
 
 ## build:

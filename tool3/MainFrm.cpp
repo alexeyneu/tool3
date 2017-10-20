@@ -61,7 +61,7 @@ public:
 	{
 
 	}
-	void init() {f = m_szFileName; last=wcslen(m_szFileName);}
+	void init() { f = m_szFileName; }
 };
 r *t;
 HWND hc,hz;
@@ -92,8 +92,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	cl=CreateEvent(NULL,1,0,NULL);
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
-	// TODO:  Add your specialized creation code here
 	bh=new CButton();
 
 
@@ -104,8 +102,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	wq[0].LoadBitmapW(IDB_BITMAP1);
 	wq[1].LoadBitmapW(IDB_BITMAP4);
 	wchar_t w[140];
-
-	
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
 				FILE *xf=_wfopen(w,L"r+");		
 				DWORD c = 0L;
@@ -256,10 +252,6 @@ VOID c(VOID *)
 						z.X7.Format(" %.2f block/m",z.q);
 						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
 						if(z.q) z.X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
-//						AllocConsole();
-//						freopen("conout$","r+",stdout);
-//						std::cout <<  z.t<<z.b;
-
 
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
@@ -304,7 +296,8 @@ void CMainFrame::tr()
 {   
 	FILE *xf;
 	std::wstringstream fr;
-	fr << L' ';
+	if(remmi[0]!=L' ') fr << L' ';
+
 	EDITSTREAM es;
 	if(!trigger)
 	{	
@@ -334,12 +327,13 @@ void CMainFrame::tr()
 			if(!trigger) 
 			{
 				ZeroMemory(remmi,318*2);
-				fr.read(remmi,247); 
+				fr.read(remmi,247);				
 				trigger++;
+
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
 				xf=_wfopen(w,L"w");
 				fwprintf(xf,L"%s",t->f);
-				fwprintf(xf,L"\n%s",remmi);
+				fwprintf(xf,L"\n%s",&remmi[1]);
 				fclose(xf);
 			}
 				 cmdos->EnableWindow();
@@ -414,15 +408,13 @@ VOID hammer(VOID *)
 	bhr->HrInit();								//not sure
 	WaitForSingleObject(cl,INFINITE);
 	bhr->Release();
-	bhr=NULL;
+	bhr=NULL;					// Petzold recommendation about to deal with COM
 	CoUninitialize();
 }
 
-afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret cmdosed up here.  
+afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret finished up here.  
 {
-	 AfxBeginThread((AFX_THREADPROC)hammer,NULL);
-	
-	
+	 AfxBeginThread((AFX_THREADPROC)hammer,NULL);	
 	return 0;
 }
 
@@ -450,7 +442,7 @@ void CMainFrame::OnClose()
 void CMainFrame::ef()
 {
 	SETTEXTEX fw;
-	fw.flags=4;
+		fw.flags=4;
 	fw.codepage=1200;			
 	::PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
 	trigger=5-bren;

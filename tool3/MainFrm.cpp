@@ -96,6 +96,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Add your specialized creation code here
 	bh=new CButton();
 
+
 	q=new CButton();
 	finA=new CButton();
 	cmdos=new CButton();
@@ -103,12 +104,36 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	wq[0].LoadBitmapW(IDB_BITMAP1);
 	wq[1].LoadBitmapW(IDB_BITMAP4);
 	wchar_t w[140];
-				std::wifstream fors;
+
+	
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
-				fors.open(w,std::ios_base::in);
+				FILE *xf=_wfopen(w,L"r+");		
 				DWORD c = 0L;
-			if(!fors.is_open())  c=WS_DISABLED;
-			fors.close();
+			if(xf)  
+			{
+					fwscanf(xf,L"%[^\n]%*c",remmi);
+					t=new r();
+					t->f=remmi;
+					if(!(feof(xf)))
+					{
+						ZeroMemory(remmi,318*2);
+						fwscanf(xf,L"%[^\n]%*c",remmi);
+					}
+					else
+					{							
+						wcscpy_s(remmi,L"--block-sync-size 498 --db-sync-mode fastest:sync:8750");
+						fwprintf(xf,L"\n%s",remmi);
+					}
+					fclose(xf);
+			}
+			else
+			{
+					c=WS_DISABLED;
+					wcscpy_s(remmi,L"--block-sync-size 498 --db-sync-mode fastest:sync:8750");
+					t=NULL;
+			}
+			
+
 
 	bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);
 	bh->SetBitmap(wq[0]);
@@ -118,7 +143,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+350,20+292,97+350,48+292),this,22);
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
-	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS, L"--block-sync-size 498 --db-sync-mode fastest:sync:8750",
+	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
@@ -277,6 +302,7 @@ int terminator2;
 
 void CMainFrame::tr()
 {   
+	FILE *xf;
 	std::wstringstream fr;
 	fr << L' ';
 	EDITSTREAM es;
@@ -284,7 +310,7 @@ void CMainFrame::tr()
 	{	
 		ZeroMemory(&es,sizeof(es));
 		es.dwCookie = (DWORD_PTR) &fr;
-		es.pfnCallback = E; 
+		es.pfnCallback = E;
 		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);		
 	}
 	
@@ -305,23 +331,21 @@ void CMainFrame::tr()
 			ZeroMemory(ferrum,sizeof(ferrum));
 			std::wifstream f;
 			
-			if(!t) 
-			{
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
-				f.open(w,std::ios_base::in|std::ios_base::binary);
-				t=new r();
-				f.read(ferrum,197);
-				t->f= ferrum;
-			}
 			if(!trigger) 
 			{
 				ZeroMemory(remmi,318*2);
 				fr.read(remmi,247); 
 				trigger++;
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
+				xf=_wfopen(w,L"w");
+				fwprintf(xf,L"%s",t->f);
+				fwprintf(xf,L"\n%s",remmi);
+				fclose(xf);
 			}
 				 cmdos->EnableWindow();
+			
 
-
+			
 			int h=CreateProcess(t->f + L"\\monerod.exe",remmi, NULL, NULL, TRUE, CREATE_NEW_PROCESS_GROUP, NULL, t->f, &si, &pi);        
 			if(!h) 
 			{
@@ -347,29 +371,30 @@ void CMainFrame::w()
 
 void CMainFrame::uw()
 {
-	t=new r();
+	if(!t) t=new r();
 	int c= t->DoModal();
-	t->init();
+	
 
 	wchar_t w[140];
 	ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
-	std::wofstream f;
+	FILE *xf;
 
 	if(c==IDOK)
 	{
-		f.open(w,std::ios_base::out|std::ios_base::binary);
-		f.write((LPCWSTR)t->f,t->last);
-		f.flush();
+		xf=_wfopen(w,L"w");
+		t->init();
+		fwprintf(xf,L"%s",t->f);
+		fwprintf(xf,L"\n%s",remmi);
+		fclose(xf);
 		bh->EnableWindow();	
 	}
-	else {delete t; t=NULL;}
 }
 
 
 void CMainFrame::OnDestroy()
 {
 	CWnd::OnDestroy();
-	delete t;
+	if(t) delete t;
 	delete bh;
 	delete q;
 	delete dc;

@@ -104,7 +104,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	wq[1].LoadBitmapW(IDB_BITMAP4);
 	wchar_t w[140];
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
-				FILE *xf=_wfopen(w,L"r+");		
+				FILE *xf;
+				_wfopen_s(&xf,w,L"r+");		
 				DWORD c = 0L;
 			if(xf)  
 			{
@@ -118,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					}
 					else
 					{							
-						wcscpy_s(remmi,L"--block-sync-size 498 --db-sync-mode fastest:sync:8750");
+						wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:8750");
 						fwprintf(xf,L"\n%s",remmi);
 					}
 					fclose(xf);
@@ -126,7 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			else
 			{
 					c=WS_DISABLED;
-					wcscpy_s(remmi,L"--block-sync-size 498 --db-sync-mode fastest:sync:8750");
+					wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:8750");
 					t=NULL;
 			}
 			
@@ -142,6 +143,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
 	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,29);
 	t7->SetState(PBST_ERROR);
+	t7->SetRange(0,140);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
@@ -195,7 +197,7 @@ VOID c(VOID *)
 			CStringA t,bear;
 			bear.Empty();
 			SETTEXTEX fw;
-			fw.flags=0;
+			fw.flags=4;
 			fw.codepage=CP_THREAD_ACP;
 			int monte=0;
 			char reserve;
@@ -210,7 +212,14 @@ VOID c(VOID *)
                     h = min(400000,totalbytesavailable);
                     output_cmd[h]='\0';
 					t=output_cmd;
-					if(monte) bear.SetAt(monte-2,reserve);
+					if(monte) bear.SetAt(monte-2,reserve);			
+									else
+							{
+								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+								z.c.tm_year-=1900;
+								z.t=_mktime64(&z.c);
+							}
+
 					monte=monte+h;
 					bear=bear + t;
 					if(w++ > 13) {bear=bear.Right(monte=min(monte,3504));w=0;}
@@ -227,17 +236,11 @@ VOID c(VOID *)
 							tm=2940;
 							if(z.tb==2)
 							{
-								
-								sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
+								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
 								z.p.tm_year-=1900;
 								z.b=_mktime64(&z.p);
 							}
-							else
-							{
-								sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
-								z.c.tm_year-=1900;
-								z.t=_mktime64(&z.c);
-							}
+
 
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
@@ -249,8 +252,8 @@ VOID c(VOID *)
 							{
 								z.block[2]=p[1];
 								z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if(z.tp==0) { z.x= 3.78*z.q; z.tp++; }
-								t7->SetPos(100*z.q/z.x);
+								if(z.tp==0) { z.x= 58.0*z.q; z.tp++; }
+								t7->SetPos(140*z.q/z.x);
 							}
 							else z.tb=2;
 				}
@@ -276,7 +279,6 @@ VOID c(VOID *)
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
 					q->EnableWindow(0);
-					t7->SetPos(0);
 					WaitForSingleObject(pi.hProcess,INFINITE);
 					b=0;
 					bh->EnableWindow();

@@ -11,7 +11,7 @@ Runs pipelined monerod
 2. thats all
 
  - Sys Req: 
-Visual C++ 2010 redist (x86);
+Visual C++ 2010 redist (x86 , 64-bit version req x64)  ;
 Windows 7    
 
 Also monerod cmd-line options can be changed in edit window.

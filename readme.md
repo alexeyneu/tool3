@@ -24,6 +24,7 @@ Also monerod cmd-line options can be changed in edit window.
 tool3.sln in explorer ,
 'Build/Build Solution' 
 
+64-bit : conf manager/change active solution platform to x64  
  - msbuild
 
  also can be done with Visual Studio Command Prompt(it's a regular  command prompt with pre-run of "vcvarsall.bat x86" ,can be found in VS tools) by
@@ -31,3 +32,4 @@ tool3.sln in explorer ,
 cd .\tool3
 msbuild tool3.vcxproj /property:Configuration=Release  
 ```
+

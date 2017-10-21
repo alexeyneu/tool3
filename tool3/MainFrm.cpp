@@ -66,6 +66,7 @@ public:
 r *t;
 HWND hc,hz;
 CProgressCtrl *dc;
+CProgressCtrl *t7;
 CButton *bh;
 CButton *q;
 CButton *finA;
@@ -87,7 +88,7 @@ DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	
-	
+	t7=	new CProgressCtrl();
 	dc= new CProgressCtrl();
 	cl=CreateEvent(NULL,1,0,NULL);
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
@@ -138,7 +139,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+280,20+292,59+280,48+292),this,2233);
 	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+350,20+292,97+350,48+292),this,22);
 
-	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH|PBS_PRESSED,CRect(50,50+100,170+100,100+100),this,21);
+	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
+	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,29);
+
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
@@ -166,13 +169,15 @@ struct triggerblock
 	float q;
 	CStringA X7,X8;
 	float outofthis;
+	int tb,tp;
+	float x;
 };
 
 
 
 VOID c(VOID *)
 {			
-	triggerblock z={};
+	triggerblock z;//={};
 			int p[3];
 			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);
@@ -206,13 +211,6 @@ VOID c(VOID *)
                     output_cmd[h]='\0';
 					t=output_cmd;
 					if(monte) bear.SetAt(monte-2,reserve);
-					else
-					{
-						sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
-						z.c.tm_year-=1900;
-						z.t=_mktime64(&z.c);
-
-					}
 					monte=monte+h;
 					bear=bear + t;
 					if(w++ > 13) {bear=bear.Right(monte=min(monte,3504));w=0;}
@@ -225,14 +223,36 @@ VOID c(VOID *)
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
+							
 							tm=2940;
+							if(z.tb==2)
+							{
+								
+								sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
+								z.p.tm_year-=1900;
+								z.b=_mktime64(&z.p);
+							}
+							else
+							{
+								sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+								z.c.tm_year-=1900;
+								z.t=_mktime64(&z.c);
+							}
+
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							sscanf(t,"%d/%d",&p[1],&p[2]);
 							dc->SetPos(100*p[1]/p[2]);
 							bhr->SetProgressValue(hz,p[1],p[2]);
-							if(!(z.ptrigger)) { z.block[1]=p[1]; z.ptrigger=-8; }
-
+							if(!(z.ptrigger)) { z.block[1]=p[1]; z.ptrigger=-8; z.tb++;}
+							if(z.tb==2)
+							{
+								z.block[2]=p[1];
+								z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
+								if(z.tp==0) { z.x= 3.78*z.q; z.tp++; }
+								t7->SetPos(100*z.q/z.x);
+							}
+							else z.tb=2;
 				}
 					
 				
@@ -248,7 +268,7 @@ VOID c(VOID *)
 						z.p.tm_year-=1900;
 						z.b=_mktime64(&z.p);
 						z.block[2]=p[1];
-						z.q=(DOUBLE)60*((z.block[2] - z.block[1]))/(z.b - z.t);
+						z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
 						z.X7.Format(" %.2f block/m",z.q);
 						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
 						if(z.q) z.X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
@@ -256,6 +276,7 @@ VOID c(VOID *)
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
 					q->EnableWindow(0);
+					t7->SetPos(0);
 					WaitForSingleObject(pi.hProcess,INFINITE);
 					b=0;
 					bh->EnableWindow();
@@ -281,7 +302,6 @@ bear
 					SetThreadExecutionState(ES_CONTINUOUS);
 					break;				 //'Both break and continue have no effect on an if-statement.Both break and continue have no effect on an if-statement. A common misconception is
 										 //that break can be used to jump out of an if compound statement.' An Introduction to the C Programming Language and Software Design.   Tim Bailey 2005
-
 				}
 			}
                 Sleep(tm);
@@ -394,6 +414,7 @@ void CMainFrame::OnDestroy()
 	delete dc;
 	delete finA;
 	delete cmdos;
+	delete t7;
 //	delete rew;
 
 	// TODO: Add your message handler code here

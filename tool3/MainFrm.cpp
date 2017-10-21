@@ -141,7 +141,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
 	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,29);
-
+	t7->SetState(PBST_ERROR);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
@@ -177,7 +177,7 @@ struct triggerblock
 
 VOID c(VOID *)
 {			
-	triggerblock z;//={};
+	triggerblock z={};
 			int p[3];
 			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);

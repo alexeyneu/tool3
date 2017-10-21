@@ -108,7 +108,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 				DWORD c = 0L;
 			if(xf)  
 			{
-					fwscanf(xf,L"%[^\n]%*c",remmi);
+					fwscanf(xf,L"%[^\n]%*c",remmi);          //stuff from msdn. works with and w/o \n 
 					t=new r();
 					t->f=remmi;
 					if(!(feof(xf)))

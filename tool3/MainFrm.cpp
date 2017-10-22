@@ -120,7 +120,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					else
 					{							
 						wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:8750");
-						fwprintf(xf,L"\n%s",remmi);
+						fwprintf(xf,L"\n%s",remmi);      // r+ shifts write pos when read.
 					}
 					fclose(xf);
 			}

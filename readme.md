@@ -28,6 +28,7 @@ Also monerod cmd-line options can be changed in edit window.
  - msbuild
 
  also can be done with Visual Studio Command Prompt(it's a regular  command prompt with pre-run of "vcvarsall.bat x86" ,can be found in VS tools) by
+
 1.
 ``` 
 cd .\tool3

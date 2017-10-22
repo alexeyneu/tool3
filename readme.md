@@ -16,7 +16,11 @@ Windows 7
 
 Also monerod cmd-line options can be changed in edit window.
 ![Screen1](/screens/Untitled.jpg)
+## bin
 
+/Release
+
+/x64/Release
 
 ## build:
  - ms visual studio 2010

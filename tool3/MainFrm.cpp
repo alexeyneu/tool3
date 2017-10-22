@@ -286,7 +286,7 @@ VOID c(VOID *)
 					else 
 					{   
 						bear.SetAt(monte-2,reserve);
-						bear.Replace("\n","\\line\n");
+						bear.Replace("\n","\\line\n");  //(semi)human-readable thing -    latex2rtf.sourceforge.net/RTF-Spec-1.0.txt
 						bear="\
 {\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;\\red232\\green34\\blue5;} " 
 + 

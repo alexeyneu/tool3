@@ -173,13 +173,14 @@ struct triggerblock
 	float outofthis;
 	int tb,tp;
 	float x;
+	int finishup;
 };
 
 
 
 VOID c(VOID *)
 {			
-	triggerblock z={};
+	triggerblock z2,z={};
 			int p[3];
 			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);
@@ -201,6 +202,7 @@ VOID c(VOID *)
 			fw.codepage=CP_THREAD_ACP;
 			int monte=0;
 			char reserve;
+			int r;
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED);
             while(1)
             {
@@ -213,16 +215,9 @@ VOID c(VOID *)
                     output_cmd[h]='\0';
 					t=output_cmd;
 					if(monte) bear.SetAt(monte-2,reserve);			
-									else
-							{
-								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
-								z.c.tm_year-=1900;
-								z.t=_mktime64(&z.c);
-							}
-
 					monte=monte+h;
 					bear=bear + t;
-					if(w++ > 13) {bear=bear.Right(monte=min(monte,3504));w=0;}
+					if(w++ > 11) {bear=bear.Right(monte=min(monte,3504));w=0;}
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
@@ -232,10 +227,20 @@ VOID c(VOID *)
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							
-							tm=2940;
+							tm=2140;
+							z2.block[2]=z.block[2];
+							z2.q=z.q;
+
+
+							if(z.finishup!=6)
+							{
+								z.finishup=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+								z.c.tm_year-=1900;
+								z.t=_mktime64(&z.c);
+							}
 							if(z.tb==2)
 							{
+	
 								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
 								z.p.tm_year-=1900;
 								z.b=_mktime64(&z.p);
@@ -244,15 +249,15 @@ VOID c(VOID *)
 
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
-							sscanf(t,"%d/%d",&p[1],&p[2]);
+							sscanf_s(t,"%d/%d",&p[1],&p[2]);
 							dc->SetPos(100*p[1]/p[2]);
 							bhr->SetProgressValue(hz,p[1],p[2]);
-							if(!(z.ptrigger)) { z.block[1]=p[1]; z.ptrigger=-8; z.tb++;}
+							if(!(z.ptrigger)) { z.block[1]=p[1]; z.ptrigger=-8;}
 							if(z.tb==2)
 							{
 								z.block[2]=p[1];
 								z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if(z.tp==0) { z.x= 58.0*z.q; z.tp++; }
+								if(z.tp==0) { z.x= 7.0*z.q; z.tp++; }
 								t7->SetPos(140*z.q/z.x);
 							}
 							else z.tb=2;
@@ -265,16 +270,9 @@ VOID c(VOID *)
 				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
-					
-
-					sscanf(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
-						z.p.tm_year-=1900;
-						z.b=_mktime64(&z.p);
-						z.block[2]=p[1];
-						z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
-						z.X7.Format(" %.2f block/m",z.q);
-						z.outofthis=(p[2] - z.block[2])/(z.q*1440);
-						if(z.q) z.X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
+						z.X7.Format(" %.2f block/m",z2.q);
+						z.outofthis=(p[2] - z2.block[2])/(z2.q*1440);
+						if(z2.q) z.X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
@@ -316,7 +314,6 @@ int terminator2;
 
 void CMainFrame::tr()
 {   
-	FILE *xf;
 	std::wstringstream fr;
 	if(remmi[0]!=L' ') fr << L' ';
 
@@ -342,9 +339,7 @@ void CMainFrame::tr()
             si.hStdOutput = stdoutWr;
             si.hStdError = stdoutWr;         
             si.hStdInput = stdinRd; 	
-			wchar_t w[140],ferrum[198];
-			ZeroMemory(ferrum,sizeof(ferrum));
-			std::wifstream f;
+	
 			
 			if(!trigger) 
 			{
@@ -352,11 +347,7 @@ void CMainFrame::tr()
 				fr.read(remmi,247);				
 				trigger++;
 
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
-				xf=_wfopen(w,L"w");
-				fwprintf(xf,L"%s",t->f);
-				fwprintf(xf,L"\n%s",&remmi[1]);
-				fclose(xf);
+
 			}
 				 cmdos->EnableWindow();
 			
@@ -404,6 +395,7 @@ void CMainFrame::uw()
 		fclose(xf);
 		bh->EnableWindow();	
 	}
+	else if(t->f.IsEmpty()) {delete t; t=NULL;}
 }
 
 
@@ -444,15 +436,45 @@ afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress 
 
 void CMainFrame::OnClose()
 {
+		FILE *xf;		
+		wchar_t w[140],ferrum[198];
 	// TODO: Add your message handler code here and/or call default
 	if(terminator2)
 	{
 		DWORD c=WaitForSingleObject(pi.hProcess,10);
-		if(c!= WAIT_TIMEOUT) {SetEvent(cl); CWnd::OnClose();}
+		if(c!= WAIT_TIMEOUT) 
+		{
+			SetEvent(cl);
+			if(t)
+			{
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
+				xf=_wfopen(w,L"w");
+				fwprintf(xf,L"%s",t->f);
+				fwprintf(xf,L"\n%s",&remmi[1]);
+				fclose(xf); 			
+			}
+
+		}
+		CWnd::OnClose();
+
 	}
 	terminator2++;
 
-	if((!b)&&(bren))	{SetEvent(cl); CWnd::OnClose();}
+	if((!b)&&(bren))	
+	{
+		SetEvent(cl);
+
+
+			if(t)
+			{
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
+				xf=_wfopen(w,L"w");
+				fwprintf(xf,L"%s",t->f);
+				fwprintf(xf,L"\n%s",&remmi[1]);
+				fclose(xf); 			
+			}
+		CWnd::OnClose();
+	}
 	else
 	{
 		terminator =1;

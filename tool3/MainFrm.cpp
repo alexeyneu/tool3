@@ -179,7 +179,13 @@ struct triggerblock
 
 
 VOID c(VOID *)
-{		CStringA X7,X8;		
+{		
+
+   CWin32Heap stringHeap(HEAP_NO_SERIALIZE, 0, 0);
+
+   CAtlStringMgr M(&stringHeap);
+
+	CStringA X7(&M),X8(&M);		
 	triggerblock z2,z={};
 			int p[3];
 			ZeroMemory(p,sizeof(p));
@@ -192,12 +198,12 @@ VOID c(VOID *)
 			DWORD numberofbyteswritten;
             DWORD dwRead;
 			DWORD totalbytesavailable;
-			char output_cmd[400001];
+			char output_cmd[500001];
 			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
-			CStringA t,bear;
+			CStringA t(&M),bear(&M);
 			SETTEXTEX fw;
-			fw.flags=4;
+			fw.flags=0;
 			fw.codepage=CP_THREAD_ACP;
 			int monte=0;
 			char reserve;
@@ -209,24 +215,24 @@ VOID c(VOID *)
 
 			if(totalbytesavailable)
             {   
-                    ReadFile(stdoutRd, output_cmd, min(400000,totalbytesavailable), &dwRead, NULL);
-                    h = min(400000,totalbytesavailable);
+                    ReadFile(stdoutRd, output_cmd, min(500000,totalbytesavailable), &dwRead, NULL);
+                    h = min(500000,totalbytesavailable);
                     output_cmd[h]='\0';
 					t=output_cmd;
 					if(monte) bear.SetAt(monte-2,reserve);			
 					monte=monte+h;
 					bear=bear + t;
-					if(w++ > 11) {bear=bear.Right(monte=min(monte,3504));w=0;}
+					if(w++ > 9) {bear=bear.Right(monte=min(monte,3200));w=0;}
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
-					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=2140;
+							tm=2240;
 							z2.block[2]=z.block[2];
 							z2.q=z.q;
 
@@ -248,15 +254,15 @@ VOID c(VOID *)
 
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
-							sscanf_s(t,"%d/%d",&p[1],&p[2]);
+							r=sscanf_s(t,"%d/%d",&p[1],&p[2]);
 							dc->SetPos(100*p[1]/p[2]);
 							bhr->SetProgressValue(hz,p[1],p[2]);
-							if(!(z.ptrigger)) { z.block[1]=p[1]; z.ptrigger=-8;}
+							if(!(z.ptrigger)&&r==2) { z.block[1]=p[1]; z.ptrigger=-8;}
 							if(z.tb==2)
 							{
 								z.block[2]=p[1];
 								z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if(z.tp==0) { z.x= 7.0*z.q; z.tp++; }
+								if(z.tp==0) { z.x= 7.8*z.q; z.tp++; }
 								t7->SetPos(140*z.q/z.x);
 							}
 							else z.tb=2;
@@ -271,7 +277,7 @@ VOID c(VOID *)
 				{ 
 						X7.Format(" %.2f block/m",z2.q);
 						z.outofthis=(p[2] - z2.block[2])/(z2.q*1440);
-						if(z2.q) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
+						if(z.q) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
@@ -327,8 +333,8 @@ void CMainFrame::tr()
 	
 
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
-			CreatePipe(&stdinRd, &stdinWr, &sa, 1000); 
-            CreatePipe(&stdoutRd,&stdoutWr, &sa,400000);
+			CreatePipe(&stdinRd, &stdinWr, &sa, 10000); 
+            CreatePipe(&stdoutRd,&stdoutWr, &sa,500000);
           
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));
@@ -360,7 +366,7 @@ void CMainFrame::tr()
 				return;
 			}
 			bren=0;
-			rew= AfxBeginThread((AFX_THREADPROC)c,NULL);
+			AfxBeginThread((AFX_THREADPROC)c,NULL,0,2097152);
 }
 
 void CMainFrame::w()
@@ -449,7 +455,8 @@ void CMainFrame::OnClose()
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
 				xf=_wfopen(w,L"w");
 				fwprintf(xf,L"%s",t->f);
-				fwprintf(xf,L"\n%s",&remmi[1]);
+				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
+				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}
 
@@ -469,7 +476,8 @@ void CMainFrame::OnClose()
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
 				xf=_wfopen(w,L"w");
 				fwprintf(xf,L"%s",t->f);
-				fwprintf(xf,L"\n%s",&remmi[1]);
+				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
+				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}
 		CWnd::OnClose();

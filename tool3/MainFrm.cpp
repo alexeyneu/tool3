@@ -196,7 +196,6 @@ VOID c(VOID *)
 			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
 			CStringA t,bear;
-			bear.Empty();
 			SETTEXTEX fw;
 			fw.flags=4;
 			fw.codepage=CP_THREAD_ACP;

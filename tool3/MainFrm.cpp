@@ -169,7 +169,7 @@ struct triggerblock
 	int block[3];
 	int ptrigger;
 	float q;
-	CStringA X7,X8;
+
 	float outofthis;
 	int tb,tp;
 	float x;
@@ -179,7 +179,7 @@ struct triggerblock
 
 
 VOID c(VOID *)
-{			
+{		CStringA X7,X8;		
 	triggerblock z2,z={};
 			int p[3];
 			ZeroMemory(p,sizeof(p));
@@ -269,9 +269,9 @@ VOID c(VOID *)
 				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
-						z.X7.Format(" %.2f block/m",z2.q);
+						X7.Format(" %.2f block/m",z2.q);
 						z.outofthis=(p[2] - z2.block[2])/(z2.q*1440);
-						if(z2.q) z.X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
+						if(z2.q) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
@@ -288,11 +288,11 @@ VOID c(VOID *)
 {\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;\\red232\\green34\\blue5;} " 
 + 
 bear
-+ z.X8
++ X8
 + "\
 \\trowd \\trrh740 \
 \\clvertalc\\qc\\clbrdrt\\brdrw100\\brdrcf2\\cellx3400\n\
-\\intbl speed" + z.X7 + "\\cell\n\
+\\intbl speed" + X7 + "\\cell\n\
 \\row\n}";
 						SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);

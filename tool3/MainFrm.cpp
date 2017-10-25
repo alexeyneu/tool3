@@ -186,7 +186,7 @@ VOID c(VOID *)
    CAtlStringMgr M(&stringHeap);
 
 	CStringA X7(&M),X8(&M);		
-	triggerblock z2,z={};
+	triggerblock z={},z2=z;
 			int p[3];
 			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);
@@ -233,8 +233,7 @@ VOID c(VOID *)
 					if(c != -1)  
 						{
 							tm=2240;
-							z2.block[2]=z.block[2];
-							z2.q=z.q;
+							z2=z;
 
 
 							if(z.finishup!=6)
@@ -261,8 +260,8 @@ VOID c(VOID *)
 							if(z.tb==2)
 							{
 								z.block[2]=p[1];
-								z.q=60.0*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if(z.tp==0) { z.x= 7.8*z.q; z.tp++; }
+								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
+								if(z.tp==0) { z.x= 7.8f*z.q; z.tp++; }
 								t7->SetPos(140*z.q/z.x);
 							}
 							else z.tb=2;
@@ -277,7 +276,7 @@ VOID c(VOID *)
 				{ 
 						X7.Format(" %.2f block/m",z2.q);
 						z.outofthis=(p[2] - z2.block[2])/(z2.q*1440);
-						if(z.q) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
+						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);
 					bhr->SetProgressState(hz,TBPF_PAUSED);
@@ -320,7 +319,7 @@ int terminator2;
 void CMainFrame::tr()
 {   
 	std::wstringstream fr;
-	if(remmi[0]!=L' ') fr << L' ';
+//	if(remmi[0]!=L' ') fr << L' ';
 
 	EDITSTREAM es;
 	if(!trigger)
@@ -343,16 +342,17 @@ void CMainFrame::tr()
             si.wShowWindow = SW_HIDE;
             si.hStdOutput = stdoutWr;
             si.hStdError = stdoutWr;         
-            si.hStdInput = stdinRd; 	
-	
-			
+            si.hStdInput = stdinRd;
+			std::wstring w;
 			if(!trigger) 
-			{
-				ZeroMemory(remmi,318*2);
-				fr.read(remmi,247);				
+			{	
+				if(!iswspace((wchar_t )fr.str()[0])) { w=L' ' + fr.str(); w.copy(remmi,247,0);}
+				else
+				{
+					ZeroMemory(remmi,318*2);
+					fr.read(remmi,247);
+				}				
 				trigger++;
-
-
 			}
 				 cmdos->EnableWindow();
 			

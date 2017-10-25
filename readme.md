@@ -18,9 +18,9 @@ Also monerod cmd-line options can be changed in edit window.
 ![Screen1](/screens/Untitled.jpg)
 ## bin
 
-/Release
+https://github.com/alexeyneu/tool3/releases/download/v4.40-2/x64.zip
 
-/x64/Release
+32-bit there too
 
 ## build:
  - ms visual studio 2010

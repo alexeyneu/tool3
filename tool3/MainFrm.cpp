@@ -460,8 +460,9 @@ void CMainFrame::OnClose()
 				fclose(xf); 			
 			}
 
-		}
 		CWnd::OnClose();
+
+		}
 
 	}
 	terminator2++;

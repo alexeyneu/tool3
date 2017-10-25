@@ -174,6 +174,7 @@ struct triggerblock
 	int tb,tp;
 	float x;
 	int finishup;
+	float f;
 };
 
 
@@ -261,8 +262,9 @@ VOID c(VOID *)
 							{
 								z.block[2]=p[1];
 								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if(z.tp==0) { z.x= 7.8f*z.q; z.tp++; }
-								t7->SetPos(140*z.q/z.x);
+								if((z.tp==0)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.tp++; }
+								z.f=z.q/z.x;
+								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							else z.tb=2;
 				}
@@ -365,7 +367,7 @@ void CMainFrame::tr()
 				MessageBox(L"Bad start,check location");
 				return;
 			}
-			bren=0;
+			else bren=0;
 			AfxBeginThread((AFX_THREADPROC)c,NULL,0,2097152);
 }
 
@@ -393,7 +395,7 @@ void CMainFrame::uw()
 
 	if(c==IDOK)
 	{
-		xf=_wfopen(w,L"w");
+		xf=_wfopen(w,L"w+");
 		t->init();
 		fwprintf(xf,L"%s",t->f);
 		fwprintf(xf,L"\n%s",remmi);
@@ -453,7 +455,7 @@ void CMainFrame::OnClose()
 			if(t)
 			{
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
-				xf=_wfopen(w,L"w");
+				xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
 				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
 				else fwprintf(xf,L"\n%s",remmi);
@@ -475,7 +477,7 @@ void CMainFrame::OnClose()
 			if(t)
 			{
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
-				xf=_wfopen(w,L"w");
+				xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
 				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
 				else fwprintf(xf,L"\n%s",remmi);

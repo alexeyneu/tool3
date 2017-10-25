@@ -11,7 +11,7 @@ Runs pipelined monerod
 2. thats all
 
  - Sys Req: 
-Visual C++ 2010 redist (x86 , 64-bit version req x64) so-called `vcrun2010` wine(`vcredist_x86.exe / vcredist_x64.exe`) ;cpu with sse2 set(builds without it ,uncheck in properties before);
+Visual C++ 2010 redist (x86 , 64-bit version req x64) so-called `vcrun2010` wine ;cpu with sse2 set(builds without it ,uncheck in properties before);
 Windows 7    
 
 Also monerod cmd-line options can be changed in edit window.

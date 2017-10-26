@@ -10,12 +10,18 @@ Runs pipelined monerod
 1. locate monerod.exe folder  
 2. thats all
 
- - Sys Req: 
-Visual C++ 2010 redist (x86 , 64-bit version req x64) so-called `vcrun2010` wine ; cpu with sse2 set(builds without it ,uncheck in properties before);
+ - Sys Req:
+ 
+Visual C++ 2010 redist 
+https://www.microsoft.com/en-us/download/details.aspx?id=14632
+
+ cpu with sse2 set(sse-optimized,nothing sse-specific in code);
 
 Windows 7 .
 
-32-bit ver. could launch 64-bit monerod.     
+
+
+32-bit ver could launch 64-bit monerod     
  
 ![Screen1](/screens/Untitled.jpg)
 ## bin

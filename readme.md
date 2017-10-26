@@ -15,7 +15,7 @@ Runs pipelined monerod
 Visual C++ 2010 redist 
 https://www.microsoft.com/en-us/download/details.aspx?id=14632
 
- cpu with sse2 set(sse-optimized,nothing sse-specific in code);
+ cpu with sse2 set(sse-optimized,nothing sse-specific in code for now);
 
 Windows 7 .
 

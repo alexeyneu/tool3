@@ -175,6 +175,8 @@ struct triggerblock
 	float x;
 	int finishup;
 	float f;
+	int E;
+	int et;
 };
 
 
@@ -210,6 +212,7 @@ VOID c(VOID *)
 			char reserve;
 			int r;
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED);
+			z.E=3;
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -242,7 +245,9 @@ VOID c(VOID *)
 								z.finishup=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
 								z.c.tm_year-=1900;
 								z.t=_mktime64(&z.c);
+		
 							}
+							else if(!z.et) { z.E-- ;  z.et++ ; }
 							if(z.tb==2)
 							{
 	
@@ -257,14 +262,14 @@ VOID c(VOID *)
 							r=sscanf_s(t,"%d/%d",&p[1],&p[2]);
 							dc->SetPos(100*p[1]/p[2]);
 							bhr->SetProgressValue(hz,p[1],p[2]);
-							if(!(z.ptrigger)&&r==2) { z.block[1]=p[1]; z.ptrigger=-8;}
+							if(!(z.ptrigger)&&r==2) { z.block[1]=p[1]; z.ptrigger=-8;z.E--;}
 							if(z.tb==2)
 							{
 								z.block[2]=p[1];
 								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if((z.tp==0)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.tp++; }
+								if((z.E==1)&&(z.tp==0)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.tp++;z.E--; }
 								z.f=z.q/z.x;
-								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
+								if((!z.E)&&!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							else z.tb=2;
 				}

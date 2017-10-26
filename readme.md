@@ -11,34 +11,27 @@ Runs pipelined monerod
 2. thats all
 
  - Sys Req: 
-Visual C++ 2010 redist (x86 , 64-bit version req x64) so-called `vcrun2010` wine ;cpu with sse2 set(builds without it ,uncheck in properties before);
-Windows 7    
+Visual C++ 2010 redist (x86 , 64-bit version req x64) so-called `vcrun2010` wine ; cpu with sse2 set(builds without it ,uncheck in properties before);
 
-Also monerod cmd-line options can be changed in edit window.
+Windows 7 .
+
+32-bit ver. could launch 64-bit monerod.     
+ 
 ![Screen1](/screens/Untitled.jpg)
 ## bin
 
 https://github.com/alexeyneu/tool3/releases/download/v4.40-2/x64.zip
 
-32-bit there too
+32-bit also there 
+
+
 
 ## build:
- - ms visual studio 2010
+ - ms visual studio 2010 (C++)
 
-`tool3.sln` in explorer ,
-'Build/Build Solution' 
 
-64-bit : conf manager/change active solution platform to x64  
+32/64-bit : conf manager/change active solution platform  
  - msbuild
-
- also can be done with Visual Studio Command Prompt(it's a regular  command prompt with pre-run of "vcvarsall.bat x86" ,can be found in VS tools) by
-
-1.
-``` 
-cd .\tool3
-msbuild tool3.vcxproj /property:Configuration=Release  
-```
-2.
 ```
 msbuild  tool3.sln
 /property:Configuration=Release   /property:Platform=x64

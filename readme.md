@@ -30,9 +30,10 @@ Windows 7 .
 ![Screen1](/screens/Untitled.jpg)
 ## bin
 
-https://github.com/alexeyneu/tool3/releases/download/v4.40-4/x64.zip
 
-32-bit also there 
+https://github.com/alexeyneu/tool3/releases/download/v4.40-5/tool3-x86_64.zip
+https://github.com/alexeyneu/tool3/releases/download/v4.40-5/tool3-x86_32.zip
+
 
 
 
@@ -41,8 +42,13 @@ https://github.com/alexeyneu/tool3/releases/download/v4.40-4/x64.zip
 
 
 32/64-bit : conf manager/change active solution platform  
- - msbuild
+ - msbuild 
+vs command prompt(2010)
 ```
-msbuild  tool3.sln
-/property:Configuration=Release   /property:Platform=x64
+msbuild  tool3.sln /property:Configuration=Release   /property:Platform=x64
+
+msbuild  tool3.sln \
+/property:Configuration=Release   /property:Platform=Win32
+
+
 ```

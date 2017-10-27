@@ -119,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					}
 					else
 					{							
-						wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:8750");
+						wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:18750");
 						fwprintf(xf,L"\n%s",remmi);      // r+ shifts write pos when read.
 					}
 					fclose(xf);
@@ -127,7 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			else
 			{
 					c=WS_DISABLED;
-					wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:8750");
+					wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:18750");
 					t=NULL;
 			}
 			
@@ -160,16 +160,16 @@ int bren=5;
 int cr,f,b,terminator;
 PROCESS_INFORMATION pi;
 
+#pragma pack(16)
 struct triggerblock
-{
+{	
+	float q;
+	long long block[3];
 	long long b;
 	long long t;
 	tm c;
 	tm p;
-	int block[3];
 	int ptrigger;
-	float q;
-
 	float outofthis;
 	int tb,tp;
 	float x;
@@ -190,8 +190,6 @@ VOID c(VOID *)
 
 	CStringA X7(&M),X8(&M);		
 	triggerblock z={},z2=z;
-			int p[3];
-			ZeroMemory(p,sizeof(p));
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
@@ -226,22 +224,22 @@ VOID c(VOID *)
 					if(monte) bear.SetAt(monte-2,reserve);			
 					monte=monte+h;
 					bear=bear + t;
-					if(w++ > 9) {bear=bear.Right(monte=min(monte,3200));w=0;}
+					if(w++ > 8) {bear=bear.Right(monte=min(monte,2804));w=0;}
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
-					SendMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
 					c=t.Find("Synced");
 					if(c != -1)  
 						{
-							tm=2240;
-							z2=z;
-
+						
+							memcpy(&z2,&z,48);
 
 							if(z.finishup!=6)
-							{
+							{	
+								tm=2240;
 								z.finishup=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
 								z.c.tm_year-=1900;
 								z.t=_mktime64(&z.c);
@@ -259,15 +257,14 @@ VOID c(VOID *)
 
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
-							r=sscanf_s(t,"%d/%d",&p[1],&p[2]);
-							dc->SetPos(100*p[1]/p[2]);
-							bhr->SetProgressValue(hz,p[1],p[2]);
-							if(!(z.ptrigger)&&r==2) { z.block[1]=p[1]; z.ptrigger=-8;z.E--;}
+							r=sscanf_s(t,"%d/%d",&z.block[2],&z.block[0]);
+							dc->SetPos(100*z.block[2]/z.block[0]);
+							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
+							if(!(z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8;z.E--;}
 							if(z.tb==2)
 							{
-								z.block[2]=p[1];
 								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
-								if((z.E==1)&&(z.tp==0)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.tp++;z.E--; }
+								if((z.E==1)&&(r==2)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.E--; }
 								z.f=z.q/z.x;
 								if((!z.E)&&!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
@@ -282,7 +279,7 @@ VOID c(VOID *)
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
 						X7.Format(" %.2f block/m",z2.q);
-						z.outofthis=(p[2] - z2.block[2])/(z2.q*1440);
+						z.outofthis=(z2.block[0] - z2.block[2])/(z2.q*1440);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);

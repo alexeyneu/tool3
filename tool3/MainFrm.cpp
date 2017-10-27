@@ -211,7 +211,7 @@ VOID c(VOID *)
 			int monte=0;
 			char reserve;
 			int r;
-			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED);
+			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED );
 			z.E=3;
             while(1)
             {
@@ -310,7 +310,6 @@ bear
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					}
 					bren=5;
-					SetThreadExecutionState(ES_CONTINUOUS);
 					break;				 //'Both break and continue have no effect on an if-statement.Both break and continue have no effect on an if-statement. A common misconception is
 										 //that break can be used to jump out of an if compound statement.' An Introduction to the C Programming Language and Software Design.   Tim Bailey 2005
 				}

@@ -160,8 +160,7 @@ int bren=5;
 int cr,f,b,terminator;
 PROCESS_INFORMATION pi;
 
-#pragma pack(16)
-struct triggerblock
+_declspec(align(16)) struct triggerblock
 {	
 	float q;
 	long long block[3];
@@ -204,7 +203,7 @@ VOID c(VOID *)
 			BYTE w=0;
 			CStringA t(&M),bear(&M);
 			SETTEXTEX fw;
-			fw.flags=0;
+			fw.flags=4;
 			fw.codepage=CP_THREAD_ACP;
 			int monte=0;
 			char reserve;
@@ -227,15 +226,13 @@ VOID c(VOID *)
 					if(w++ > 8) {bear=bear.Right(monte=min(monte,2804));w=0;}
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
-					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
-					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					
 
 					c=t.Find("Synced");
 					if(c != -1)  
-						{
+					{
 						
-							memcpy_s(&z2,48,&z,48);
+							memcpy_s(&z2,60,&z,60);
 
 							if(z.finishup!=6)
 							{	
@@ -260,7 +257,7 @@ VOID c(VOID *)
 							r=sscanf_s(t,"%d/%d",&z.block[2],&z.block[0]);
 							dc->SetPos(100*z.block[2]/z.block[0]);
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
-							if(!(z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8;z.E--;}
+							if(!(z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
 							if(z.tb==2)
 							{
 								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
@@ -269,9 +266,11 @@ VOID c(VOID *)
 								if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							else z.tb=2;
-				}
-					
-				
+					}
+					Sleep(2);
+					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
+					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
+
 					                   
 				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=700;} 
 // you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod

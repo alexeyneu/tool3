@@ -6,9 +6,14 @@ Runs pipelined monerod
 
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
+
+ - speed indicator represents relative overall sync speed with first_synced_block_group to second_one speed as base.
+ - 32-bit ver could launch 64-bit monerod     
+
 ## how to: 
 1. locate monerod.exe folder  
 2. thats all
+
 
  - Sys Req:
  
@@ -21,7 +26,6 @@ Windows 7 .
 
 
 
-32-bit ver could launch 64-bit monerod     
  
 ![Screen1](/screens/Untitled.jpg)
 ## bin

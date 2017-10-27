@@ -141,8 +141,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+350,20+292,97+350,48+292),this,22);
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
-	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,29);
-	t7->SetState(PBST_ERROR);
+	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,129);
 	t7->SetRange(0,140);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
@@ -162,7 +161,7 @@ PROCESS_INFORMATION pi;
 
 _declspec(align(16)) struct triggerblock
 {	
-	float q;
+	double q;
 	long long block[3];
 	long long b;
 	long long t;
@@ -170,11 +169,13 @@ _declspec(align(16)) struct triggerblock
 	tm p;
 	int ptrigger;
 	float outofthis;
-	int tb,tp;
-	float x;
+	int tb;
+	double x;
+	long double F;
 	int finishup;
-	float f;
+	double f;
 	int E;
+	int	B;
 	int et;
 };
 
@@ -188,12 +189,14 @@ VOID c(VOID *)
    CAtlStringMgr M(&stringHeap);
 
 	CStringA X7(&M),X8(&M);		
-	triggerblock z={},z2=z;
+	triggerblock z2,z={};
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
 			q->EnableWindow();
 			char k[100];
+			cmdos->EnableWindow();		
+			t7->SetState(PBST_ERROR);
 			strcpy(k,"t");
 			DWORD numberofbyteswritten;
             DWORD dwRead;
@@ -209,7 +212,7 @@ VOID c(VOID *)
 			char reserve;
 			int r;
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED );
-			z.E=3;
+			z.E=z.B=3;
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -232,7 +235,7 @@ VOID c(VOID *)
 					if(c != -1)  
 					{
 						
-							memcpy_s(&z2,60,&z,60);
+							memcpy_s(&z2,64,&z,64);
 
 							if(z.finishup!=6)
 							{	
@@ -246,28 +249,34 @@ VOID c(VOID *)
 							if(z.tb==2)
 							{
 	
-								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
+								r=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
 								z.p.tm_year-=1900;
 								z.b=_mktime64(&z.p);
+								if(r>5) z.B--;  
 							}
 
 
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							r=sscanf_s(t,"%d/%d",&z.block[2],&z.block[0]);
-							dc->SetPos(100*z.block[2]/z.block[0]);
+							if(r==2) z.B--;
+							z.F=(double)z.block[2]/z.block[0];
+							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
-							if(!(z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
+							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
 							if(z.tb==2)
 							{
-								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
+								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
+								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) z.B--;
 								if((z.E==1)&&(r==2)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.E--; }
-								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) z.f=z.q/z.x;
-								if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
+								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))  z.f=z.q/z.x; 
+								if((!z.B)&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							else z.tb=2;
+
+							z.B=3;
 					}
-					Sleep(2);
+					Sleep(4);
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 
@@ -277,6 +286,7 @@ VOID c(VOID *)
 				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{ 
+			
 						X7.Format(" %.2f block/m",z2.q);
 						z.outofthis=(z2.block[0] - z2.block[2])/(z2.q*1440);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
@@ -356,7 +366,7 @@ void CMainFrame::tr()
 				}				
 				trigger++;
 			}
-				 cmdos->EnableWindow();
+	
 			
 
 			
@@ -368,7 +378,7 @@ void CMainFrame::tr()
 				return;
 			}
 			else bren=0;
-			AfxBeginThread((AFX_THREADPROC)c,NULL,0,2097152);
+			AfxBeginThread((AFX_THREADPROC)c,NULL,0,1400000);
 }
 
 void CMainFrame::w()

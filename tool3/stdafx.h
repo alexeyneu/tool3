@@ -4,6 +4,7 @@
 // but are changed infrequently
 
 #pragma once
+#pragma fenv_access(on)  
 
 #include <sstream>
 #ifndef VC_EXTRALEAN

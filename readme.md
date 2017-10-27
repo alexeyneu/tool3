@@ -31,8 +31,8 @@ Windows 7 .
 ## bin
 
 
-https://github.com/alexeyneu/tool3/releases/download/v4.40-5/tool3-x86_64.zip
-https://github.com/alexeyneu/tool3/releases/download/v4.40-5/tool3-x86_32.zip
+https://github.com/alexeyneu/tool3/releases/download/v4.40-5/tool3_x64.zip
+https://github.com/alexeyneu/tool3/releases/download/v4.40-5/tool3.zip
 
 
 

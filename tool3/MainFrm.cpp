@@ -235,7 +235,7 @@ VOID c(VOID *)
 					if(c != -1)  
 						{
 						
-							memcpy(&z2,&z,48);
+							memcpy_s(&z2,48,&z,48);
 
 							if(z.finishup!=6)
 							{	
@@ -265,8 +265,8 @@ VOID c(VOID *)
 							{
 								z.q=60.0f*((z.block[2] - z.block[1]))/(z.b - z.t);
 								if((z.E==1)&&(r==2)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.E--; }
-								z.f=z.q/z.x;
-								if((!z.E)&&!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
+								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) z.f=z.q/z.x;
+								if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							else z.tb=2;
 				}

@@ -225,11 +225,12 @@ VOID c(VOID *)
 					if(monte) bear.SetAt(monte-2,reserve);			
 					monte=monte+h;
 					bear=bear + t;
-					if(w++ > 8) {bear=bear.Right(monte=min(monte,2804));w=0;}
+
+					if(w++ > 8) { bear=bear.Right(monte=min(monte,4734)); w=0; }
+
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
 					
-
 					c=t.Find("Synced");
 					if(c != -1)  
 					{
@@ -259,6 +260,7 @@ VOID c(VOID *)
 							r=sscanf_s(t,"%d/%d",&z.block[2],&z.block[0]);
 							z.F=(double)z.block[2]/z.block[0];
 							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
+							_clearfp();
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
 							if(z.B < 2)
@@ -269,7 +271,7 @@ VOID c(VOID *)
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))  z.f=z.q/z.x; 
 								if((!z.B)&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
-
+							_clearfp();
 							z.B=2;
 					}
 					Sleep(4);
@@ -281,8 +283,8 @@ VOID c(VOID *)
 // you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
-				{ 
-			
+				{			
+						_clearfp();
 						X7.Format(" %.2f block/m",z2.q);
 						z.outofthis=(z2.block[0] - z2.block[2])/(z2.q*1440);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);

@@ -174,8 +174,6 @@ _declspec(align(16)) struct triggerblock
 	int finishup;
 	double f;
 	int E;
-	int	B;
-	int et;
 };
 
 
@@ -211,7 +209,7 @@ VOID c(VOID *)
 			char reserve;
 			int r;
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED );
-			z.E=z.B=3;
+			z.E=4;
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -236,22 +234,22 @@ VOID c(VOID *)
 					{
 						
 							memcpy_s(&z2,48,&z,48);
-							if(z.finishup!=6)
+							if( z.finishup!=1)
 							{	
 								tm=2240;
-								z.finishup=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+								z.finishup= -5 + sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+								z.E=min(z.E, z.E - z.finishup);
 								z.c.tm_year-=1900;
 								z.t=_mktime64(&z.c);
-		
 							}
-							else if(!z.et) { z.E-- ;  z.et++ ; }
-							if(z.E < 2)
+
+							if(z.E < 2+1)
 							{
 	
-								r=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
+								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
 								z.p.tm_year-=1900;
 								z.b=_mktime64(&z.p);
-								if(r>5) z.B--;  
+								z.E=min(z.E, 1);
 							}
 
 
@@ -263,16 +261,14 @@ VOID c(VOID *)
 							_clearfp();
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
-							if(z.B < 2)
+							if(z.E < 1+1)
 							{
 								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
-								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) z.B--;
 								if((z.E==1)&&(r==2)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.E--; }
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))  z.f=z.q/z.x; 
-								if((!z.B)&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
+								if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							_clearfp();
-							z.B=2;
 					}
 					Sleep(4);
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);

@@ -9,7 +9,6 @@ Runs pipelined monerod
 
  - speed indicator represents relative overall sync speed with first_synced_block_group to second_one speed as base.
  - 32-bit ver could launch 64-bit monerod   
-   monerod  used from  https://github.com/monero-project/monero
 
 
 ## how to: 

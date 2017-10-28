@@ -169,7 +169,6 @@ _declspec(align(16)) struct triggerblock
 	tm p;
 	int ptrigger;
 	float outofthis;
-	int tb;
 	double x;
 	long double F;
 	int finishup;
@@ -245,7 +244,7 @@ VOID c(VOID *)
 		
 							}
 							else if(!z.et) { z.E-- ;  z.et++ ; }
-							if(z.tb==2)
+							if(z.E < 2)
 							{
 	
 								r=sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
@@ -263,7 +262,7 @@ VOID c(VOID *)
 							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
-							if(z.tb==2)
+							if(z.E < 2)
 							{
 								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) z.B--;
@@ -271,7 +270,6 @@ VOID c(VOID *)
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))  z.f=z.q/z.x; 
 								if((!z.B)&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
-							else z.tb=2;
 
 							z.B=3;
 					}

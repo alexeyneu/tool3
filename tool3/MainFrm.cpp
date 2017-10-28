@@ -257,12 +257,11 @@ VOID c(VOID *)
 							t=t.Right(h-c-7);
 							t.Truncate(h-c-11);
 							r=sscanf_s(t,"%d/%d",&z.block[2],&z.block[0]);
-							if(r==2) z.B--;
 							z.F=(double)z.block[2]/z.block[0];
 							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
-							if(z.E < 2)
+							if(z.B < 2)
 							{
 								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) z.B--;
@@ -271,7 +270,7 @@ VOID c(VOID *)
 								if((!z.B)&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 
-							z.B=3;
+							z.B=2;
 					}
 					Sleep(4);
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);

@@ -189,7 +189,7 @@ VOID c(VOID *)
    CAtlStringMgr M(&stringHeap);
 
 	CStringA X7(&M),X8(&M);		
-	triggerblock z2,z={};
+	triggerblock z2={},z={};
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
@@ -235,8 +235,7 @@ VOID c(VOID *)
 					if(c != -1)  
 					{
 						
-							memcpy_s(&z2,64,&z,64);
-
+							memcpy_s(&z2,48,&z,48);
 							if(z.finishup!=6)
 							{	
 								tm=2240;

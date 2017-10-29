@@ -167,13 +167,13 @@ _declspec(align(16)) struct triggerblock
 	long long t;
 	tm c;
 	tm p;
-	int ptrigger;
+	BYTE ptrigger;
 	float outofthis;
 	double x;
 	long double F;
-	int finishup;
+	short finishup;
 	double f;
-	int E;
+	BYTE E;
 };
 
 
@@ -260,13 +260,14 @@ VOID c(VOID *)
 							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
 							_clearfp();
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
-							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=-8; z.E--; }
+							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=8; z.E--; }
 							if(z.E < 1+1)
 							{
 								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
-								if((z.E==1)&&(r==2)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) { z.x= 7.8f*z.q; z.E--; }
-								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))  z.f=z.q/z.x; 
-								if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
+								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 7.8f*z.q; z.E--; }
+								if(!z2.ptrigger)  z.f=z.q/z.x; 
+								if(!z2.ptrigger&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
 							}
 							_clearfp();
 					}

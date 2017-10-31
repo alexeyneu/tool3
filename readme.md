@@ -1,12 +1,13 @@
 ## tool3 monero sync gui. 
-Runs pipelined monerod
+
  
 [![version](https://img.shields.io/github/tag/alexeyneu/tool3.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)
 
 
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
-
+## about 
+ - tracks monero blockchain synchonization progress . achieved by `monerod.exe` pipelining  
  - speed indicator represents relative overall sync speed with first_synced_block_group to second_one speed as base.
  - 32-bit ver could launch 64-bit monerod   
 
@@ -17,7 +18,7 @@ Runs pipelined monerod
 https://github.com/alexeyneu/monero
 until next hard fork monerod can be deployed from there. 
   
-1. locate monerod.exe folder  
+1. locate `monerod.exe` folder  
 2. thats all
 
 

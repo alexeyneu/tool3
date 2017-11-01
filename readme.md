@@ -26,11 +26,6 @@ Windows 7 .
 
 
 ## how to:
-0. i see some talks around console io in monero-project repo so 
-
-https://github.com/alexeyneu/monero
-until next hard fork monerod can be deployed from there. 
-  
 1. locate `monerod.exe` folder  
 2. thats all
 ## bin

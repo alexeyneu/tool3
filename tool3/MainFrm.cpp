@@ -71,7 +71,7 @@ CButton *bh;
 CButton *q;
 CButton *finA;
 CButton *cmdos;
-
+CStatic *b7;
 ITaskbarList3 *bhr;
 HANDLE cl;
 
@@ -95,7 +95,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	bh=new CButton();
 
-
+	b7=new CStatic();
 	q=new CButton();
 	finA=new CButton();
 	cmdos=new CButton();
@@ -143,6 +143,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
 	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,129);
 	t7->SetRange(0,140);
+	b7->Create(L"to go :",WS_CHILD|WS_VISIBLE|SS_WHITEFRAME|SS_SIMPLE|SS_EDITCONTROL,CRect(40,293,223,323),this);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
@@ -152,6 +153,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     DEFAULT_PITCH | FF_DECORATIVE, L"Lucida Console");
 	::PostMessage(hc,WM_SETFONT,(WPARAM)newFont,(LPARAM)0);
 	hz=this->m_hWnd;
+	::PostMessage(b7->m_hWnd,WM_SETFONT,(WPARAM)newFont,(LPARAM)0);
+HBRUSH b = CreateSolidBrush(RGB(33, 122, 255));
+
 	return 0;
 }
 	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
@@ -185,7 +189,8 @@ VOID c(VOID *)
 
    CAtlStringMgr M(&stringHeap);
 
-	CStringA X7(&M),X8(&M);		
+	CStringA X7(&M),X8(&M);
+	CString p(&M);
 	triggerblock z2={},z={};
 			bhr->SetProgressState(hz,TBPF_NORMAL);
 			dc->SetState(PBST_NORMAL);
@@ -208,7 +213,7 @@ VOID c(VOID *)
 			int monte=0;
 			char reserve;
 			int r;
-			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED );
+			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED|ES_DISPLAY_REQUIRED);
 			z.E=4;
             while(1)
             {
@@ -224,7 +229,7 @@ VOID c(VOID *)
 					monte=monte+h;
 					bear=bear + t;
 
-					if(w++ > 8) { bear=bear.Right(monte=min(monte,4734)); w=0; }
+					if(w++ > 8) { bear=bear.Right(monte=min(monte,1734)); w=0; }
 
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
@@ -236,7 +241,7 @@ VOID c(VOID *)
 							memcpy_s(&z2,48,&z,48);
 							if( z.finishup!=1)
 							{	
-								tm=2240;
+								tm=2340;
 								z.finishup= -5 + sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
 								z.E=min(z.E, z.E - z.finishup);
 								z.c.tm_year-=1900;
@@ -265,9 +270,16 @@ VOID c(VOID *)
 							{
 								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
-								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 7.8f*z.q; z.E--; }
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 8.79f*z.q; z.E--; }
 								if(!z2.ptrigger)  z.f=z.q/z.x; 
-								if(!z2.ptrigger&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further  
+								if(!z2.ptrigger&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further
+								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440);
+								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
+								{
+									p.Format(L"days to go %.1f",z.outofthis);
+									b7->SetWindowTextW((LPCWSTR)p);
+								}
+
 							}
 							_clearfp();
 					}
@@ -326,7 +338,6 @@ int terminator2;
 void CMainFrame::tr()
 {   
 	std::wstringstream fr;
-//	if(remmi[0]!=L' ') fr << L' ';
 
 	EDITSTREAM es;
 	if(!trigger)
@@ -421,6 +432,7 @@ void CMainFrame::OnDestroy()
 	delete finA;
 	delete cmdos;
 	delete t7;
+	delete b7;
 //	delete rew;
 
 	// TODO: Add your message handler code here

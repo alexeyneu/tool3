@@ -28,11 +28,6 @@ Windows 7 .
 ## how to:
 1. locate `monerod.exe` folder  
 2. thats all
-## bin
-
-
-https://github.com/alexeyneu/tool3/releases/download/v5.10-0/tool3x86_.zip
-
 
 ## build:
  - ms visual studio 2010 (C++)

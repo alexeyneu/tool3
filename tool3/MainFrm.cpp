@@ -119,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					}
 					else
 					{							
-						wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:18750");
+						wcscpy_s(remmi,L"--block-sync-size 2 --db-sync-mode fastest:async:18750 --max-concurrency 41 --prep-blocks-threads 8");
 						fwprintf(xf,L"\n%s",remmi);      // r+ shifts write pos when read.
 					}
 					fclose(xf);
@@ -127,7 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			else
 			{
 					c=WS_DISABLED;
-					wcscpy_s(remmi,L"--block-sync-size 4 --db-sync-mode fastest:sync:18750");
+					wcscpy_s(remmi,L"--block-sync-size 2 --db-sync-mode fastest:async:18750 --max-concurrency 41 --prep-blocks-threads 8");
 					t=NULL;
 			}
 			
@@ -229,7 +229,7 @@ VOID c(VOID *)
 					monte=monte+h;
 					bear=bear + t;
 
-					if(w++ > 8) { bear=bear.Right(monte=min(monte,1734)); w=0; }
+					if(w++ > 8) { bear=bear.Right(monte=min(monte,1734)); w=0; _clearfp(); }
 
 					reserve=bear[monte-2];
 					bear.SetAt(monte-2,'\0');
@@ -263,7 +263,6 @@ VOID c(VOID *)
 							r=sscanf_s(t,"%d/%d",&z.block[2],&z.block[0]);
 							z.F=(double)z.block[2]/z.block[0];
 							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
-							_clearfp();
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=8; z.E--; }
 							if(z.E < 1+1)
@@ -281,7 +280,6 @@ VOID c(VOID *)
 								}
 
 							}
-							_clearfp();
 					}
 					Sleep(4);
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);

@@ -287,7 +287,7 @@ VOID c(VOID *)
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 
 					                   
-				if(b&&(output_cmd[h-3]=='d'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=700;} 
+				if(b&&((output_cmd[h-3]=='d')||(output_cmd[h-3]=='.')))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=700;} 
 // you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 				
 				if(ferrum&&(output_cmd[h-3]=='y')) 
@@ -323,6 +323,8 @@ bear
 						PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					}
 					bren=5;
+					_aligned_free(z.c);
+					_aligned_free(z.p);
 					break;				 //'Both break and continue have no effect on an if-statement.Both break and continue have no effect on an if-statement. A common misconception is
 										 //that break can be used to jump out of an if compound statement.' An Introduction to the C Programming Language and Software Design.   Tim Bailey 2005
 				}
@@ -447,7 +449,7 @@ VOID hammer(VOID *)
 	bhr->HrInit();								//not sure
 	WaitForSingleObject(cl,INFINITE);
 	bhr->Release();
-	bhr=NULL;					// Petzold recommendation about to deal with COM
+	bhr=NULL;					//  recommendation about to deal with COM
 	CoUninitialize();
 }
 
@@ -462,7 +464,6 @@ void CMainFrame::OnClose()
 {
 		FILE *xf;		
 		wchar_t w[140],ferrum[198];
-	// TODO: Add your message handler code here and/or call default
 	if(terminator2)
 	{
 		DWORD c=WaitForSingleObject(pi.hProcess,10);

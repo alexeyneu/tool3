@@ -119,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					}
 					else
 					{							
-						wcscpy_s(remmi,L"--block-sync-size 2 --db-sync-mode fastest:async:18750 --max-concurrency 41 --prep-blocks-threads 8");
+						wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:18750 --max-concurrency 91 --prep-blocks-threads 4");
 						fwprintf(xf,L"\n%s",remmi);      // r+ shifts write pos when read.
 					}
 					fclose(xf);
@@ -127,7 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			else
 			{
 					c=WS_DISABLED;
-					wcscpy_s(remmi,L"--block-sync-size 2 --db-sync-mode fastest:async:18750 --max-concurrency 41 --prep-blocks-threads 8");
+					wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:18750 --max-concurrency 91 --prep-blocks-threads 4");
 					t=NULL;
 			}
 			
@@ -154,8 +154,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	::PostMessage(hc,WM_SETFONT,(WPARAM)newFont,(LPARAM)0);
 	hz=this->m_hWnd;
 	::PostMessage(b7->m_hWnd,WM_SETFONT,(WPARAM)newFont,(LPARAM)0);
-HBRUSH b = CreateSolidBrush(RGB(33, 122, 255));
-
 	return 0;
 }
 	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
@@ -169,8 +167,8 @@ _declspec(align(16)) struct triggerblock
 	long long block[3];
 	long long b;
 	long long t;
-	tm c;
-	tm p;
+	tm *c;
+	tm *p;
 	BYTE ptrigger;
 	float outofthis;
 	double x;
@@ -185,20 +183,15 @@ _declspec(align(16)) struct triggerblock
 VOID c(VOID *)
 {		
 
-   CWin32Heap stringHeap(HEAP_NO_SERIALIZE, 0, 0);
+			CWin32Heap stringHeap(HEAP_NO_SERIALIZE, 0, 0);
 
-   CAtlStringMgr M(&stringHeap);
+			CAtlStringMgr M(&stringHeap);
 
-	CStringA X7(&M),X8(&M);
-	CString p(&M);
-	triggerblock z2={},z={};
-			bhr->SetProgressState(hz,TBPF_NORMAL);
-			dc->SetState(PBST_NORMAL);
-			bh->EnableWindow(0);
-			q->EnableWindow();
+			CStringA X7(&M),X8(&M),Burg(&M);
+			CString p(&M);
+			triggerblock z2={},z={};
+			
 			char k[100];
-			cmdos->EnableWindow();		
-			t7->SetState(PBST_ERROR);
 			strcpy(k,"t");
 			DWORD numberofbyteswritten;
             DWORD dwRead;
@@ -207,14 +200,22 @@ VOID c(VOID *)
 			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
 			CStringA t(&M),bear(&M);
-			SETTEXTEX fw;
-			fw.flags=4;
-			fw.codepage=CP_THREAD_ACP;
+			SETTEXTEX fw={ 4,CP_THREAD_ACP };
 			int monte=0;
 			char reserve;
 			int r;
+			
+			bhr->SetProgressState(hz,TBPF_NORMAL);
+			dc->SetState(PBST_NORMAL);
+			bh->EnableWindow(0);
+			q->EnableWindow();
+			cmdos->EnableWindow();		
+			t7->SetState(PBST_ERROR);
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED|ES_DISPLAY_REQUIRED);
+			z.c=(::tm *)_aligned_malloc(sizeof(::tm),16);
+			z.p=(::tm *)_aligned_malloc(sizeof(::tm),16);
 			z.E=4;
+
             while(1)
             {
 				PeekNamedPipe(stdoutRd, NULL, 0, NULL, &totalbytesavailable, 0);
@@ -242,18 +243,18 @@ VOID c(VOID *)
 							if( z.finishup!=1)
 							{	
 								tm=2340;
-								z.finishup= -5 + sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c.tm_year ,&z.c.tm_mon, &z.c.tm_mday , &z.c.tm_hour, &z.c.tm_min ,&z.c.tm_sec);
+								z.finishup= -5 + sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c->tm_year ,&z.c->tm_mon, &z.c->tm_mday , &z.c->tm_hour, &z.c->tm_min ,&z.c->tm_sec);
 								z.E=min(z.E, z.E - z.finishup);
-								z.c.tm_year-=1900;
-								z.t=_mktime64(&z.c);
+								z.c->tm_year-=1900;
+								z.t=_mktime64(z.c);
 							}
 
 							if(z.E < 2+1)
 							{
 	
-								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p.tm_year ,&z.p.tm_mon, &z.p.tm_mday , &z.p.tm_hour, &z.p.tm_min ,&z.p.tm_sec);
-								z.p.tm_year-=1900;
-								z.b=_mktime64(&z.p);
+								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p->tm_year ,&z.p->tm_mon, &z.p->tm_mday , &z.p->tm_hour, &z.p->tm_min ,&z.p->tm_sec);
+								z.p->tm_year-=1900;
+								z.b=_mktime64(z.p);
 								z.E=min(z.E, 1);
 							}
 
@@ -269,12 +270,12 @@ VOID c(VOID *)
 							{
 								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
-								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 8.79f*z.q; z.E--; }
-								if(!z2.ptrigger)  z.f=z.q/z.x; 
-								if(!z2.ptrigger&&(!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further
 								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
+									if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 8.79f*z.q; z.E--; }
+									z.f=z.q/z.x; 
+									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 									p.Format(L"days to go %.1f",z.outofthis);
 									b7->SetWindowTextW((LPCWSTR)p);
 								}
@@ -302,6 +303,7 @@ VOID c(VOID *)
 					WaitForSingleObject(pi.hProcess,INFINITE);
 					b=0;
 					bh->EnableWindow();
+					Burg.Format(">%d",sizeof(z));
 					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
 					else 
 					{   
@@ -311,7 +313,7 @@ VOID c(VOID *)
 {\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red60\\green2\\blue105;\\red232\\green34\\blue5;} " 
 + 
 bear
-+ X8
++ X8 + Burg+
 + "\
 \\trowd \\trrh740 \
 \\clvertalc\\qc\\clbrdrt\\brdrw100\\brdrcf2\\cellx3400\n\

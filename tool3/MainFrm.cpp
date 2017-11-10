@@ -119,7 +119,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					}
 					else
 					{							
-						wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:18750 --max-concurrency 91 --prep-blocks-threads 4");
+						wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:8750 --prep-blocks-threads 4");
 						fwprintf(xf,L"\n%s",remmi);      // r+ shifts write pos when read.
 					}
 					fclose(xf);
@@ -127,7 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			else
 			{
 					c=WS_DISABLED;
-					wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:18750 --max-concurrency 91 --prep-blocks-threads 4");
+					wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:8750 --prep-blocks-threads 4");
 					t=NULL;
 			}
 			
@@ -145,7 +145,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	t7->SetRange(0,140);
 	b7->Create(L"to go :",WS_CHILD|WS_VISIBLE|SS_WHITEFRAME|SS_SIMPLE|SS_EDITCONTROL,CRect(40,293,223,323),this);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
-		ES_MULTILINE|ES_AUTOVSCROLL|ES_NOOLEDRAGDROP| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
+		ES_MULTILINE|ES_AUTOVSCROLL| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -277,7 +277,7 @@ VOID c(VOID *)
 								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
-								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 8.79f*z.q; z.E--; }
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; }
 									z.f=z.q/z.x; 
 									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 									p.Format(L"days to go %.1f",z.outofthis);

@@ -366,10 +366,11 @@ void CMainFrame::tr()
 			std::wstring w;
 			if(!trigger) 
 			{	
-				if(!iswspace((wchar_t )fr.str()[0])) { w=L' ' + fr.str(); w.copy(remmi,247,0);}
+				if(!iswspace((wchar_t )fr.str()[0])) { ZeroMemory(remmi,318*2);
+w=L' ' + fr.str(); w.copy(remmi,247,0);}
 				else
-				{
-					ZeroMemory(remmi,318*2);
+				{ZeroMemory(remmi,318*2);
+					
 					fr.read(remmi,247);
 				}				
 				trigger++;

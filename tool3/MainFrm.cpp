@@ -214,6 +214,9 @@ VOID c(VOID *)
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED|ES_DISPLAY_REQUIRED);
 			z.c=(::tm *)_aligned_malloc(sizeof(::tm),16);
 			z.p=(::tm *)_aligned_malloc(sizeof(::tm),16);
+			ZeroMemory(z.c,sizeof(::tm));
+			ZeroMemory(z.p,sizeof(::tm));
+
 			z.E=4;
 
             while(1)
@@ -268,12 +271,13 @@ VOID c(VOID *)
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=8; z.E--; }
 							if(z.E < 1+1)
 							{
-								z.q=60.0f*(double(z.block[2] - z.block[1]))/(z.b - z.t);
+								z.q=60.0f*(int)(z.block[2] - z.block[1])/(int)(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
+								
 								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
-									if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 8.79f*z.q; z.E--; }
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 8.79f*z.q; z.E--; }
 									z.f=z.q/z.x; 
 									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 									p.Format(L"days to go %.1f",z.outofthis);

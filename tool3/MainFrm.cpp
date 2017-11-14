@@ -143,7 +143,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
 	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,129);
 	t7->SetRange(0,140);
-	b7->Create(L"to go :",WS_CHILD|WS_VISIBLE|SS_WHITEFRAME|SS_SIMPLE|SS_EDITCONTROL,CRect(40,293,223,323),this);
+	b7->Create(L"to go :",WS_CHILD|WS_VISIBLE|SS_WHITEFRAME|SS_SIMPLE,CRect(40,293,373,323),this);
 	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
@@ -216,7 +216,7 @@ VOID c(VOID *)
 			z.p=(::tm *)_aligned_malloc(sizeof(::tm),16);
 			ZeroMemory(z.c,sizeof(::tm));
 			ZeroMemory(z.p,sizeof(::tm));
-
+			z2.finishup=10;
 			z.E=4;
 
             while(1)
@@ -271,16 +271,19 @@ VOID c(VOID *)
 							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=8; z.E--; }
 							if(z.E < 1+1)
 							{
-								z.q=60.0f*(int)(z.block[2] - z.block[1])/(int)(z.b - z.t);
+								z.q=double(z.block[2] - z.block[1])/(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
 								
-								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440);
+								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440*60);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
 								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; }
 									z.f=z.q/z.x; 
-									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(int(140.0f*z.f)); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
-									p.Format(L"days to go %.1f",z.outofthis);
+									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
+									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10));
+									if(z2.finishup >2) p.Format(L"days to go %2.1f",z.outofthis);
+									if(z2.finishup==2) p.Format(L"days to go %2.1f / %2d",z.outofthis,(int)ceil(24*z.outofthis));
+									if(z2.finishup==1) p.Format(L"days to go %2.1f / %2d / %2d",z.outofthis,(int)ceil(24*z.outofthis),(int)ceil(1440*z.outofthis));
 									b7->SetWindowTextW((LPCWSTR)p);
 								}
 
@@ -297,8 +300,8 @@ VOID c(VOID *)
 				if(ferrum&&(output_cmd[h-3]=='y')) 
 				{			
 						_clearfp();
-						X7.Format(" %.2f block/m",z2.q);
-						z.outofthis=(z2.block[0] - z2.block[2])/(z2.q*1440);
+						X7.Format(" %.2f block/m",z2.q*60.0f);
+						z.outofthis=(z2.block[0] - z2.block[2])/(z2.q*1440*60);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);
@@ -307,7 +310,7 @@ VOID c(VOID *)
 					WaitForSingleObject(pi.hProcess,INFINITE);
 					b=0;
 					bh->EnableWindow();
-					Burg.Format(">%d",sizeof(z));
+					Burg.Format(">%05d",sizeof(z2));
 					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
 					else 
 					{   
@@ -471,7 +474,7 @@ void CMainFrame::OnClose()
 		wchar_t w[140],ferrum[198];
 	if(terminator2)
 	{
-		DWORD c=WaitForSingleObject(pi.hProcess,10);
+		DWORD c=WaitForSingleObject(pi.hProcess,140);
 		if(c!= WAIT_TIMEOUT) 
 		{
 			SetEvent(cl);

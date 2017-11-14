@@ -283,7 +283,7 @@ VOID c(VOID *)
 									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10));
 									if(z2.finishup >2) p.Format(L"days to go %2.1f",z.outofthis);
 									if(z2.finishup==2) p.Format(L"days to go %2.1f / %2d",z.outofthis,(int)ceil(24*z.outofthis));
-									if(z2.finishup==1) p.Format(L"days to go %2.1f / %2d / %2d",z.outofthis,(int)ceil(24*z.outofthis),(int)ceil(1440*z.outofthis));
+									if(z2.finishup==1) p.Format(L"days to go %2.1f / %2d / %03d",z.outofthis,(int)ceil(24*z.outofthis),(int)ceil(1440*z.outofthis));
 									b7->SetWindowTextW((LPCWSTR)p);
 								}
 

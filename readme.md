@@ -10,12 +10,11 @@ Windows 7 .
 ## about 
  - tracks monero blockchain synchonization progress . achieved by `monerod.exe` pipelining  
  - speed indicator represents relative overall sync speed with first_synced_block_group to second_one speed as base.
- - 32-bit ver could launch 64-bit monerod   
-
-
+ - 32-bit ver could launch 64-bit monerod  
+ - no NET framework stuff here 
 ## how to:
-1. locate `monerod.exe` folder  
-2. thats all  
+ - locate `monerod.exe` folder  
+ - thats all  
 ## build:
  - ms visual studio 2010 (C++)  
 32/64-bit : conf manager/change active solution platform  

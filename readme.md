@@ -11,13 +11,9 @@
  - Sys Req:
  
 Visual C++ 2010 redist 
-https://www.microsoft.com/en-us/download/details.aspx?id=14632
-
- cpu with sse2 set(sse-optimized,nothing sse-specific in code for now);
-
+https://www.microsoft.com/en-us/download/details.aspx?id=14632  
+ cpu with sse2 set(sse-optimized,nothing sse-specific in code for now);  
 Windows 7 . 
-  
- 
 ![Screen1](/screens/Untitled.jpg)
 ## about 
  - tracks monero blockchain synchonization progress . achieved by `monerod.exe` pipelining  
@@ -27,20 +23,16 @@ Windows 7 .
 
 ## how to:
 1. locate `monerod.exe` folder  
-2. thats all
+2. thats all 
 
 ## build:
  - ms visual studio 2010 (C++)
-
-
 32/64-bit : conf manager/change active solution platform  
- - msbuild 
+ - msbuild  
 vs command prompt(2010)
-```
+```bash
 msbuild  tool3.sln /property:Configuration=Release   /property:Platform=x64
 
 msbuild  tool3.sln \
 /property:Configuration=Release   /property:Platform=Win32
-
-
 ```

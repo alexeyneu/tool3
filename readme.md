@@ -1,9 +1,7 @@
 ## tool3 monero sync gui. 
 
  
-[![version](https://img.shields.io/badge/tool3-v5.30-brightgreen.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)
-
-
+[![version](https://img.shields.io/badge/tool3-v5.30-brightgreen.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)  
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
 
 
@@ -26,7 +24,7 @@ Windows 7 .
 2. thats all 
 
 ## build:
- - ms visual studio 2010 (C++)
+ - ms visual studio 2010 (C++) 
 32/64-bit : conf manager/change active solution platform  
  - msbuild  
 vs command prompt(2010)

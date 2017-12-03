@@ -84,7 +84,6 @@ DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
 }
 
 
-
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	
@@ -100,8 +99,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	finA=new CButton();
 	cmdos=new CButton();
 	CBitmap wq[2];
-	wq[0].LoadBitmapW(IDB_BITMAP1);
-	wq[1].LoadBitmapW(IDB_BITMAP4);
+
+	wq[0].LoadBitmap(IDB_BITMAP1);
+	wq[1].LoadBitmap(IDB_BITMAP4);
+
 	wchar_t w[140];
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
 				FILE *xf;
@@ -144,13 +145,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,129);
 	t7->SetRange(0,140);
 	b7->Create(L"to go :",WS_CHILD|WS_VISIBLE|SS_WHITEFRAME|SS_SIMPLE,CRect(40,293,373,323),this);
-	hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
+	 hc=CreateWindowEx(WS_EX_NOPARENTNOTIFY, MSFTEDIT_CLASS,remmi, 
 		ES_MULTILINE|ES_AUTOVSCROLL| WS_VISIBLE | WS_CHILD |WS_TABSTOP|WS_VSCROLL, 
         1, 350, 450, 201, 
 		this->m_hWnd, NULL, h, NULL);
 	HFONT newFont = CreateFont(22, 0, 0, 0,0 , FALSE, FALSE, FALSE, DEFAULT_CHARSET,
     OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_NATURAL_QUALITY,
     DEFAULT_PITCH | FF_DECORATIVE, L"Lucida Console");
+	
 	::PostMessage(hc,WM_SETFONT,(WPARAM)newFont,(LPARAM)0);
 	hz=this->m_hWnd;
 	::PostMessage(b7->m_hWnd,WM_SETFONT,(WPARAM)newFont,(LPARAM)0);

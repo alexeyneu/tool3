@@ -26,3 +26,11 @@ msbuild  tool3.sln /property:Configuration=Release   /property:Platform=x64
 msbuild  tool3.sln \
 /property:Configuration=Release   /property:Platform=Win32
 ```
+
+- nmake
+vs command prompt 
+```
+cd tool3
+nmake
+```
+

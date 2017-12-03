@@ -27,7 +27,7 @@ msbuild  tool3.sln \
 /property:Configuration=Release   /property:Platform=Win32
 ```
 
-- nmake
+- nmake  
 vs command prompt 
 ```
 cd tool3

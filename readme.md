@@ -17,6 +17,7 @@ Windows 7 .
  1) locate `monerod.exe` folder  
  2) thats all  
 ## build:
+nmake holds well on non-2010  
  - ms visual studio 2010 (C++)  
 32/64-bit : conf manager/change active solution platform  
  - msbuild  

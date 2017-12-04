@@ -1,5 +1,6 @@
 ## tool3 monero sync gui. 
-[![version](https://img.shields.io/badge/tool3-v5.30-brightgreen.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)  
+ 
+[![version](https://img.shields.io/github/tag/alexeyneu/tool3.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)  
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
  - Sys Req:  
 Visual C++ 2010 redist 

@@ -13,8 +13,8 @@ Windows 7 .
  - 32-bit ver could launch 64-bit monerod  
  - no NET framework stuff here 
 ## how to:
- - locate `monerod.exe` folder  
- - thats all  
+ 1) locate `monerod.exe` folder  
+ 2) thats all  
 ## build:
  - ms visual studio 2010 (C++)  
 32/64-bit : conf manager/change active solution platform  
@@ -26,8 +26,8 @@ msbuild  tool3.sln /property:Configuration=Release   /property:Platform=x64
 msbuild  tool3.sln \
 /property:Configuration=Release   /property:Platform=Win32
 ```
-
 - nmake  
+  
 vs command prompt 
 ```
 cd tool3

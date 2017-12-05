@@ -11,13 +11,14 @@ DLLFLAGS=-SUBSYSTEM:windows -DLL
 #GUILIBS=mfc100u.lib
 GUILIBS=
 RC=rc
-RCVARS=/DWIN32 /D_WIN64  /DNDEBUG /D_UNICODE /DUNICODE /D_AFXDLL   /l0x0409 /Ix64\Release\ /nologo /fox64\Release\tool3.res 
-
+RCVARS=/DWIN32 /D_WIN64  /DNDEBUG /D_UNICODE /DUNICODE /D_AFXDLL   /l0x0409 /Ix64\Release\ /nologo /fox64\Release\tool3.res
 
 tool3.exe : tool3.obj MainFrm.obj tool3.res
      $(LINKER) $(GUIFLAGS)  x64\Release\MainFrm.obj x64\Release\tool3.obj  x64\Release\tool3.res $(GUILIBS)
 
-tool3.obj : tool3.cpp 
+tool3.obj : tool3.cpp
+	-@ if NOT EXIST "x64" mkdir "x64"
+	-@ if NOT EXIST "x64\Release" mkdir "x64\Release"
 	 $(CC) $(CFLAGSMT) tool3.cpp
 
 MainFrm.obj : MainFrm.cpp

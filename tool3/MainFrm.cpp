@@ -1,7 +1,7 @@
 
 // MainFrm.cpp : implementation of the CMainFrame class
-//
-
+//-inputresource:lib.dll
+ 
 
 #include "stdafx.h"
 #include "tool3.h"

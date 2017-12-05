@@ -12,10 +12,12 @@ DLLFLAGS=-SUBSYSTEM:windows -DLL
 GUILIBS=
 RC=rc
 RCVARS=/DWIN32 /D_WIN64  /DNDEBUG /D_UNICODE /DUNICODE /D_AFXDLL   /l0x0409 /Ix64\Release\ /nologo /fox64\Release\tool3.res
+MT=mt
+MTSTUFF=/nologo /verbose -outputresource:x64\Release\tool3.exe  -manifest x64\Release\tool3.exe.manifest
 
 tool3.exe : tool3.obj MainFrm.obj tool3.res
      $(LINKER) $(GUIFLAGS)  x64\Release\MainFrm.obj x64\Release\tool3.obj  x64\Release\tool3.res $(GUILIBS)
-
+	 $(MT) $(MTSTUFF)
 tool3.obj : tool3.cpp
 	-@ if NOT EXIST "x64" mkdir "x64"
 	-@ if NOT EXIST "x64\Release" mkdir "x64\Release"

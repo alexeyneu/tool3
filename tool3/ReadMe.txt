@@ -26,13 +26,8 @@ tool3.cpp
 
 tool3.rc
     This is a listing of all of the Microsoft Windows resources that the
-    program uses.  It includes the icons, bitmaps, and cursors that are stored
-    in the RES subdirectory.  This file can be directly edited in Microsoft
+    program uses.    This file can be directly edited in Microsoft
     Visual C++. Your project resources are in 1033.
-
-res\tool3.ico
-    This is an icon file, which is used as the application's icon.  This
-    icon is included by the main resource file tool3.rc.
 
 res\tool3.rc2
     This file contains resources that are not edited by Microsoft

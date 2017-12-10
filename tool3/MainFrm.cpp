@@ -1,6 +1,6 @@
 
 // MainFrm.cpp : implementation of the CMainFrame class
-//-inputresource:lib.dll
+//
  
 
 #include "stdafx.h"
@@ -363,7 +363,7 @@ void CMainFrame::tr()
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
 			CreatePipe(&stdinRd, &stdinWr, &sa, 10000); 
             CreatePipe(&stdoutRd,&stdoutWr, &sa,500000);
-          
+			if(pi.hProcess) { CloseHandle(pi.hProcess); CloseHandle(rew->m_hThread); }
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));
            
@@ -396,7 +396,7 @@ w=L' ' + fr.str(); w.copy(remmi,247,0);}
 				return;
 			}
 			else bren=0;
-			AfxBeginThread((AFX_THREADPROC)c,NULL,0,1400000);
+			rew=AfxBeginThread((AFX_THREADPROC)c,NULL,0,1400000);
 }
 
 void CMainFrame::w()

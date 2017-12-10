@@ -10,18 +10,23 @@ RCVARS=/DWIN32 /D_WIN64  /DNDEBUG /D_UNICODE /DUNICODE /D_AFXDLL   /l0x0409 /Ix6
 MT=mt
 MTSTUFF=/nologo /verbose  -manifest x64\Release\tool3.exe.manifest
 
-tool3.exe : tool3.obj MainFrm.obj tool3.res
+docks : trail x64\Release\tool3.exe
+	$(MT) $(MTSTUFF) -outputresource:x64\Release\tool3.exe
+
+x64\Release\tool3.exe : x64\Release\tool3.obj x64\Release\MainFrm.obj x64\Release\tool3.res
      $(LINKER) $(GUIFLAGS)  x64\Release\MainFrm.obj x64\Release\tool3.obj  x64\Release\tool3.res $(GUILIBS)
-	 $(MT) $(MTSTUFF) -outputresource:x64\Release\tool3.exe
-tool3.obj : tool3.cpp
+	 
+trail:
 	-@ if NOT EXIST "x64" mkdir "x64"
 	-@ if NOT EXIST "x64\Release" mkdir "x64\Release"
+
+x64\Release\tool3.obj : tool3.cpp tool3.h StdAfx.h resource.h 
 	 $(CC) $(CFLAGSMT) tool3.cpp
 
-MainFrm.obj : MainFrm.cpp
+x64\Release\MainFrm.obj : MainFrm.cpp MainFrm.h StdAfx.h resource.h 
      $(CC) $(CFLAGSMT) MainFrm.cpp
 
-tool3.res : tool3.rc
+x64\Release\tool3.res : tool3.rc resource.h
 	$(RC) $(RCVARS) tool3.rc
 
 

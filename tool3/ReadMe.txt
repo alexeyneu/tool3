@@ -25,11 +25,11 @@ tool3.vcxproj.filters
 tool3.h
     This is the main header file for the application.  It includes other
     project specific headers (including Resource.h) and declares the
-    CreApp application class.
+    Ctool3App application class.
 
 tool3.cpp
     This is the main application source file that contains the application
-    class CreApp.
+    class Ctool3App.
 
 tool3.rc
     This is a listing of all of the Microsoft Windows resources that the

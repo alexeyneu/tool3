@@ -2,13 +2,6 @@
     MICROSOFT FOUNDATION CLASS LIBRARY : tool3 Project Overview
 ===============================================================================
 
-The application wizard has created this tool3 application for
-you.  This application not only demonstrates the basics of using the Microsoft
-Foundation Classes but is also a starting point for writing your application.
-
-This file contains a summary of what you will find in each of the files that
-make up your tool3 application.
-
 tool3.vcxproj
     This is the main project file for VC++ projects generated using an application wizard.
     It contains information about the version of Visual C++ that generated the file, and

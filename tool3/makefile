@@ -26,7 +26,7 @@ x64\Release\tool3.obj : tool3.cpp tool3.h StdAfx.h resource.h
 x64\Release\MainFrm.obj : MainFrm.cpp MainFrm.h StdAfx.h resource.h 
      $(CC) $(CFLAGSMT) MainFrm.cpp
 
-x64\Release\tool3.res : tool3.rc resource.h
+x64\Release\tool3.res : tool3.rc resource.h res\tool3.rc2 
 	$(RC) $(RCVARS) tool3.rc
 
 

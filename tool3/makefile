@@ -20,7 +20,7 @@ trail:
 	-@ if NOT EXIST "x64" mkdir "x64"
 	-@ if NOT EXIST "x64\Release" mkdir "x64\Release"
 
-x64\Release\tool3.obj : tool3.cpp tool3.h StdAfx.h resource.h 
+x64\Release\tool3.obj : tool3.cpp tool3.h StdAfx.h resource.h MainFrm.h
 	 $(CC) $(CFLAGSMT) tool3.cpp
 
 x64\Release\MainFrm.obj : MainFrm.cpp MainFrm.h StdAfx.h resource.h 

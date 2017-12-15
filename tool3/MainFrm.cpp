@@ -249,7 +249,7 @@ VOID c(VOID *)
 							{	
 								tm=2340;
 								z.finishup= -5 + sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.c->tm_year ,&z.c->tm_mon, &z.c->tm_mday , &z.c->tm_hour, &z.c->tm_min ,&z.c->tm_sec);
-								z.E=min(z.E, z.E - z.finishup);
+								z.E=min(z.E, z.E - z.finishup);      //first Anchor 
 								z.c->tm_year-=1900;
 								z.t=_mktime64(z.c);
 							}
@@ -260,7 +260,7 @@ VOID c(VOID *)
 								sscanf_s(t.Left(19),"%d-%d-%d %d:%d:%d", &z.p->tm_year ,&z.p->tm_mon, &z.p->tm_mday , &z.p->tm_hour, &z.p->tm_min ,&z.p->tm_sec);
 								z.p->tm_year-=1900;
 								z.b=_mktime64(z.p);
-								z.E=min(z.E, 1);
+								z.E=min(z.E, 1);      //third anchor
 							}
 
 
@@ -270,7 +270,7 @@ VOID c(VOID *)
 							z.F=(double)z.block[2]/z.block[0];
 							if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
 							bhr->SetProgressValue(hz,z.block[2],z.block[0]);
-							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=8; z.E--; }
+							if((!z.ptrigger)&&r==2) { z.block[1]=z.block[2]; z.ptrigger=8; z.E--; } // second anchor
 							if(z.E < 1+1)
 							{
 								z.q=double(z.block[2] - z.block[1])/(z.b - z.t);
@@ -279,7 +279,7 @@ VOID c(VOID *)
 								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440*60);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
-								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; }
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; } // all anchors're casted now
 									z.f=z.q/z.x; 
 									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10));

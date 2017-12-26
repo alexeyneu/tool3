@@ -279,7 +279,7 @@ VOID c(VOID *)
 								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440*60);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
-								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; } // all anchors're casted now
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; } // anchors casted
 									z.f=z.q/z.x; 
 									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10));
@@ -334,7 +334,7 @@ bear
 					bren=5;
 					_aligned_free(z.c);
 					_aligned_free(z.p);
-					break;				 //'Both break and continue have no effect on an if-statement.Both break and continue have no effect on an if-statement. A common misconception is
+					break;				 //'Both break and continue have no effect on an if-statement. A common misconception is
 										 //that break can be used to jump out of an if compound statement.' An Introduction to the C Programming Language and Software Design.   Tim Bailey 2005
 				}
 			}

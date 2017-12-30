@@ -1,4 +1,5 @@
-## tool3 monero sync gui. 
+## tool3 monero sync tool.  
+Also suitable for solo mining and for monero clones.
  
 [![version](https://img.shields.io/badge/tool3-v7.0-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/latest)  
 

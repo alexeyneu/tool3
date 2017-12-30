@@ -15,6 +15,7 @@ Windows 7 .
  - speed indicator represents relative overall sync speed with first_synced_block_group to second_one speed as base.
  - 32-bit ver could launch 64-bit monerod  
  - no NET framework stuff here 
+ - for monero forks change `exe` name in `CreateProcess` 
 ## how to:
  1) locate `monerod.exe` folder  
  2) thats all  

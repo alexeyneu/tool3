@@ -16,6 +16,7 @@ Windows 7 .
  - 32-bit ver could launch 64-bit monerod  
  - no NET framework stuff here 
  - for monero forks change `exe` name in `CreateProcess` 
+ - pipelining has no impact on remote procedure calls handling
 ## how to:
  1) locate `monerod.exe` folder  
  2) thats all  

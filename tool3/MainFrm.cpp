@@ -276,10 +276,10 @@ VOID c(VOID *)
 								z.q=double(z.block[2] - z.block[1])/(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
 								
-								z.outofthis=(z.block[0] - z.block[2])/(z.q*1440*60);
+								z.outofthis=(z.block[0] - z.block[2] + 22*min(40000,z.block[0] - z.block[2]))/(z.q*1440*60);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
-								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.79f*z.q; z.E--; } // anchors casted
+								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.89f*z.q; z.E--; } // anchors casted
 									z.f=z.q/z.x; 
 									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10));
@@ -291,11 +291,9 @@ VOID c(VOID *)
 
 							}
 					}
-					Sleep(4);
+					Sleep(3);
 					SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)(LPCSTR)bear);
-					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
-
-					                   
+					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);					                   
 				if(b&&((output_cmd[h-3]=='d')||(output_cmd[h-3]=='.')))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum=1; tm=700;} 
 // you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 				
@@ -303,7 +301,7 @@ VOID c(VOID *)
 				{			
 						_clearfp();
 						X7.Format(" %.2f block/m",z2.q*60.0f);
-						z.outofthis=(z2.block[0] - z2.block[2])/(z2.q*1440*60);
+						z.outofthis=(z2.block[0] - z2.block[2] + 22*min(40000,z.block[0] - z.block[2]))/(z2.q*1440*60);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);

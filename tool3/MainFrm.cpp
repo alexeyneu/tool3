@@ -276,13 +276,13 @@ VOID c(VOID *)
 								z.q=double(z.block[2] - z.block[1])/(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
 								
-								z.outofthis=(z.block[0] - z.block[2] + 22*min(40000,z.block[0] - z.block[2]))/(z.q*1440*60);
+								z.outofthis=(z.block[0] - z.block[2] + min(1,max(z.block[0] - z.block[2]-40000,0))*22*40000)/(z.q*1440*60);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
 								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.89f*z.q; z.E--; } // anchors casted
 									z.f=z.q/z.x; 
 									if((!z.E)&&(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
-									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10));
+									z2.finishup=min(z2.finishup,(int)ceil(z.outofthis*10))*(1 - b);
 									if(z2.finishup >2) p.Format(L"days to go %2.1f",z.outofthis);
 									if(z2.finishup==2) p.Format(L"days to go %2.1f / %2d",z.outofthis,(int)ceil(24*z.outofthis));
 									if(z2.finishup==1) p.Format(L"days to go %2.1f / %2d / %03d",z.outofthis,(int)ceil(24*z.outofthis),(int)ceil(1440*z.outofthis));
@@ -301,7 +301,7 @@ VOID c(VOID *)
 				{			
 						_clearfp();
 						X7.Format(" %.2f block/m",z2.q*60.0f);
-						z.outofthis=(z2.block[0] - z2.block[2] + 22*min(40000,z.block[0] - z.block[2]))/(z2.q*1440*60);
+						z.outofthis=(z2.block[0] - z2.block[2] + min(1,max(z.block[0] - z.block[2]-40000,0)))/(z2.q*1440*60);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);
@@ -361,7 +361,7 @@ void CMainFrame::tr()
 	SECURITY_ATTRIBUTES sa={sizeof(SECURITY_ATTRIBUTES), NULL, true};    
 			CreatePipe(&stdinRd, &stdinWr, &sa, 10000); 
             CreatePipe(&stdoutRd,&stdoutWr, &sa,500000);
-			if(pi.hProcess) { CloseHandle(pi.hProcess); CloseHandle(rew->m_hThread); }
+			if(pi.hProcess) CloseHandle(pi.hProcess); 
 			STARTUPINFO si;
 			ZeroMemory(&si,sizeof(si));
            

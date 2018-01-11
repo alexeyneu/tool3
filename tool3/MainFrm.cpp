@@ -276,7 +276,7 @@ VOID c(VOID *)
 								z.q=double(z.block[2] - z.block[1])/(z.b - z.t);
 								z2.ptrigger=_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE);
 								
-								z.outofthis=(z.block[0] - z.block[2] + min(1,max(z.block[0] - z.block[2]-40000,0))*22*40000)/(z.q*1440*60);
+								z.outofthis=(z.block[0] - z.block[2] + (z.block[0] - z.block[2]>40000)*22*40000)/(z.q*1440*60);
 								if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))&&!z2.ptrigger) 
 								{
 								if((z.E==1)&&(r==2)&&(!z2.ptrigger)) { z.x= 2.89f*z.q; z.E--; } // anchors casted
@@ -301,7 +301,7 @@ VOID c(VOID *)
 				{			
 						_clearfp();
 						X7.Format(" %.2f block/m",z2.q*60.0f);
-						z.outofthis=(z2.block[0] - z2.block[2] + min(1,max(z.block[0] - z.block[2]-40000,0)))/(z2.q*1440*60);
+						z.outofthis=(z2.block[0] - z2.block[2] + (z.block[0] - z.block[2]>40000)*22*40000)/(z2.q*1440*60);
 						if(!(_statusfp()&(_EM_INVALID|_EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n",z.outofthis);
 
 					dc->SetState(PBST_PAUSED);

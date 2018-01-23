@@ -165,20 +165,21 @@ PROCESS_INFORMATION pi;
 
 _declspec(align(16)) struct triggerblock
 {	
-	double q;
-	long long block[3];
-	long long b;
-	long long t;
-	tm *c;
-	tm *p;
-	BYTE ptrigger;
-	float outofthis;
-	double x;
-	long double F;
-	short finishup;
-	double f;
-	BYTE E;
+	_declspec(align(16)) double q;
+	_declspec(align(16)) long long block[3];
+	_declspec(align(16)) long long b;
+	_declspec(align(16)) long long t;
+	_declspec(align(16)) tm *c;
+	_declspec(align(16)) tm *p;
+	_declspec(align(16)) BYTE ptrigger;
+	_declspec(align(16)) float outofthis;
+	_declspec(align(16)) double x;
+	_declspec(align(16)) long double F;
+	_declspec(align(16)) short finishup;
+	_declspec(align(16)) double f;
+	_declspec(align(16)) BYTE E;
 };
+
 
 
 
@@ -244,7 +245,7 @@ VOID c(VOID *)
 					if(c != -1)  
 					{
 						
-							memcpy_s(&z2,48,&z,48);
+							memcpy_s(&z2,40,&z,40);
 							if( z.finishup!=1)
 							{	
 								tm=2340;

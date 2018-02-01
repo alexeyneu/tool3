@@ -163,7 +163,8 @@ int bren=5;
 int cr,f,b,terminator;
 PROCESS_INFORMATION pi;
 
-_declspec(align(16)) struct triggerblock
+ 
+_declspec(align(16)) struct triggerblock 
 {	
 	_declspec(align(16)) double q;
 	_declspec(align(16)) long long block[3];
@@ -245,7 +246,7 @@ VOID c(VOID *)
 					if(c != -1)  
 					{
 						
-							memcpy_s(&z2,40,&z,40);
+							memcpy_s(&z2,40,&z,40); // q and block[] ,  
 							if( z.finishup!=1)
 							{	
 								tm=2340;
@@ -312,7 +313,7 @@ VOID c(VOID *)
 					b=0;
 					bh->EnableWindow();
 					Burg.Format(">%05d",sizeof(z2));
-					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);
+					if(terminator) PostMessage(hz,WM_CLOSE,NULL,NULL);  // if not to know difference vs sendmessage() it looks like the end  
 					else 
 					{   
 						bear.SetAt(monte-2,reserve);
@@ -394,7 +395,7 @@ w=L' ' + fr.str(); w.copy(remmi,247,0);}
 				MessageBox(L"Bad start,check location");
 				return;
 			}
-			else bren=0;
+			bren=0;
 			rew=AfxBeginThread((AFX_THREADPROC)c,NULL,0,1400000);
 }
 
@@ -429,7 +430,7 @@ void CMainFrame::uw()
 		fclose(xf);
 		bh->EnableWindow();	
 	}
-	else if(t->f.IsEmpty()) {delete t; t=NULL;}
+	else if(t->f.IsEmpty()) { delete t; t=NULL; }
 }
 
 

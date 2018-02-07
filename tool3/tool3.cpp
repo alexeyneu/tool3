@@ -64,7 +64,7 @@ BOOL Ctool3App::InitInstance()
 	//SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 ;
-
+	//mfc window dry base  
 	pFrame= new CMainFrame;
 	if (!pFrame)
 		return FALSE;
@@ -74,7 +74,7 @@ BOOL Ctool3App::InitInstance()
 
 	w.hbrBackground=(HBRUSH)(COLOR_WINDOW+1);
 	w.lpszClassName=L"t";
-	w.style=CS_OWNDC|CS_BYTEALIGNCLIENT|CS_BYTEALIGNWINDOW|CS_HREDRAW|CS_VREDRAW;
+	w.style=CS_OWNDC||CS_BYTEALIGNWINDOW|CS_HREDRAW|CS_VREDRAW;
 	w.hCursor=this->LoadStandardCursor(IDC_ARROW);
 	w.lpfnWndProc=AfxWndProc;
 	w.lpszMenuName=NULL;
@@ -83,7 +83,7 @@ BOOL Ctool3App::InitInstance()
 
 	RegisterClassEx(&w);
 	
-	pFrame->CreateEx( WS_EX_APPWINDOW,L"t",L"tool3",WS_OVERLAPPEDWINDOW,CRect(20,0,478,592),NULL,0);
+	pFrame->CreateEx( WS_EX_APPWINDOW|WS_EX_COMPOSITED,L"t",L"tool3",WS_OVERLAPPEDWINDOW,CRect(20,0,478,592),NULL,0);
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
 	// call DragAcceptFiles only if there's a suffix

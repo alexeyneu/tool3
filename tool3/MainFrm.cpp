@@ -213,6 +213,7 @@ VOID c(VOID *)
 			dc->SetState(PBST_NORMAL);
 			bh->EnableWindow(0);
 			q->EnableWindow();
+
 			cmdos->EnableWindow();		
 			t7->SetState(PBST_ERROR);
 			SetThreadExecutionState(ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_AWAYMODE_REQUIRED|ES_DISPLAY_REQUIRED);
@@ -289,6 +290,7 @@ VOID c(VOID *)
 									if(z2.finishup==2) p.Format(L"days to go %2.1f / %2d",z.outofthis,(int)ceil(24*z.outofthis));
 									if(z2.finishup==1) p.Format(L"days to go %2.1f / %2d / %03d",z.outofthis,(int)ceil(24*z.outofthis),(int)ceil(1440*z.outofthis));
 									b7->SetWindowTextW((LPCWSTR)p);
+									
 								}
 
 							}
@@ -527,6 +529,6 @@ void CMainFrame::ef()
 	SETTEXTEX fw;
 		fw.flags=4;
 	fw.codepage=1200;			
-	::PostMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
+	::SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
 	trigger=5-bren;
 }

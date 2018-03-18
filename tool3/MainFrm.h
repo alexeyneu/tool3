@@ -44,7 +44,6 @@ public:
 	afx_msg void w();
 	afx_msg void uw();
 	afx_msg void ef();
-
 	afx_msg void OnDestroy();
 protected:
 	afx_msg LRESULT OnRet(WPARAM wParam, LPARAM lParam);

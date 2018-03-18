@@ -39,7 +39,7 @@ res\tool3.rc2
 For the main frame window:
     The project includes a standard MFC interface.
 
-MainFrm.h, MainFrm.cpp
+, MainFrm.cpp
     These files contain the frame class CMainFrame, which is derived from
     CFrameWnd and controls all SDI frame features.
 

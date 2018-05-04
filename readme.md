@@ -1,7 +1,7 @@
 ## tool3 monero sync tool.  
 Also suitable for solo mining and for monero clones.
  
-[![version](https://img.shields.io/badge/tool3-v7.13-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/latest)  
+[![version](https://img.shields.io/badge/tool3-v7.42-brightgreen.svg)](https://github.com/alexeyneu/tool3/releases/latest)  
 [![version](https://img.shields.io/github/downloads/alexeyneu/tool3/total.svg?style=plastic)](https://github.com/alexeyneu/tool3/releases/latest)  
 
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)

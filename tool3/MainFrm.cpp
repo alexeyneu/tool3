@@ -105,8 +105,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	wq[0].LoadBitmap(IDB_BITMAP1);
 	wq[1].LoadBitmap(IDB_BITMAP4);
 
-	wchar_t w[140];
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,140);
+	wchar_t w[740];
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,740);
 				FILE *xf;
 				_wfopen_s(&xf,w,L"r+");		
 				DWORD c = 0L;
@@ -117,7 +117,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					t->f=remmi;
 					if(!(feof(xf)))
 					{
-						ZeroMemory(remmi,318*2);
+						ZeroMemory(remmi,1218*2);
 						fwscanf(xf,L"%[^\n]%*c",remmi);
 					}
 					else
@@ -205,11 +205,11 @@ void CMainFrame::tr()
 			if(!trigger) 
 			{	
 				if(!iswspace((wchar_t )fr.str()[0])) { ZeroMemory(remmi,318*2);
-w=L' ' + fr.str(); w.copy(remmi,247,0);}
+w=L' ' + fr.str(); w.copy(remmi,747,0);}
 				else
-				{ZeroMemory(remmi,318*2);
+				{ZeroMemory(remmi,1218*2);
 					
-					fr.read(remmi,247);
+					fr.read(remmi,747);
 				}				
 				trigger++;
 			}
@@ -225,7 +225,7 @@ w=L' ' + fr.str(); w.copy(remmi,247,0);}
 				return;
 			}
 			bren=0;
-			rew=AfxBeginThread((AFX_THREADPROC)c,NULL,0,1400000);
+			rew=AfxBeginThread((AFX_THREADPROC)c,NULL);
 }
 
 void CMainFrame::w()
@@ -246,8 +246,8 @@ void CMainFrame::uw()
 	int c= t->DoModal();
 	
 
-	wchar_t w[140];
-	ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
+	wchar_t w[740];
+	ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,730);
 	FILE *xf;
 
 	if(c==IDOK)
@@ -302,7 +302,7 @@ afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress 
 void CMainFrame::OnClose()
 {
 		FILE *xf;		
-		wchar_t w[140],ferrum[198];
+		wchar_t w[840],ferrum[324];
 	if(terminator2)
 	{
 		DWORD c=WaitForSingleObject(pi.hProcess,140);
@@ -311,7 +311,7 @@ void CMainFrame::OnClose()
 			SetEvent(cl);
 			if(t)
 			{
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,930);
 				xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
 				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
@@ -333,7 +333,7 @@ void CMainFrame::OnClose()
 
 			if(t)
 			{
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,130);
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,1310);
 				xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
 				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);

@@ -228,7 +228,7 @@ w=L' ' + fr.str(); w.copy(remmi,747,0);}
 			rew=AfxBeginThread((AFX_THREADPROC)c,NULL);
 }
 
-void CMainFrame::w()   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
+void CMainFrame::w()			   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 {
 	b=1;
 	char k[100];
@@ -240,7 +240,7 @@ void CMainFrame::w()   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DIS
 
 
 
-void CMainFrame::uw() //   finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+280,20+292,59+280,48+292),this,2233);
+void CMainFrame::uw()				// finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+280,20+292,59+280,48+292),this,2233);
 {
 	if(!t) t=new r();
 	int c= t->DoModal();

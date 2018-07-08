@@ -35,7 +35,7 @@ msbuild  tool3.sln \
 ```
 - nmake  
   
-vs win64 command prompt (standard command prompt works too if env tuned right ) 
+vs x64 (native) command prompt (standard command prompt works too if env tuned right )
 ```
 cd tool3
 nmake

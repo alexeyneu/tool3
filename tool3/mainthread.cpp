@@ -16,24 +16,19 @@ extern int cr,f,b,terminator;
 extern PROCESS_INFORMATION pi;
 VOID c(VOID *)
 {		
-
-			CWin32Heap stringHeap(HEAP_NO_SERIALIZE, 0, 0);
-
-			CAtlStringMgr M(&stringHeap);
-
-			CStringA X7(&M),X8(&M),Burg(&M);
-			CString p(&M);
+			CStringA X7,X8;
+			CString p;
 			triggerblock z2={},z={};
 			
 			char k[100];
 			strcpy(k,"t");
 			DWORD numberofbyteswritten;
-            DWORD dwRead;
+			DWORD dwRead;
 			DWORD totalbytesavailable;
 			char output_cmd[500001];
 			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
-			CStringA t(&M),bear(&M);
+			CStringA t,bear;
 			SETTEXTEX fw={ 4,CP_THREAD_ACP };
 			int monte=0;
 			char reserve;
@@ -51,7 +46,7 @@ VOID c(VOID *)
 			z.p=(::tm *)_aligned_malloc(sizeof(::tm),16);
 			ZeroMemory(z.c,sizeof(::tm));
 			ZeroMemory(z.p,sizeof(::tm));
-			z2.finishup=10;
+			z.endgame=10;
 			z.E=4;
 
 			while (1)
@@ -107,18 +102,18 @@ VOID c(VOID *)
 						if (z.E < 1 + 1)
 						{
 							z.q = double(z.block[2] - z.block[1]) / (z.b - z.t);
-							z2.ptrigger = _statusfp()&(_EM_INVALID | _EM_ZERODIVIDE);
+							z.faulttrigger = _statusfp()&(_EM_INVALID | _EM_ZERODIVIDE);
 
 							z.outofthis = (z.block[0] - z.block[2] + (z.block[0] - z.block[2]>40000) * 22 * 40000) / (z.q * 1440 * 60);
-							if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)) && !z2.ptrigger)
+							if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)) && !z.faulttrigger)
 							{
-								if ((z.E == 1) && (r == 2) && (!z2.ptrigger)) { z.x = 2.89f*z.q; z.E--; } // anchors casted
+								if ((z.E == 1) && (r == 2) && (!z.faulttrigger)) { z.x = 2.89f*z.q; z.E--; } // anchors casted
 								z.f = z.q / z.x;
 								if ((!z.E) && (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
-								z2.finishup = min(z2.finishup, (int)ceil(z.outofthis * 10))*(1 - b);
-								if (z2.finishup > 2) p.Format(L"days to go %2.1f", z.outofthis);
-								if (z2.finishup == 2) p.Format(L"days to go %2.1f / %2d", z.outofthis, (int)ceil(24 * z.outofthis));
-								if (z2.finishup == 1) p.Format(L"days to go %2.1f / %2d / %03d", z.outofthis, (int)ceil(24 * z.outofthis), (int)ceil(1440 * z.outofthis));
+								z.endgame = b == 0 ? min(z.endgame, (int)ceil(z.outofthis * 10)) : 0;
+								if (z.endgame > 2) p.Format(L"days to go %2.1f", z.outofthis);
+								if (z.endgame == 2) p.Format(L"days to go %2.1f / %2d", z.outofthis, (int)ceil(24 * z.outofthis));
+								if (z.endgame == 1) p.Format(L"days to go %2.1f / %2d / %03d", z.outofthis, (int)ceil(24 * z.outofthis), (int)ceil(1440 * z.outofthis));
 								b7->SetWindowTextW((LPCWSTR)p);
 
 							}
@@ -144,7 +139,6 @@ VOID c(VOID *)
 						WaitForSingleObject(pi.hProcess, INFINITE);
 						b = 0;
 						bh->EnableWindow();
-						Burg.Format(">%05d", sizeof(z2));
 						if (terminator) PostMessage(hz, WM_CLOSE, NULL, NULL);  // if not to know difference vs sendmessage() it looks like the end  
 						else
 						{

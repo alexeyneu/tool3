@@ -7,10 +7,12 @@ _declspec(align(16)) struct triggerblock
 	_declspec(align(16)) tm *c;
 	_declspec(align(16)) tm *p;
 	_declspec(align(16)) BYTE ptrigger;
+	_declspec(align(16)) BYTE faulttrigger;
 	_declspec(align(16)) float outofthis;
 	_declspec(align(16)) double x;
 	_declspec(align(16)) long double F;
 	_declspec(align(16)) short finishup;
+	_declspec(align(16)) short endgame;
 	_declspec(align(16)) double f;
 	_declspec(align(16)) BYTE E;
 };

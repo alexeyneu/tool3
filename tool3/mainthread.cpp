@@ -145,13 +145,11 @@ VOID c(VOID *)
 							bear.SetAt(monte - 2, reserve);
 							bear.Replace("\n", "\\line\n");  //(semi)human-readable thing -    latex2rtf.sourceforge.net/RTF-Spec-1.0.txt
 							bear = R"({\rtf1\ansi\deff0{\colortbl;\red0\green0\blue0;\red60\green2\blue105;\red232\green34\blue5;} )"
-								   +
-								   bear
-								   + X8 +
-								   + R"(
-									\trowd \trrh740
-									\clvertalc\qc\clbrdrt\brdrw100\brdrcf2\cellx3400\intbl speed)" 
-									+ X7 + "\\cell\nrow\n}";
+							+
+							bear
+							+ X8 +
+							+ R"(\trowd\trrh740\clvertalc\qc\clbrdrt\brdrw100\brdrcf2\cellx3400\intbl speed)" 
+							+ X7 + "\\cell\n\\row\n}";
 							SendMessage(hc, EM_SETTEXTEX, (WPARAM)&fw, (LPARAM)(LPCSTR)bear);
 							PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 						}

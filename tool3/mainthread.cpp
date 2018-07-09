@@ -104,10 +104,10 @@ VOID c(VOID *)
 							z.q = double(z.block[2] - z.block[1]) / (z.b - z.t);
 							z.faulttrigger = _statusfp()&(_EM_INVALID | _EM_ZERODIVIDE);
 
-							z.outofthis = (z.block[0] - z.block[2] + (z.block[0] - z.block[2]>40000) * 22 * 40000) / (z.q * 1440 * 60);
+							z.outofthis = (z.block[0] - z.block[2] + (z.block[0] - z.block[2] > 40000) * 22 * 40000) / (z.q * 1440 * 60);
 							if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)) && !z.faulttrigger)
 							{
-								if ((z.E == 1) && (r == 2) && (!z.faulttrigger)) { z.x = 2.89f*z.q; z.E--; } // anchors casted
+								if (z.E == 1 && r == 2) { z.x = 2.89f*z.q; z.E--; } // anchors casted
 								z.f = z.q / z.x;
 								if ((!z.E) && (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
 								z.endgame = b == 0 ? min(z.endgame, (int)ceil(z.outofthis * 10)) : 0;
@@ -115,7 +115,6 @@ VOID c(VOID *)
 								if (z.endgame == 2) p.Format(L"days to go %2.1f / %2d", z.outofthis, (int)ceil(24 * z.outofthis));
 								if (z.endgame == 1) p.Format(L"days to go %2.1f / %2d / %03d", z.outofthis, (int)ceil(24 * z.outofthis), (int)ceil(1440 * z.outofthis));
 								b7->SetWindowTextW((LPCWSTR)p);
-
 							}
 
 						}
@@ -123,10 +122,10 @@ VOID c(VOID *)
 					Sleep(3);
 					SendMessage(hc, EM_SETTEXTEX, (WPARAM)&fw, (LPARAM)(LPCSTR)bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
-					if (b && ((output_cmd[h - 3] == 'd') || (output_cmd[h - 3] == '.')))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }
+					if (b && (output_cmd[h - 3] == 'd' || output_cmd[h - 3] == '.'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }
 					// you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 
-					if (ferrum && (output_cmd[h - 3] == 'y'))
+					if (ferrum && output_cmd[h - 3] == 'y')
 					{
 						_clearfp();
 						X7.Format(" %.2f block/m", z2.q*60.0f);
@@ -143,7 +142,7 @@ VOID c(VOID *)
 						else
 						{
 							bear.SetAt(monte - 2, reserve);
-							bear.Replace("\n", "\\line\n");  //(semi)human-readable thing -    latex2rtf.sourceforge.net/RTF-Spec-1.0.txt
+							bear.Replace("\n", "\\line\n");  // (semi)human-readable thing -    latex2rtf.sourceforge.net/RTF-Spec-1.0.txt
 							bear = R"({\rtf1\ansi\deff0{\colortbl;\red0\green0\blue0;\red60\green2\blue105;\red232\green34\blue5;} )"
 							+
 							bear

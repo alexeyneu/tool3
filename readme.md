@@ -6,8 +6,8 @@ Also suitable for solo mining and for monero clones.
 
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
  - Sys Req:  
-Visual C++ 2013 redist
-https://www.microsoft.com/en-us/download/details.aspx?id=40784
+Visual C++ 2013 redist  
+https://www.microsoft.com/en-us/download/details.aspx?id=40784  
  cpu with sse2 set(sse-optimized,nothing sse-specific in code for now);
 Windows 7 . 
 ![Screen1](/Untitled.jpg)

@@ -6,9 +6,9 @@ Also suitable for solo mining and for monero clones.
 
  [![ ](https://img.shields.io/coverity/scan/13991.svg)](https://scan.coverity.com/projects/alexeyneu-tool3)
  - Sys Req:  
-Visual C++ 2010 redist 
-https://www.microsoft.com/en-us/download/details.aspx?id=14632  
- cpu with sse2 set(sse-optimized,nothing sse-specific in code for now);  
+Visual C++ 2013 redist
+https://www.microsoft.com/en-us/download/details.aspx?id=40784
+ cpu with sse2 set(sse-optimized,nothing sse-specific in code for now);
 Windows 7 . 
 ![Screen1](/Untitled.jpg)
 ## about 
@@ -22,11 +22,11 @@ Windows 7 .
  1) locate `monerod.exe` folder  
  2) thats all  
 ## build:
-nmake holds well on non-2010  
- - ms visual studio 2010 (C++)  
+nmake holds well on non-2013
+ - ms visual studio 2013 (C++)
 32/64-bit : conf manager/change active solution platform  
  - msbuild  
-vs command prompt(2010)
+vs command prompt(2013)
 ```
 msbuild  tool3.sln /property:Configuration=Release   /property:Platform=x64
 

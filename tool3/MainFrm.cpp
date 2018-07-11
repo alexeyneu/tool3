@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CWnd)
 	ON_REGISTERED_MESSAGE(WM_ret, &CMainFrame::OnRet)   //that's a piece of class wizard production after "Add cutom message" with "registered message".
 	// WM_ret stays undefined that moment so .
 	ON_WM_CLOSE()
+	ON_MESSAGE(WM_CTLCOLORSTATIC, &CMainFrame::OnCtlcolorstatic)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -140,8 +141,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	bh->SetBitmap(wq[0]);
 	q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 	q->SetBitmap(wq[1]);
-	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+280,20+292,59+280,48+292),this,2233);
-	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+350,20+292,97+350,48+292),this,22);
+	finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,CRect(0+270,20+292,59+270,48+292),this,2233);
+	cmdos->Create(L"commandos",BS_TEXT|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(0+337,20+292,97+341,48+292),this,22);
 
 	dc->Create(WS_VISIBLE|WS_CHILD|PBS_SMOOTH,CRect(120,100+130,120+220,100+170),this,21);
 	t7->Create(WS_VISIBLE|WS_CHILD|PBS_VERTICAL|PBS_SMOOTHREVERSE|PBS_SMOOTH,CRect(10,200,10+19,200+140),this,129);
@@ -262,7 +263,7 @@ void CMainFrame::uw()				// finA->Create(L"locate",BS_TEXT|WS_CHILD|WS_VISIBLE,C
 	else if(t->f.IsEmpty()) { delete t; t=NULL; }
 }
 
-
+HBRUSH hbrBkgnd;
 void CMainFrame::OnDestroy()
 {
 	CWnd::OnDestroy();
@@ -275,7 +276,7 @@ void CMainFrame::OnDestroy()
 	delete t7;
 	delete b7;
 //	delete rew;
-
+	DeleteObject(hbrBkgnd);
 	// TODO: Add your message handler code here
 }
 
@@ -358,4 +359,15 @@ void CMainFrame::ef()
 	fw.codepage=1200;			
 	::SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
 	trigger=5-bren;
+}
+
+
+
+afx_msg LRESULT CMainFrame::OnCtlcolorstatic(WPARAM wParam, LPARAM lParam)
+{
+	HDC hdcStatic = (HDC)wParam;
+	SetTextColor(hdcStatic, RGB(2, 5, 55));
+	SetBkColor(hdcStatic, RGB(255, 255, 255));
+    if (hbrBkgnd == NULL) hbrBkgnd = CreateSolidBrush(RGB(255, 255, 255));
+    return (INT_PTR)hbrBkgnd;
 }

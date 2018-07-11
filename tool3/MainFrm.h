@@ -49,6 +49,8 @@ protected:
 	afx_msg LRESULT OnRet(WPARAM wParam, LPARAM lParam);
 public:
 	afx_msg void OnClose();
+protected:
+	afx_msg LRESULT OnCtlcolorstatic(WPARAM wParam, LPARAM lParam);
 };
 extern HINSTANCE h;
 

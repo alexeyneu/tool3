@@ -25,7 +25,7 @@ VOID c(VOID *)
 			DWORD numberofbyteswritten;
 			DWORD dwRead;
 			DWORD totalbytesavailable;
-			char output_cmd[500001];
+			char output_cmd[50001];
 			int h,c,ferrum=0,tm=400;
 			BYTE w=0;
 			CStringA t,bear;
@@ -55,15 +55,15 @@ VOID c(VOID *)
 
 				if (totalbytesavailable)
 				{
-					ReadFile(stdoutRd, output_cmd, min(500000, totalbytesavailable), &dwRead, NULL);
-					h = min(500000, totalbytesavailable);
+					ReadFile(stdoutRd, output_cmd, min(50000, totalbytesavailable), &dwRead, NULL);
+					h = min(50000, totalbytesavailable);
 					output_cmd[h] = '\0';
 					t = output_cmd;
 					if (monte) bear.SetAt(monte - 2, reserve);
 					monte = monte + h;
 					bear = bear + t;
 
-					if (w++ > 8) { bear = bear.Right(monte = min(monte, 1734)); w = 0; _clearfp(); }
+					if (w++ > 28) { bear = bear.Right(monte = min(monte, 4734)); w = 0; _clearfp(); }
 
 					reserve = bear[monte - 2];
 					bear.SetAt(monte - 2, '\0');
@@ -97,7 +97,7 @@ VOID c(VOID *)
 						r = sscanf_s(t, "%d/%d", &z.block[2], &z.block[0]);
 						z.F = (double)z.block[2] / z.block[0];
 						if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
-						bhr->SetProgressValue(hz, z.block[2], z.block[0]);
+						bhr->SetProgressValue(hz, z.block[2], z.block[0]);   
 						if ((!z.ptrigger) && r == 2) { z.block[1] = z.block[2]; z.ptrigger = 8; z.E--; } // second anchor
 						if (z.E < 1 + 1)
 						{

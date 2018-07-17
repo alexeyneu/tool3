@@ -63,7 +63,7 @@ VOID c(VOID *)
 					monte = monte + h;
 					bear = bear + t;
 
-					if (w++ > 28) { bear = bear.Right(monte = min(monte, 4734)); w = 0; _clearfp(); }
+					if (w++ > 28) { bear = bear.Right(monte = min(monte, 14734)); w = 0; _clearfp(); }
 
 					reserve = bear[monte - 2];
 					bear.SetAt(monte - 2, '\0');

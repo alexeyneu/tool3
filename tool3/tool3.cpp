@@ -29,12 +29,8 @@ END_MESSAGE_MAP()
 
 Ctool3App::Ctool3App()
 {
-	// TODO: replace application ID string below with unique ID string; recommended
-	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
 	SetAppID(_T("tool3.AppID.NoVersion"));
 
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
 }
 
 // The one and only Ctool3App object
@@ -69,8 +65,7 @@ BOOL Ctool3App::InitInstance()
 	if (!pFrame)
 		return FALSE;
 	m_pMainWnd = pFrame;
-	WNDCLASSEX w;
-	ZeroMemory(&w,sizeof(WNDCLASSEX));
+	WNDCLASSEX w={};
 
 	w.hbrBackground=(HBRUSH)(COLOR_WINDOW+1);
 	w.lpszClassName=L"t";

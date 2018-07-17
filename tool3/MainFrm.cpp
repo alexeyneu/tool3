@@ -277,7 +277,6 @@ void CMainFrame::OnDestroy()
 	delete b7;
 //	delete rew;
 	DeleteObject(hbrBkgnd);
-	// TODO: Add your message handler code here
 }
 
 

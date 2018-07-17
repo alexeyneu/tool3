@@ -119,7 +119,6 @@ VOID c(VOID *)
 
 						}
 					}
-					Sleep(3);
 					SendMessage(hc, EM_SETTEXTEX, (WPARAM)&fw, (LPARAM)(LPCSTR)bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 					if (b && (output_cmd[h - 3] == 'd' || output_cmd[h - 3] == '.'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }

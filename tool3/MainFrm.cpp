@@ -180,10 +180,9 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 {   
 	std::wstringstream fr;
 
-	EDITSTREAM es;
+	EDITSTREAM es = {};
 	if(!trigger)
 	{	
-		ZeroMemory(&es,sizeof(es));
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E;
 		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);		
@@ -194,24 +193,18 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 			CreatePipe(&stdinRd, &stdinWr, &sa, 10000); 
             CreatePipe(&stdoutRd,&stdoutWr, &sa,500000);
 			if(pi.hProcess) CloseHandle(pi.hProcess); 
-			STARTUPINFO si;
-			ZeroMemory(&si,sizeof(si));
+			STARTUPINFO si = {};
            
 			si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
             si.wShowWindow = SW_HIDE;
             si.hStdOutput = stdoutWr;
             si.hStdError = stdoutWr;         
             si.hStdInput = stdinRd;
-			std::wstring w;
 			if(!trigger) 
 			{	
-				if(!iswspace((wchar_t )fr.str()[0])) { ZeroMemory(remmi,318*2);
-w=L' ' + fr.str(); w.copy(remmi,747,0);}
-				else
-				{ZeroMemory(remmi,1218*2);
-					
-					fr.read(remmi,747);
-				}				
+				if(!iswspace((wchar_t )fr.str()[0])) fr.str(L' ' + fr.str());
+				ZeroMemory(remmi,1218*2);
+				fr.read(remmi,747);				
 				trigger++;
 			}
 	

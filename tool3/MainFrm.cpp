@@ -186,6 +186,12 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E;
 		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);		
+				if(!iswspace((wchar_t )fr.str()[0])) fr.str(L' ' + fr.str());
+				ZeroMemory(remmi,1218*2);
+				fr.read(remmi,747);				
+				trigger++;
+	
+	
 	}
 	
 
@@ -200,17 +206,6 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
             si.hStdOutput = stdoutWr;
             si.hStdError = stdoutWr;         
             si.hStdInput = stdinRd;
-			if(!trigger) 
-			{	
-				if(!iswspace((wchar_t )fr.str()[0])) fr.str(L' ' + fr.str());
-				ZeroMemory(remmi,1218*2);
-				fr.read(remmi,747);				
-				trigger++;
-			}
-	
-			
-
-			
 			int h=CreateProcess(t->f + L"\\monerod.exe",remmi, NULL, NULL, TRUE, CREATE_NEW_PROCESS_GROUP, NULL, t->f, &si, &pi);        
 			if(!h) 
 			{

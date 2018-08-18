@@ -1,3 +1,12 @@
+enum state
+{
+	q_quit,
+	q_stopping,
+	q_synced,
+	q_gundrop,
+	q_stay,
+	q_torque
+};
 _declspec(align(16)) struct triggerblock 
 {	
 	_declspec(align(16)) double q;

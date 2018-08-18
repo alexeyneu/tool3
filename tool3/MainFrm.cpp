@@ -2,11 +2,11 @@
 // MainFrm.cpp : implementation of the CMainFrame class
 //
  
-
 #include "stdafx.h"
 #include "tool3.h"
 #include <Richedit.h>
 #include "MainFrm.h"
+#include <map>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -87,6 +87,7 @@ DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
     return 0;
 }
 
+std::map< state , std::wstring> braze;
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -117,7 +118,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			{
 					fwscanf(xf,L"%[^\n]%*c",remmi);          //stuff from msdn. works with and w/o \n 
 					t=new r();
-					t->f=remmi;
+					t->f = remmi;
 					if(!(feof(xf)))
 					{
 						ZeroMemory(remmi,1218*2);
@@ -136,7 +137,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					wcscpy_s(remmi,L"--block-sync-size 20 --db-sync-mode fastest:async:8750 --prep-blocks-threads 4");
 					t=NULL;
 			}
-			
+		
+	braze.insert(std::map< state , std::wstring>::value_type( q_quit, L"q_quit"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_gundrop, L"q_gundrop"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_synced, L"q_synced"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_stopping, L"q_stopping"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_stay, L"q_stay"));
 
 
 	bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);
@@ -164,8 +170,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
-int bren=5;
-int cr,f,b,terminator;
+state bren = q_stay;
+int cr,f,terminator;
 PROCESS_INFORMATION pi;
 
  
@@ -175,7 +181,7 @@ PROCESS_INFORMATION pi;
 
 
 CWinThread *rew;
-int trigger;
+int trigger=17;
 int terminator2;
 
 void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);
@@ -183,17 +189,15 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 	std::wstringstream fr;
 
 	EDITSTREAM es = {};
-	if(!trigger)
+	if(trigger)
 	{	
 		es.dwCookie = (DWORD_PTR) &fr;
 		es.pfnCallback = E;
 		::SendMessage(hc, EM_STREAMOUT, SF_TEXT|SF_UNICODE, (LPARAM)&es);		
-				if(!iswspace((wchar_t )fr.str()[0])) fr.str(L' ' + fr.str());
-				ZeroMemory(remmi,1218*2);
-				fr.read(remmi,747);				
-				trigger++;
-	
-	
+		if(!iswspace(*fr.str().cbegin())) fr.str(L' ' + fr.str());
+		ZeroMemory(remmi,1218*2);
+		fr.read(remmi,747);				
+		trigger=0;	
 	}
 	
 
@@ -215,13 +219,13 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 				MessageBox(L"Bad start,check location");
 				return;
 			}
-			bren=0;
+			bren=q_torque;
 			rew=AfxBeginThread((AFX_THREADPROC)c,NULL);
 }
 
 void CMainFrame::w()			   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 {
-	b=1;
+	bren = q_stopping;
 	char k[100];
 	strcpy(k,"exit\n");
     DWORD numberofbyteswritten;
@@ -317,8 +321,8 @@ void CMainFrame::OnClose()
 	}
 	terminator2++;
 
-	if((!b)&&(bren))	
-{
+	if(bren == q_stay)	
+	{
 		SetEvent(cl);
 			if(t)
 			{
@@ -334,8 +338,8 @@ void CMainFrame::OnClose()
 	}
 	else
 	{
-		terminator =1;
-		if(!b) this->w();
+		terminator = 1;
+		if( bren != q_stopping ) this->w();
 	}
 
 
@@ -347,7 +351,7 @@ void CMainFrame::ef()
 		fw.flags=4;
 	fw.codepage=1200;			
 	::SendMessage(hc,EM_SETTEXTEX,(WPARAM)&fw,(LPARAM)remmi);
-	trigger=5-bren;
+	trigger = bren == q_stay;
 }
 
 

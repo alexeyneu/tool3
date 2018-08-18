@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "tool3.h"
+#include <map>
+
 extern HWND hc,hz;
 extern CProgressCtrl *dc;
 extern CProgressCtrl *t7;
@@ -11,11 +13,12 @@ extern CStatic *b7;
 extern ITaskbarList3 *bhr;
 extern HANDLE cl; 
 extern	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
-extern int bren;
-extern int cr,f,b,terminator;
+extern state bren;
+extern int cr,f,terminator;
+extern std::map< state , std::wstring> braze;
 extern PROCESS_INFORMATION pi;
 VOID c(VOID *)
-{		
+{			
 			CStringA X7,X8;
 			CString p;
 			triggerblock z2={},z={};
@@ -30,7 +33,7 @@ VOID c(VOID *)
 			BYTE w=0;
 			CStringA t,bear;
 			SETTEXTEX fw={ 4,CP_THREAD_ACP };
-			int monte=0;
+			int monte = 0;
 			char reserve;
 			int r;
 			
@@ -110,7 +113,7 @@ VOID c(VOID *)
 								if (z.E == 1 && r == 2) { z.x = 2.89f*z.q; z.E--; } // anchors casted
 								z.f = z.q / z.x;
 								if ((!z.E) && (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
-								z.endgame = b == 0 ? min(z.endgame, (int)ceil(z.outofthis * 10)) : 0;
+								z.endgame = bren == q_torque ? min(z.endgame, (int)ceil(z.outofthis * 10)) : 0;
 								if (z.endgame > 2) p.Format(L"days to go %2.1f", z.outofthis);
 								if (z.endgame == 2) p.Format(L"days to go %2.1f / %2d", z.outofthis, (int)ceil(24 * z.outofthis));
 								if (z.endgame == 1) p.Format(L"days to go %2.1f / %2d / %03d", z.outofthis, (int)ceil(24 * z.outofthis), (int)ceil(1440 * z.outofthis));
@@ -121,7 +124,7 @@ VOID c(VOID *)
 					}
 					SendMessage(hc, EM_SETTEXTEX, (WPARAM)&fw, (LPARAM)(LPCSTR)bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
-					if (b && (output_cmd[h - 3] == 'd' || output_cmd[h - 3] == '.'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }
+					if (bren == q_stopping && (output_cmd[h - 3] == 'd' || output_cmd[h - 3] == '.'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }
 					// you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 
 					if (ferrum && output_cmd[h - 3] == 'y')
@@ -135,7 +138,7 @@ VOID c(VOID *)
 						bhr->SetProgressState(hz, TBPF_PAUSED);
 						q->EnableWindow(0);
 						WaitForSingleObject(pi.hProcess, INFINITE);
-						b = 0;
+						bren = q_stay;
 						bh->EnableWindow();
 						if (terminator) PostMessage(hz, WM_CLOSE, NULL, NULL);  // if not to know difference vs sendmessage() it looks like the end  
 						else
@@ -151,7 +154,6 @@ VOID c(VOID *)
 							SendMessage(hc, EM_SETTEXTEX, (WPARAM)&fw, (LPARAM)(LPCSTR)bear);
 							PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
 						}
-						bren = 5;
 						_aligned_free(z.c);
 						_aligned_free(z.p);
 						break;				 //'Both break and continue have no effect on an if-statement. A common misconception is

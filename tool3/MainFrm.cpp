@@ -76,6 +76,7 @@ CButton *cmdos;
 CStatic *b7;
 ITaskbarList3 *bhr;
 HANDLE cl;
+HANDLE cl2;
 
 
 DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
@@ -93,6 +94,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	t7=	new CProgressCtrl();
 	dc= new CProgressCtrl();
 	cl=CreateEvent(NULL,1,0,NULL);
+	cl2=CreateEvent(NULL,1,0,NULL);
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	bh=new CButton();
@@ -278,6 +280,7 @@ VOID hammer(VOID *)
 	bhr->Release();
 	bhr=NULL;					//  recommendation about to deal with COM
 	CoUninitialize();
+	SetEvent(cl2);
 }
 
 afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret finished up here.  
@@ -300,14 +303,14 @@ void CMainFrame::OnClose()
 			if(t)
 			{
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,930);
-				xf=_wfopen(w,L"w+");
+			xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
 				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
 				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}
-
-		CWnd::OnClose();
+			WaitForSingleObject(cl2,INFINITE);
+			CWnd::OnClose();
 
 		}
 
@@ -315,10 +318,8 @@ void CMainFrame::OnClose()
 	terminator2++;
 
 	if((!b)&&(bren))	
-	{
+{
 		SetEvent(cl);
-
-
 			if(t)
 			{
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,1310);
@@ -328,6 +329,7 @@ void CMainFrame::OnClose()
 				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}
+	WaitForSingleObject(cl2,INFINITE);
 		CWnd::OnClose();
 	}
 	else

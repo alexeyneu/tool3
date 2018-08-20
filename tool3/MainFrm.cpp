@@ -41,16 +41,6 @@ CMainFrame::~CMainFrame()
 {
 }
 
-
-// CMainFrame diagnostics
-
-#ifdef _DEBUG
-
-
-
-#endif //_DEBUG
-
-
 // CMainFrame message handlers
 
 class r:public CFolderPickerDialog
@@ -58,11 +48,6 @@ class r:public CFolderPickerDialog
 public:
 	CString f;
 	int last;
-
-	r() : CFolderPickerDialog()
-	{
-
-	}
 	void init() { f = m_szFileName; }
 };
 r *t;
@@ -111,7 +96,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,740);
 				FILE *xf;
 				_wfopen_s(&xf,w,L"r+");		
-				DWORD c = 0L;
+				DWORD c = 0;
 			if(xf)  
 			{
 					fwscanf(xf,L"%[^\n]%*c",remmi);          //stuff from msdn. works with and w/o \n 
@@ -171,12 +156,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 state bren = q_stay;
 int cr,f,terminator;
 PROCESS_INFORMATION pi;
-
- 
-
-
-
-
 
 int terminator2;
 
@@ -302,7 +281,7 @@ void CMainFrame::OnClose()
 			if(t)
 			{
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,930);
-			xf=_wfopen(w,L"w+");
+				xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
 				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
 				else fwprintf(xf,L"\n%s",remmi);
@@ -324,7 +303,7 @@ void CMainFrame::OnClose()
 				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,1310);
 				xf=_wfopen(w,L"w+");
 				fwprintf(xf,L"%s",t->f);
-				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
+				if(remmi[0]==L' ')	fwprintf(xf,L"\n%s",&remmi[1]);
 				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}

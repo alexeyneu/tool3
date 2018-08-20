@@ -1,7 +1,6 @@
 enum state
 {
 	q_quit,
-	q_stopping,
 	q_synced,
 	q_gundrop,
 	q_stay,

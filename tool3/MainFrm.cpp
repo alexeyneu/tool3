@@ -61,7 +61,7 @@ CButton *cmdos;
 CStatic *b7;
 ITaskbarList3 *bhr;
 HANDLE cl;
-
+bool stopflag;
 
 DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
 {
@@ -124,7 +124,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	braze.insert(std::map< state , std::wstring>::value_type( q_quit, L"q_quit"));
 	braze.insert(std::map< state , std::wstring>::value_type( q_gundrop, L"q_gundrop"));
 	braze.insert(std::map< state , std::wstring>::value_type( q_synced, L"q_synced"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_stopping, L"q_stopping"));
 	braze.insert(std::map< state , std::wstring>::value_type( q_stay, L"q_stay"));
 
 
@@ -200,7 +199,7 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 
 void CMainFrame::w()			   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 {
-	bren = q_stopping;
+	stopflag = 1;
 	char k[100];
 	strcpy(k,"exit\n");
     DWORD numberofbyteswritten;
@@ -272,50 +271,46 @@ void CMainFrame::OnClose()
 {
 		FILE *xf;		
 		wchar_t w[840],ferrum[324];
-	if(terminator2)
-	{
-		DWORD c=WaitForSingleObject(pi.hProcess,140);
-		if(c!= WAIT_TIMEOUT) 
+DWORD c;
+		switch (bren)
 		{
+		case q_quit:
+			c = WaitForSingleObject(pi.hProcess, 0);
+			if (c != WAIT_TIMEOUT)
+			{
+				SetEvent(cl);
+				if (t)
+				{
+					ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.", w, 930);
+					xf = _wfopen(w, L"w+");
+					fwprintf(xf, L"%s", t->f);
+					if (remmi[0] == L' ')fwprintf(xf, L"\n%s", &remmi[1]);
+					else fwprintf(xf, L"\n%s", remmi);
+					fclose(xf);
+				}
+				WaitForSingleObject(rewh->m_hThread, INFINITE);
+				CWnd::OnClose();
+			}
+			break;
+		case q_stay:
 			SetEvent(cl);
-			if(t)
+			if (t)
 			{
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,930);
-				xf=_wfopen(w,L"w+");
-				fwprintf(xf,L"%s",t->f);
-				if(remmi[0]==L' ')fwprintf(xf,L"\n%s",&remmi[1]);
-				else fwprintf(xf,L"\n%s",remmi);
-				fclose(xf); 			
+				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.", w, 1310);
+				xf = _wfopen(w, L"w+");
+				fwprintf(xf, L"%s", t->f);
+				if (remmi[0] == L' ')	fwprintf(xf, L"\n%s", &remmi[1]);
+				else fwprintf(xf, L"\n%s", remmi);
+				fclose(xf);
 			}
-			WaitForSingleObject(rewh->m_hThread,INFINITE);
+			WaitForSingleObject(rewh->m_hThread, INFINITE);
 			CWnd::OnClose();
-
+			break;
+	default:			
+			bren = q_quit;
+			if (!stopflag) this->w();
+			break;		
 		}
-
-	}
-	terminator2++;
-
-	if(bren == q_stay)	
-	{
-		SetEvent(cl);
-			if(t)
-			{
-				ExpandEnvironmentStrings(L"%USERPROFILE%\\Documents\\fold.",w,1310);
-				xf=_wfopen(w,L"w+");
-				fwprintf(xf,L"%s",t->f);
-				if(remmi[0]==L' ')	fwprintf(xf,L"\n%s",&remmi[1]);
-				else fwprintf(xf,L"\n%s",remmi);
-				fclose(xf); 			
-			}
-			WaitForSingleObject(rewh->m_hThread,INFINITE);
-		CWnd::OnClose();
-	}
-	else
-	{
-		terminator = 1;
-		if( bren != q_stopping ) this->w();
-	}
-
 
 }
 

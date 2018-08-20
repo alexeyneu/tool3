@@ -14,6 +14,7 @@ extern ITaskbarList3 *bhr;
 extern HANDLE cl; 
 extern	HANDLE stdinRd, stdinWr, stdoutRd, stdoutWr;
 extern state bren;
+extern bool stopflag;
 extern int cr,f,terminator;
 extern std::map< state , std::wstring> braze;
 extern PROCESS_INFORMATION pi;
@@ -50,7 +51,7 @@ VOID c(VOID *)
 			ZeroMemory(z.c,sizeof(::tm));
 			ZeroMemory(z.p,sizeof(::tm));
 			z.endgame=10;
-			z.E=4;
+			z.E = 4;
 
 			while (1)
 			{
@@ -130,25 +131,25 @@ VOID c(VOID *)
 					}
 					SendMessage(hc, EM_SETTEXTEX, (WPARAM)&fw, (LPARAM)(LPCSTR)bear);
 					PostMessage(hc, WM_VSCROLL, SB_BOTTOM, 0);
-					if (bren == q_stopping && (output_cmd[h - 3] == 'd' || output_cmd[h - 3] == '.'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }
+					if (stopflag && (output_cmd[h - 3] == 'd' || output_cmd[h - 3] == '.'))  { WriteFile(stdinWr, k, 1, &numberofbyteswritten, NULL); ferrum = 1; tm = 700; }
 					// you'll never know.   https://monero.stackexchange.com/questions/6161/exit-command-pushed-to-pipelined-monerod
 
 					if (ferrum && output_cmd[h - 3] == 'y')
 					{
 						_clearfp();
-						X7.Format(" %.2f block/m", z2.q*60.0f);
-						z.outofthis = (z2.block[0] - z2.block[2] + (z.block[0] - z.block[2] > 40000) * 22 * 40000) / (z2.q * 1440 * 60);
-						if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n", z.outofthis);
 
-						dc->SetState(PBST_PAUSED);
-						bhr->SetProgressState(hz, TBPF_PAUSED);
-						q->EnableWindow(0);
 						WaitForSingleObject(pi.hProcess, INFINITE);
-						bren = q_stay;
-						bh->EnableWindow();
-						if (terminator) PostMessage(hz, WM_CLOSE, NULL, NULL);  // if not to know difference vs sendmessage() it looks like the end  
+						if (bren == q_quit) PostMessage(hz, WM_CLOSE, NULL, NULL);  // if not to know difference vs sendmessage() it looks like the end  
 						else
 						{
+							X7.Format(" %.2f block/m", z2.q*60.0f);
+							z.outofthis = (z2.block[0] - z2.block[2] + (z.block[0] - z.block[2] > 40000) * 22 * 40000) / (z2.q * 1440 * 60);
+							if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE))) X8.Format("\\qr\\ri800\\fs30 days to go %.1f \\par\\ri0\\fs33\n", z.outofthis);
+							dc->SetState(PBST_PAUSED);
+							bhr->SetProgressState(hz, TBPF_PAUSED);
+							q->EnableWindow(0);
+							bh->EnableWindow();						
+							bren = q_stay;
 							bear.SetAt(monte - 2, reserve);
 							bear.Replace("\n", "\\line\n");  // (semi)human-readable thing -    latex2rtf.sourceforge.net/RTF-Spec-1.0.txt
 							bear = R"({\rtf1\ansi\deff0{\colortbl;\red0\green0\blue0;\red60\green2\blue105;\red232\green34\blue5;} )"
@@ -162,6 +163,7 @@ VOID c(VOID *)
 						}
 						_aligned_free(z.c);
 						_aligned_free(z.p);
+						stopflag = false;
 						break;				 //'Both break and continue have no effect on an if-statement. A common misconception is
 						//that break can be used to jump out of an if compound statement.' An Introduction to the C Programming Language and Software Design.   Tim Bailey 2005
 					}

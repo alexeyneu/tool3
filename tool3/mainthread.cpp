@@ -99,8 +99,11 @@ VOID c(VOID *)
 						t.Truncate(h - c - 11);
 						r = sscanf_s(t, "%d/%d", &z.block[2], &z.block[0]);
 						z.F = (double)z.block[2] / z.block[0];
-						if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE))) dc->SetPos(int(100.0f*z.F));
-						bhr->SetProgressValue(hz, z.block[2], z.block[0]);   
+						if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)))
+						{ 
+							dc->SetPos(int(100.0f*z.F));
+							bhr->SetProgressValue(hz, z.block[2], z.block[0]);   
+						}
 						if ((!z.ptrigger) && r == 2) { z.block[1] = z.block[2]; z.ptrigger = 8; z.E--; } // second anchor
 						if (z.E < 1 + 1)
 						{
@@ -110,9 +113,12 @@ VOID c(VOID *)
 							z.outofthis = (z.block[0] - z.block[2] + (z.block[0] - z.block[2] > 40000) * 22 * 40000) / (z.q * 1440 * 60);
 							if (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)) && !z.faulttrigger)
 							{
-								if (z.E == 1 && r == 2) { z.x = 2.89f*z.q; z.E--; } // anchors casted
+								if (z.E == 1) { z.x = 2.89f*z.q; z.E--; } // anchors casted
 								z.f = z.q / z.x;
-								if ((!z.E) && (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE)))) t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
+								if ((!z.E) && (!(_statusfp()&(_EM_INVALID | _EM_ZERODIVIDE))))
+								{
+									t7->SetPos(140.0*z.f); //after some runs with zero-divided args(or smth else like this) it refuses to deal any further												
+								}
 								z.endgame = bren == q_torque ? min(z.endgame, (int)ceil(z.outofthis * 10)) : 0;
 								if (z.endgame > 2) p.Format(L"days to go %2.1f", z.outofthis);
 								if (z.endgame == 2) p.Format(L"days to go %2.1f / %2d", z.outofthis, (int)ceil(24 * z.outofthis));

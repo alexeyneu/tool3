@@ -76,7 +76,6 @@ CButton *cmdos;
 CStatic *b7;
 ITaskbarList3 *bhr;
 HANDLE cl;
-HANDLE cl2;
 
 
 DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
@@ -95,7 +94,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	t7=	new CProgressCtrl();
 	dc= new CProgressCtrl();
 	cl=CreateEvent(NULL,1,0,NULL);
-	cl2=CreateEvent(NULL,1,0,NULL);
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	bh=new CButton();
@@ -180,8 +178,6 @@ PROCESS_INFORMATION pi;
 
 
 
-CWinThread *rew;
-int trigger=17;
 int terminator2;
 
 void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);
@@ -284,12 +280,11 @@ VOID hammer(VOID *)
 	bhr->Release();
 	bhr=NULL;					//  recommendation about to deal with COM
 	CoUninitialize();
-	SetEvent(cl2);
 }
 
 afx_msg LRESULT CMainFrame::OnRet(WPARAM wParam, LPARAM lParam) //Win7 progress bar over a taskbar's bay of this app. WM_ret finished up here.  
 {
-	 AfxBeginThread((AFX_THREADPROC)hammer,NULL);	
+	rewh = AfxBeginThread((AFX_THREADPROC)hammer,NULL);	
 	return 0;
 }
 
@@ -313,7 +308,7 @@ void CMainFrame::OnClose()
 				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}
-			WaitForSingleObject(cl2,INFINITE);
+			WaitForSingleObject(rewh->m_hThread,INFINITE);
 			CWnd::OnClose();
 
 		}
@@ -333,7 +328,7 @@ void CMainFrame::OnClose()
 				else fwprintf(xf,L"\n%s",remmi);
 				fclose(xf); 			
 			}
-	WaitForSingleObject(cl2,INFINITE);
+			WaitForSingleObject(rewh->m_hThread,INFINITE);
 		CWnd::OnClose();
 	}
 	else

@@ -17,7 +17,11 @@ protected:
 // Attributes
 public:
 private:
-		wchar_t remmi[1618];	
+		wchar_t remmi[1618];
+		CWinThread *rew;
+		CWinThread *rewh;
+		int trigger=17;
+	
 // Operations
 public:
 
@@ -27,9 +31,6 @@ public:
 // Implementation
 public:
 	virtual ~CMainFrame();
-#ifdef _DEBUG
-
-#endif
 
 
 
@@ -47,6 +48,7 @@ public:
 	afx_msg void OnDestroy();
 protected:
 	afx_msg LRESULT OnRet(WPARAM wParam, LPARAM lParam);
+
 public:
 	afx_msg void OnClose();
 protected:

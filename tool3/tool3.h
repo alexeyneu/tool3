@@ -3,6 +3,7 @@ enum state
 	q_quit,
 	q_synced,
 	q_gundrop,
+	q_stop,
 	q_stay,
 	q_torque
 };

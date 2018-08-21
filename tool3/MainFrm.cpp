@@ -61,7 +61,6 @@ CButton *cmdos;
 CStatic *b7;
 ITaskbarList3 *bhr;
 HANDLE cl;
-bool stopflag;
 
 DWORD CALLBACK E(DWORD_PTR dw, LPBYTE pb, LONG cb, LONG *pcb)
 {
@@ -121,10 +120,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					t=NULL;
 			}
 		
-	braze.insert(std::map< state , std::wstring>::value_type( q_quit, L"q_quit"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_gundrop, L"q_gundrop"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_synced, L"q_synced"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_stay, L"q_stay"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_quit, L"quit"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_gundrop, L"gundrop"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_stay, L"stay"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_stop, L"q_stop"));
+	braze.insert(std::map< state , std::wstring>::value_type( q_torque, L"torque"));
 
 
 	bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);
@@ -199,7 +199,7 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 
 void CMainFrame::w()			   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
 {
-	stopflag = 1;
+	bren = bren == q_quit ? bren : q_stop;
 	char k[100];
 	strcpy(k,"exit\n");
     DWORD numberofbyteswritten;
@@ -307,8 +307,8 @@ DWORD c;
 			CWnd::OnClose();
 			break;
 	default:			
+			if (*braze[bren].crbegin() != L'q') {	bren = q_quit; this->w(); }
 			bren = q_quit;
-			if (!stopflag) this->w();
 			break;		
 		}
 

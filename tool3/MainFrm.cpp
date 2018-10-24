@@ -120,11 +120,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 					t=NULL;
 			}
 		
-	braze.insert(std::map< state , std::wstring>::value_type( q_quit, L"quit"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_gundrop, L"gundrop"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_stay, L"stay"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_stop, L"q_stop"));
-	braze.insert(std::map< state , std::wstring>::value_type( q_torque, L"torque"));
+	braze[q_quit]= L"quit";
+	braze[q_gundrop]= L"gundrop";
+	braze[q_stay] = L"stay";
+	braze[q_stop]= L"q_stop";
+	braze[q_torque] = L"torque";
 
 
 	bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CRect(50,50,170,100),this,2133);

@@ -193,8 +193,8 @@ void CMainFrame::tr() //  bh->Create(L"start",BS_BITMAP|WS_CHILD|WS_VISIBLE|c,CR
 				MessageBox(L"Bad start,check location");
 				return;
 			}
-			bren=q_torque;
-			rew=AfxBeginThread((AFX_THREADPROC)c,NULL);
+			bren = q_torque;
+			rew = AfxBeginThread((AFX_THREADPROC)c,NULL);
 }
 
 void CMainFrame::w()			   // q->Create(L"stop",BS_BITMAP|WS_CHILD|WS_VISIBLE|WS_DISABLED,CRect(50+170,50,170+170,100),this,233);
@@ -307,7 +307,7 @@ DWORD c;
 			CWnd::OnClose();
 			break;
 	default:			
-			if (*braze[bren].crbegin() != L'q') {	bren = q_quit; this->w(); }
+			if (bren != q_stop) { bren = q_quit; this->w(); }
 			bren = q_quit;
 			break;		
 		}

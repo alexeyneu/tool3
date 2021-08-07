@@ -69,7 +69,7 @@ BOOL Ctool3App::InitInstance()
 
 	w.hbrBackground=(HBRUSH)(COLOR_WINDOW+1);
 	w.lpszClassName=L"t";
-	w.style=CS_OWNDC||CS_BYTEALIGNWINDOW|CS_HREDRAW|CS_VREDRAW;
+	w.style=CS_BYTEALIGNWINDOW|CS_HREDRAW|CS_VREDRAW;
 	w.hCursor=this->LoadStandardCursor(IDC_ARROW);
 	w.lpfnWndProc=AfxWndProc;
 	w.lpszMenuName=NULL;
